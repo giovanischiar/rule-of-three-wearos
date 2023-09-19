@@ -59,3 +59,14 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.1")
 }
+
+task("generateIcons", type = Exec::class) {
+    dependsOn("mergeDebugResources")
+    inputs.file("src/main/res/values/iconpalette.xml")
+    inputs.dir("../scripts/IconCreator/Icon")
+    outputs.file("src/main/res/drawable/ic_launcher_background.xml")
+    outputs.file("src/main/res/drawable-v24/ic_launcher_foreground.xml")
+    project.exec {
+        commandLine = listOf("bash", "../scripts/IconCreator/Library/icon-creator.sh", "android", "../..", "../Icon")
+    }
+}
