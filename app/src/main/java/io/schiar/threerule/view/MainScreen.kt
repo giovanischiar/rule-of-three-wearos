@@ -1,4 +1,4 @@
-package io.schiar.threerule
+package io.schiar.threerule.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,29 +19,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Text
-import io.schiar.threerule.components.NumberInput
+import io.schiar.threerule.view.components.NumberInput
+import io.schiar.threerule.viewmodel.NumbersViewModel
 import java.text.DecimalFormat
 
 @Composable
-fun MainScreen() {
-    var result by remember { mutableStateOf("?") }
+fun MainScreen(viewModel: NumbersViewModel) {
+    LaunchedEffect(Unit) { viewModel.subscribe() }
+    val result by viewModel.result.collectAsState()
 
-    val values by remember { mutableStateOf(arrayOf(0.0, 0.0, 0.0)) }
-
-    fun onValueChange(position: Int, value: Double) {
-        values[position] = value
-
-        result = if (values[0] != 0.0) {
-            (values[1] * values[2] / values[0]).toString()
-        } else {
-            "?"
-        }
+    fun onChange(value: String, at: Int) {
+        viewModel.inputValue(value = value, position = at)
     }
 
-    val decimalFormat = DecimalFormat("#,###.00")
-
     Column(
-        modifier = Modifier.fillMaxSize().padding(all = 25.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 25.dp),
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -48,14 +44,18 @@ fun MainScreen() {
             .weight(1f)
         ) {
             NumberInput(
-                modifier = Modifier.fillMaxSize().weight(1f),
-                onValueChanged = {
-                onValueChange(0, it)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                onValueChanged = { value ->
+                onChange(value =  value, at = 0)
             })
             NumberInput(
-                modifier = Modifier.fillMaxSize().weight(1f),
-                onValueChanged = {
-                onValueChange(1, it)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                onValueChanged = { value ->
+                onChange(value = value, at = 1)
             })
         }
 
@@ -66,17 +66,21 @@ fun MainScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             NumberInput(
-                modifier = Modifier.fillMaxSize().weight(1f),
-                onValueChanged = {
-                onValueChange(2, it)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                onValueChanged = { value ->
+                    onChange(value = value, at = 2)
             })
             Box(
-                modifier = Modifier.fillMaxSize().weight(1f),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     textAlign = TextAlign.Center,
-                    text = if (result != "?") decimalFormat.format(result.toDouble()) else result,
+                    text = result,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 3
                 )

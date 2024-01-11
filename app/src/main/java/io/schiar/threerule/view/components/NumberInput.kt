@@ -1,4 +1,4 @@
-package io.schiar.threerule.components
+package io.schiar.threerule.view.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -28,21 +28,34 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.dialog.Dialog
 
 @Composable
-fun NumberInput(modifier: Modifier = Modifier, onValueChanged: (value: Double) -> Unit) {
+fun NumberInput(modifier: Modifier = Modifier, onValueChanged: (value: String) -> Unit) {
     var numericKeyboardShow by remember { mutableStateOf(false) }
     var userInput by remember { mutableStateOf("") }
 
     fun setNumber(input: String) {
-        if ((userInput + input).toDoubleOrNull() != null) {
-            userInput += input
-            onValueChanged(userInput.toDouble())
+        val newNumber = userInput + input
+        if (newNumber != "." && newNumber.toDoubleOrNull() == null) return
+        if (userInput != ""
+            && userInput.toDouble() == 0.0
+            && input != "."
+            && !userInput.contains('.')
+        ) {
+            userInput = ""
         }
+        userInput += input
+        onValueChanged(userInput)
     }
 
     fun erase() {
         if (userInput.isNotEmpty()) {
             userInput = userInput.substring(0 until userInput.length-1)
         }
+        onValueChanged(userInput)
+    }
+
+    fun clear() {
+        userInput = ""
+        onValueChanged(userInput)
     }
 
     Dialog(
@@ -85,7 +98,7 @@ fun NumberInput(modifier: Modifier = Modifier, onValueChanged: (value: Double) -
                 CompactButton(
                     modifier = Modifier.padding(end = 5.dp),
                     backgroundPadding = 0.dp,
-                    onClick = { userInput = "" }
+                    onClick = { clear() }
                 ) {
                     Icon(
                         painter = painterResource(android.R.drawable.ic_menu_close_clear_cancel),
