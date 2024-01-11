@@ -28,4 +28,4 @@
 |<img src="https://3.bp.blogspot.com/-VVp3WvJvl84/X0Vu6EjYqDI/AAAAAAAAPjU/ZOMKiUlgfg8ok8DY8Hc-ocOvGdB0z86AgCLcBGAsYHQ/s1600/jetpack%2Bcompose%2Bicon_RGB.png" width="50" height="50"><br>[Jetpack Compose](https://developer.android.com/jetpack/compose)|Designing UI|
 
 ## Challenges
-  - Not any particular challenge on creating this app. Altough it's a very simple app, it was interesting to create a wearOS app;
+  - Not any particular challenge on creating this app. Although it's a very simple app, it was interesting to create a wearOS app;
