@@ -28,35 +28,18 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.dialog.Dialog
 
 @Composable
-fun NumberInput(modifier: Modifier = Modifier, onValueChanged: (value: String) -> Unit) {
+fun NumberInput(
+    modifier: Modifier = Modifier,
+    onInputAdded: (value: String) -> Unit,
+    userInput: String,
+    onErase: () -> Unit,
+    onClear: () -> Unit
+) {
     var numericKeyboardShow by remember { mutableStateOf(false) }
-    var userInput by remember { mutableStateOf("") }
 
-    fun setNumber(input: String) {
-        val newNumber = userInput + input
-        if (newNumber != "." && newNumber.toDoubleOrNull() == null) return
-        if (userInput != ""
-            && userInput.toDouble() == 0.0
-            && input != "."
-            && !userInput.contains('.')
-        ) {
-            userInput = ""
-        }
-        userInput += input
-        onValueChanged(userInput)
-    }
-
-    fun erase() {
-        if (userInput.isNotEmpty()) {
-            userInput = userInput.substring(0 until userInput.length-1)
-        }
-        onValueChanged(userInput)
-    }
-
-    fun clear() {
-        userInput = ""
-        onValueChanged(userInput)
-    }
+    fun addInput(value: String) { onInputAdded(value) }
+    fun erase() { onErase() }
+    fun clear() { onClear() }
 
     Dialog(
         showDialog = numericKeyboardShow,
@@ -82,15 +65,15 @@ fun NumberInput(modifier: Modifier = Modifier, onValueChanged: (value: String) -
                 )
             }
             Row {
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("7") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("7") }) {
                     Text("7")
                 }
 
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("8") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("8") }) {
                     Text("8")
                 }
 
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("9") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("9") }) {
                     Text("9")
                 }
             }
@@ -106,15 +89,15 @@ fun NumberInput(modifier: Modifier = Modifier, onValueChanged: (value: String) -
                     )
                 }
 
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("4") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("4") }) {
                     Text("4")
                 }
 
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("5") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("5") }) {
                     Text("5")
                 }
 
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("6") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("6") }) {
                     Text("6")
                 }
 
@@ -129,24 +112,24 @@ fun NumberInput(modifier: Modifier = Modifier, onValueChanged: (value: String) -
             }
 
             Row {
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("1") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("1") }) {
                     Text("1")
                 }
 
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("2") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("2") }) {
                     Text("2")
                 }
 
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("3") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("3") }) {
                     Text("3")
                 }
             }
 
             Row {
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber("0") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("0") }) {
                     Text("0")
                 }
-                CompactButton(backgroundPadding = 0.dp, onClick = { setNumber(".") }) {
+                CompactButton(backgroundPadding = 0.dp, onClick = { addInput(".") }) {
                     Text(".")
                 }
                 CompactButton(backgroundPadding = 0.dp, onClick = { erase() }) {
