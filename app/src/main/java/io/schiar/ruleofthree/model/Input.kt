@@ -1,4 +1,4 @@
-package io.schiar.threerule.model
+package io.schiar.ruleofthree.model
 
 data class Input(var value: StringBuilder = StringBuilder()) {
     fun add(newValue: String) {

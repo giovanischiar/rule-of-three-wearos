@@ -1,4 +1,4 @@
-package io.schiar.threerule.view
+package io.schiar.ruleofthree.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,8 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Text
-import io.schiar.threerule.view.components.NumberInput
-import io.schiar.threerule.viewmodel.NumbersViewModel
+import io.schiar.ruleofthree.view.components.NumberInput
+import io.schiar.ruleofthree.viewmodel.NumbersViewModel
 
 @Composable
 fun MainScreen(viewModel: NumbersViewModel) {

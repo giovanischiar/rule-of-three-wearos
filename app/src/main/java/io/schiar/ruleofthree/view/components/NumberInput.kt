@@ -1,4 +1,4 @@
-package io.schiar.threerule.view.components
+package io.schiar.ruleofthree.view.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border

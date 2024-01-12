@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "io.schiar.threerule"
+    namespace = "io.schiar.ruleofthree"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "io.schiar.threerule"
+        applicationId = "io.schiar.ruleofthree"
         minSdk = 30
         targetSdk = 34
         versionCode = 1

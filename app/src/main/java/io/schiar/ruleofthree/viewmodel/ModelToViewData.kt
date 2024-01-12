@@ -1,7 +1,7 @@
-package io.schiar.threerule.viewmodel
+package io.schiar.ruleofthree.viewmodel
 
-import io.schiar.threerule.model.Numbers
-import io.schiar.threerule.view.viewdata.NumbersViewData
+import io.schiar.ruleofthree.model.Numbers
+import io.schiar.ruleofthree.view.viewdata.NumbersViewData
 import java.text.DecimalFormat
 
 fun Numbers.toViewData(): NumbersViewData {

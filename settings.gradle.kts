@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Three Rule"
+rootProject.name = "Rule of Three"
 include(":app")

@@ -1,6 +1,6 @@
-package io.schiar.threerule.model.repository
+package io.schiar.ruleofthree.model.repository
 
-import io.schiar.threerule.model.Numbers
+import io.schiar.ruleofthree.model.Numbers
 
 interface NumbersRepository {
     fun subscribeForNumbers(callback: (numbers: Numbers) -> Unit)

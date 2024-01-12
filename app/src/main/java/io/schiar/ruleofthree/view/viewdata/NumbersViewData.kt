@@ -1,4 +1,4 @@
-package io.schiar.threerule.view.viewdata
+package io.schiar.ruleofthree.view.viewdata
 
 data class NumbersViewData(
     val a: String = "",

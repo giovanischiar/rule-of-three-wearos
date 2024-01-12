@@ -1,10 +1,10 @@
-package io.schiar.threerule.viewmodel
+package io.schiar.ruleofthree.viewmodel
 
 import androidx.lifecycle.ViewModel
-import io.schiar.threerule.model.Numbers
-import io.schiar.threerule.model.repository.MainRepository
-import io.schiar.threerule.model.repository.NumbersRepository
-import io.schiar.threerule.view.viewdata.NumbersViewData
+import io.schiar.ruleofthree.model.Numbers
+import io.schiar.ruleofthree.model.repository.MainRepository
+import io.schiar.ruleofthree.model.repository.NumbersRepository
+import io.schiar.ruleofthree.view.viewdata.NumbersViewData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

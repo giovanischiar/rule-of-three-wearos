@@ -1,4 +1,4 @@
-package io.schiar.threerule.model
+package io.schiar.ruleofthree.model
 
 data class Numbers(
     val a: Input = Input(),
