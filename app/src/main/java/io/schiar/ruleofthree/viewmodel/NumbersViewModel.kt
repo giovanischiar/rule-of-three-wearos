@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 class NumbersViewModel(
     private val repository: NumbersRepository = MainRepository()
 ): ViewModel() {
-    private val _numbers = MutableStateFlow(NumbersViewData())
+    private val _numbers = MutableStateFlow(repository.numbers.toViewData())
     val numbers: StateFlow<NumbersViewData> = _numbers
     private val _result = MutableStateFlow("?")
     val result: StateFlow<String> = _result

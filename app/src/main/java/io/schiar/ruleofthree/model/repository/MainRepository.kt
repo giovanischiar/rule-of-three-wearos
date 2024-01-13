@@ -5,7 +5,7 @@ import io.schiar.ruleofthree.model.Numbers
 class MainRepository: NumbersRepository {
     private var numbersCallback = { _: Numbers -> }
     private var resultCallback = { _: Double? -> }
-    private var numbers = Numbers()
+    override var numbers = Numbers()
 
     override fun subscribeForNumbers(callback: (numbers: Numbers) -> Unit) {
         this.numbersCallback = callback

@@ -1,10 +1,19 @@
 package io.schiar.ruleofthree.model
 
+import java.lang.StringBuilder
+
 data class Numbers(
     val a: Input = Input(),
     val b: Input = Input(),
     val c: Input = Input()
 ) {
+    constructor() : this (a = Input(), b = Input(), c = Input())
+    constructor(a: String = "", b: String = "", c: String = ""): this(
+        a = Input(value = StringBuilder(a)),
+        b = Input(value = StringBuilder(b)),
+        c = Input(value = StringBuilder(c))
+    )
+
     fun calculateResult(): Double? {
         val a = a.toDoubleOrNull() ?: return null
         val b = b.toDoubleOrNull() ?: return null
