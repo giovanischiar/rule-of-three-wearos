@@ -1,12 +1,15 @@
 package io.schiar.ruleofthree.view.components
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,32 +17,33 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.ButtonDefaults
-import androidx.wear.compose.material.CompactButton
-import androidx.wear.compose.material.Icon
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.dialog.Dialog
+import io.schiar.ruleofthree.R
+import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
+import kotlin.math.sqrt
 
 @Composable
 fun NumberInput(
     modifier: Modifier = Modifier,
-    onInputAdded: (value: String) -> Unit,
-    userInput: String,
-    onErase: () -> Unit,
-    onClear: () -> Unit
+    displayValue: String,
+    onDigitPressed: (value: String) -> Unit,
+    onErasePressed: () -> Unit,
+    onClearPressed: () -> Unit
 ) {
     var numericKeyboardShow by remember { mutableStateOf(false) }
 
-    fun addInput(value: String) { onInputAdded(value) }
-    fun erase() { onErase() }
-    fun clear() { onClear() }
+    fun onEnterPressed() {
+        if (displayValue == ".") { onClearPressed() }
+        numericKeyboardShow = false
+    }
 
     Dialog(
         showDialog = numericKeyboardShow,
@@ -47,7 +51,8 @@ fun NumberInput(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(color = colorResource(id = R.color.backgroundColor)),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -55,100 +60,56 @@ fun NumberInput(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    modifier = Modifier
-                        .weight(1f, true)
-                        .padding(bottom = 5.dp, start = 50.dp, end = 50.dp)
-                        .border(BorderStroke(2.dp, MaterialTheme.colors.primary)),
-                    textAlign = TextAlign.Center,
-                    text = userInput
-                )
-            }
-            Row {
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("7") }) {
-                    Text("7")
-                }
-
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("8") }) {
-                    Text("8")
-                }
-
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("9") }) {
-                    Text("9")
-                }
-            }
-            Row {
-                CompactButton(
-                    modifier = Modifier.padding(end = 5.dp),
-                    backgroundPadding = 0.dp,
-                    onClick = { clear() }
-                ) {
-                    Icon(
-                        painter = painterResource(android.R.drawable.ic_menu_close_clear_cancel),
-                        contentDescription = "clear"
-                    )
-                }
-
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("4") }) {
-                    Text("4")
-                }
-
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("5") }) {
-                    Text("5")
-                }
-
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("6") }) {
-                    Text("6")
-                }
-
-                CompactButton(
-                    modifier = Modifier.padding(start = 5.dp),
-                    backgroundPadding = 0.dp, onClick = { numericKeyboardShow = false }) {
-                    Icon(
-                        painter = painterResource(android.R.drawable.ic_menu_send),
-                        contentDescription = "enter"
-                    )
-                }
+                Display(modifier = Modifier.weight(1f, fill = true), text = displayValue)
             }
 
             Row {
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("1") }) {
-                    Text("1")
-                }
-
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("2") }) {
-                    Text("2")
-                }
-
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("3") }) {
-                    Text("3")
-                }
+                NumberPadButton(name = "7") { onDigitPressed(it) }
+                NumberPadButton(name = "8") { onDigitPressed(it) }
+                NumberPadButton(name = "9") { onDigitPressed(it) }
             }
 
             Row {
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput("0") }) {
-                    Text("0")
-                }
-                CompactButton(backgroundPadding = 0.dp, onClick = { addInput(".") }) {
-                    Text(".")
-                }
-                CompactButton(backgroundPadding = 0.dp, onClick = { erase() }) {
-                    Icon(
-                        painter = painterResource(android.R.drawable.ic_input_delete),
-                        contentDescription = "erase"
-                    )
-                }
+                NumberPadButton(name = "clear") { onClearPressed() }
+                Spacer(modifier = Modifier.width(5.dp))
+                NumberPadButton(name = "4") { onDigitPressed(it) }
+                NumberPadButton(name = "5") { onDigitPressed(it) }
+                NumberPadButton(name = "6") { onDigitPressed(it) }
+                Spacer(modifier = Modifier.width(5.dp))
+                NumberPadButton(name = "enter") { onEnterPressed() }
+            }
+
+            Row {
+                NumberPadButton(name = "1") { onDigitPressed(it) }
+                NumberPadButton(name = "2") { onDigitPressed(it) }
+                NumberPadButton(name = "3") { onDigitPressed(it) }
+            }
+
+            Row {
+                NumberPadButton(name = "0") { onDigitPressed(it) }
+                NumberPadButton(name = ".") { onDigitPressed(it) }
+                NumberPadButton(name = "erase") { onErasePressed() }
             }
         }
     }
 
     Button(
         modifier = modifier.padding(all = 10.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Black),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = colorResource(R.color.backgroundColor)
+        ),
         border = ButtonDefaults.outlinedButtonBorder(
-        borderColor = MaterialTheme.colors.primary,
-        borderWidth = 2.dp
-    ), shape = RectangleShape, onClick = { numericKeyboardShow = true }) {
-        Text(userInput)
+            borderColor = colorResource(R.color.squareStrokeColor),
+            borderWidth = 2.dp
+        ),
+        shape = RectangleShape,
+        onClick = { numericKeyboardShow = true }
+    ) {
+        Text(
+            modifier = Modifier.horizontalScroll(rememberScrollState()),
+            text = displayValue,
+            color = colorResource(id = R.color.hashColor),
+            fontSize = calculateTextUnitBasedOn(length = displayValue.length)
+        )
     }
 }
