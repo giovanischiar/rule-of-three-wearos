@@ -1,9 +1,7 @@
 package io.schiar.ruleofthree.view
 
 import android.content.res.Configuration
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,10 +27,8 @@ import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.Numbers
 import io.schiar.ruleofthree.model.datasource.DataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
-import io.schiar.ruleofthree.model.repository.NumbersRepository
 import io.schiar.ruleofthree.view.components.NumberInput
 import io.schiar.ruleofthree.viewmodel.NumbersViewModel
-import kotlin.math.sqrt
 
 @Composable
 fun MainScreen(viewModel: NumbersViewModel) {

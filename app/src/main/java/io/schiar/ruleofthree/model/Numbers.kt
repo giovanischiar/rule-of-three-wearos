@@ -1,7 +1,5 @@
 package io.schiar.ruleofthree.model
 
-import java.lang.StringBuilder
-
 data class Numbers(
     val a: Input = Input(),
     val b: Input = Input(),
