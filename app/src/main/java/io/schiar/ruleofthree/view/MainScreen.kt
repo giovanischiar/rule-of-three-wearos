@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.Numbers
+import io.schiar.ruleofthree.model.datasource.DataSource
+import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.model.repository.NumbersRepository
 import io.schiar.ruleofthree.view.components.NumberInput
 import io.schiar.ruleofthree.viewmodel.NumbersViewModel
@@ -102,7 +104,12 @@ fun MainScreen(viewModel: NumbersViewModel) {
 @Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun MainScreenPreview() {
-    val numbers = Numbers(a = "4", b = "40", c = "400")
-    val repository = object: NumbersRepository { override val numbers = numbers }
-    MainScreen(viewModel = NumbersViewModel(repository = repository))
+    val dataSource = object: DataSource {
+        var numbers = Numbers(a = "4", b = "40", c = "400")
+        override fun requestCurrentNumbers(): Numbers { return numbers }
+        override fun updateCurrentNumbers(numbers: Numbers) { this.numbers = numbers }
+    }
+    MainScreen(
+        viewModel = NumbersViewModel(repository = MainRepository(dataSource = dataSource))
+    )
 }
