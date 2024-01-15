@@ -8,7 +8,8 @@ fun Numbers.toViewData(): NumbersViewData {
     return NumbersViewData(
         a = a.toValueString(),
         b = b.toValueString(),
-        c = c.toValueString()
+        c = c.toValueString(),
+        result = result.toFormattedString()
     )
 }
 

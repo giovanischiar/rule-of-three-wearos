@@ -9,16 +9,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class NumbersViewModel(
-    private val repository: NumbersRepository = MainRepository()
-): ViewModel() {
+class NumbersViewModel(private val repository: NumbersRepository = MainRepository()): ViewModel() {
     private val _numbers = MutableStateFlow(repository.requestCurrentNumbers().toViewData())
     val numbers: StateFlow<NumbersViewData> = _numbers
     private val _result = MutableStateFlow(
-        repository
-            .requestCurrentNumbers()
-            .calculateResult()
-            .toFormattedString()
+        repository.requestCurrentNumbers().result.toFormattedString()
     )
     val result: StateFlow<String> = _result
 
@@ -37,6 +32,10 @@ class NumbersViewModel(
 
     fun clearInput(position: Int) {
         repository.clearInput(position = position)
+    }
+
+    fun submitInput() {
+        repository.submitToHistory()
     }
 
     private fun onInputChanged(numbers: Numbers) {

@@ -34,13 +34,15 @@ fun NumberInput(
     onDigitPressed: (value: String) -> Unit = {},
     onErasePressed: () -> Unit = {},
     onClearPressed: () -> Unit = {},
+    onEnterPressed: () -> Unit = {},
     numberPadOpened: Boolean = false
 ) {
     var numericKeyboardShow by remember { mutableStateOf(numberPadOpened) }
 
-    fun onEnterPressed() {
+    fun handleEnterPressed() {
         if (displayValue == ".") { onClearPressed() }
         numericKeyboardShow = false
+        onEnterPressed()
     }
 
     Dialog(
@@ -52,7 +54,7 @@ fun NumberInput(
             onDigitPressed = onDigitPressed,
             onErasePressed = onErasePressed,
             onClearPressed = onClearPressed,
-            onEnterPressed = ::onEnterPressed
+            onEnterPressed = ::handleEnterPressed
         )
     }
 

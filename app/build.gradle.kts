@@ -42,6 +42,10 @@ android {
 
 dependencies {
     implementation("androidx.compose.foundation:foundation-layout-android:1.5.4")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.6")
+    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation("androidx.wear.compose:compose-material3:1.0.0-alpha15")
+    implementation("androidx.compose.material3:material3:1.1.2")
     val composeVersion = "1.5.4"
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.4")
     val wearComposeVersion = "1.2.1"

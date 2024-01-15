@@ -3,7 +3,8 @@ package io.schiar.ruleofthree.model
 data class Numbers(
     val a: Input = Input(),
     val b: Input = Input(),
-    val c: Input = Input()
+    val c: Input = Input(),
+    var result: Double? = null
 ) {
     constructor() : this (a = Input(), b = Input(), c = Input())
     constructor(a: String = "", b: String = "", c: String = ""): this(
@@ -17,7 +18,8 @@ data class Numbers(
         val b = b.toDoubleOrNull() ?: return null
         val c = c.toDoubleOrNull() ?: return null
         if (a == 0.0) return null
-        return (c * b) / a
+        result = (c * b) / a
+        return result
     }
 
     fun addToInput(value: String, position: Int) {
