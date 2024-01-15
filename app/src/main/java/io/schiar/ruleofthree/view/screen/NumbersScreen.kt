@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view
+package io.schiar.ruleofthree.view.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -24,6 +24,7 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import io.schiar.ruleofthree.R
+import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 import io.schiar.ruleofthree.view.components.NumberInput
 import io.schiar.ruleofthree.viewmodel.NumbersViewModel
 

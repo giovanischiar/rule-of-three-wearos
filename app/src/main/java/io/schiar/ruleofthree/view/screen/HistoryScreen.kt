@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view
+package io.schiar.ruleofthree.view.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
