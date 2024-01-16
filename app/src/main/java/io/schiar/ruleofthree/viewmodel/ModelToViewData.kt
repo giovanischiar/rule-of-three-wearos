@@ -6,9 +6,9 @@ import java.text.DecimalFormat
 
 fun Numbers.toViewData(): NumbersViewData {
     return NumbersViewData(
-        a = a.toValueString(),
-        b = b.toValueString(),
-        c = c.toValueString(),
+        a = a.value,
+        b = b.value,
+        c = c.value,
         result = result.toFormattedString()
     )
 }

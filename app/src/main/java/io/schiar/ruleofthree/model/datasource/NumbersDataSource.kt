@@ -1,7 +1,6 @@
 package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.Numbers
-import java.lang.StringBuilder
 
 class NumbersDataSource(
     private var allPastNumbers: List<Numbers> = emptyList(),
@@ -20,11 +19,6 @@ class NumbersDataSource(
     }
 
     override fun addToAllPastNumbers(numbers: Numbers) {
-        allPastNumbers = listOf(numbers.copy(
-            a = numbers.a.copy(value = StringBuilder(numbers.a.value.toString())),
-            b = numbers.b.copy(value = StringBuilder(numbers.b.value.toString())),
-            c = numbers.c.copy(value = StringBuilder(numbers.c.value.toString())),
-            result = numbers.result
-        )) + allPastNumbers
+        allPastNumbers = listOf(numbers) + allPastNumbers
     }
 }

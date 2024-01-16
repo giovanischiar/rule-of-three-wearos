@@ -1,37 +1,37 @@
 package io.schiar.ruleofthree.model
 
-data class Input(var value: StringBuilder = StringBuilder()) {
-    fun add(newValue: String) {
-        val valueNumber = value.toString()
-        val newNumber = valueNumber + newValue
-        if (newNumber != "." && newNumber.toDoubleOrNull() == null) return
+data class Input(val value: String = "") {
+    fun add(newValue: String): Input {
+        val valueBuilder = StringBuilder(value)
+        val newNumber = value + newValue
+        if (newNumber != "." && newNumber.toDoubleOrNull() == null) return this
 
-        if (value.isNotEmpty()
-            && newValue != "."
-            && valueNumber != "."
-            && valueNumber.toDouble() == 0.0
-            && !value.contains('.')
+        if (valueBuilder.isNotEmpty()
+            && value != "."
+            && value.toDouble() == 0.0
+            && !newNumber.contains('.')
         ) {
-            value.clear()
+            valueBuilder.clear()
         }
-        value.append(newValue)
+        valueBuilder.append(newValue)
+        return Input(value = valueBuilder.toString())
     }
 
-    fun remove() {
-        if (value.isNotEmpty()) {
-            value.deleteCharAt(value.length - 1)
+    fun remove(): Input {
+        val valueBuilder = StringBuilder(value)
+        if (valueBuilder.isNotEmpty()) {
+            valueBuilder.deleteCharAt(value.length - 1)
         }
+        return Input(value = valueBuilder.toString())
     }
 
-    fun clear() {
-        value.clear()
+    fun clear(): Input {
+        val valueBuilder = StringBuilder(value)
+        valueBuilder.clear()
+        return Input(value = valueBuilder.toString())
     }
 
     fun toDoubleOrNull(): Double? {
-        return value.toString().toDoubleOrNull()
-    }
-
-    fun toValueString(): String {
-        return value.toString()
+        return value.toDoubleOrNull()
     }
 }

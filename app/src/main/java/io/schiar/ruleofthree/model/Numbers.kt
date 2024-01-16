@@ -8,9 +8,9 @@ data class Numbers(
 ) {
     constructor() : this (a = Input(), b = Input(), c = Input())
     constructor(a: String = "", b: String = "", c: String = ""): this(
-        a = Input(value = StringBuilder(a)),
-        b = Input(value = StringBuilder(b)),
-        c = Input(value = StringBuilder(c))
+        a = Input(value = a),
+        b = Input(value = b),
+        c = Input(value = c)
     )
 
     fun calculateResult(): Double? {
@@ -22,27 +22,27 @@ data class Numbers(
         return result
     }
 
-    fun addToInput(value: String, position: Int) {
-        when(position) {
-            0 -> a.add(newValue = value)
-            1 -> b.add(newValue = value)
-            2 -> c.add(newValue = value)
+    fun addToInput(value: String, position: Int): Numbers {
+        return when(position) {
+            0 -> Numbers(a = a.add(newValue = value), b = b, c = c)
+            1 -> Numbers(a = a, b = b.add(newValue = value), c = c)
+            else -> Numbers(a = a, b = b, c = c.add(newValue = value))
         }
     }
 
-    fun removeFromInput(position: Int) {
-        when(position) {
-            0 -> a.remove()
-            1 -> b.remove()
-            2 -> c.remove()
+    fun removeFromInput(position: Int): Numbers {
+        return when(position) {
+            0 -> Numbers(a = a.remove(), b = b, c = c)
+            1 -> Numbers(a = a, b = b.remove(), c = c)
+            else -> Numbers(a = a, b = b, c = c.remove())
         }
     }
 
-    fun clear(position: Int) {
-        when(position) {
-            0 -> a.clear()
-            1 -> b.clear()
-            2 -> c.clear()
+    fun clear(position: Int): Numbers {
+        return when(position) {
+            0 -> Numbers(a = a.clear(), b = b, c = c)
+            1 -> Numbers(a = a, b = b.clear(), c = c)
+            else -> Numbers(a = a, b = b, c = c.clear())
         }
     }
 }

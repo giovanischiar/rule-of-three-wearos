@@ -23,29 +23,33 @@ class MainRepository(
         this.resultCallback = callback
     }
 
-    private fun notifyListeners() {
-        val numbers = dataSource.requestCurrentNumbers()
+    private fun notifyListeners(numbers: Numbers) {
         numbersCallback(numbers)
         resultCallback(numbers.calculateResult())
     }
 
     override fun addToInput(value: String, position: Int) {
-        val numbers = dataSource.requestCurrentNumbers()
-        numbers.addToInput(value = value, position = position)
+        val numbers = dataSource
+            .requestCurrentNumbers()
+            .addToInput(value = value, position = position)
         dataSource.updateCurrentNumbers(numbers = numbers)
-        notifyListeners()
+        notifyListeners(numbers = numbers)
     }
 
     override fun removeFromInput(position: Int) {
-        val numbers = dataSource.requestCurrentNumbers()
-        numbers.removeFromInput(position = position)
-        notifyListeners()
+        val numbers = dataSource
+            .requestCurrentNumbers()
+            .removeFromInput(position = position)
+        dataSource.updateCurrentNumbers(numbers = numbers)
+        notifyListeners(numbers = numbers)
     }
 
     override fun clearInput(position: Int) {
-        val numbers = dataSource.requestCurrentNumbers()
-        numbers.clear(position = position)
-        notifyListeners()
+        val numbers = dataSource
+            .requestCurrentNumbers()
+            .clear(position = position)
+        dataSource.updateCurrentNumbers(numbers = numbers)
+        notifyListeners(numbers = numbers)
     }
 
     override fun submitToHistory() {
