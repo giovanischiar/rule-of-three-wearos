@@ -5,6 +5,8 @@ import io.schiar.ruleofthree.model.Numbers
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.model.repository.NumbersRepository
 import io.schiar.ruleofthree.view.viewdata.NumbersViewData
+import io.schiar.ruleofthree.viewmodel.util.toFormattedString
+import io.schiar.ruleofthree.viewmodel.util.toViewData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
