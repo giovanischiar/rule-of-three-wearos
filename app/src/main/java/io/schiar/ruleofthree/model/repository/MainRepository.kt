@@ -6,63 +6,60 @@ import io.schiar.ruleofthree.model.datasource.NumbersDataSource
 
 class MainRepository(
     private val dataSource: DataSource = NumbersDataSource()
-): NumbersRepository, HistoryRepository {
+): AppRepository, NumbersRepository, HistoryRepository {
     private var numbersCallback = { _: Numbers -> }
-    private var resultCallback = { _: Double? -> }
     private var allPastNumbersCallback = { _: List<Numbers> -> }
 
-    override fun requestCurrentNumbers(): Numbers {
-        return dataSource.requestCurrentNumbers()
+    // AppRepository
+
+    override suspend fun loadDatabase() {
+        numbersCallback(dataSource.requestCurrentNumbers())
+        allPastNumbersCallback(dataSource.requestAllPastNumbers())
     }
+
+    // NumbersRepository
 
     override fun subscribeForNumbers(callback: (numbers: Numbers) -> Unit) {
         this.numbersCallback = callback
     }
 
-    override fun subscribeForResult(callback: (result: Double?) -> Unit) {
-        this.resultCallback = callback
-    }
-
-    private fun notifyListeners(numbers: Numbers) {
-        numbersCallback(numbers)
-        resultCallback(numbers.calculateResult())
-    }
-
-    override fun addToInput(value: String, position: Int) {
+    override suspend fun addToInput(value: String, position: Int) {
         val numbers = dataSource
             .requestCurrentNumbers()
             .addToInput(value = value, position = position)
+            .resultCalculated()
         dataSource.updateCurrentNumbers(numbers = numbers)
-        notifyListeners(numbers = numbers)
+        numbersCallback(numbers)
     }
 
-    override fun removeFromInput(position: Int) {
+    override suspend fun removeFromInput(position: Int) {
         val numbers = dataSource
             .requestCurrentNumbers()
             .removeFromInput(position = position)
+            .resultCalculated()
         dataSource.updateCurrentNumbers(numbers = numbers)
-        notifyListeners(numbers = numbers)
+        numbersCallback(numbers)
     }
 
-    override fun clearInput(position: Int) {
+    override suspend fun clearInput(position: Int) {
         val numbers = dataSource
             .requestCurrentNumbers()
             .clear(position = position)
+            .resultCalculated()
         dataSource.updateCurrentNumbers(numbers = numbers)
-        notifyListeners(numbers = numbers)
+        numbersCallback(numbers)
     }
 
-    override fun submitToHistory() {
+    override suspend fun submitToHistory() {
         val numbers = dataSource.requestCurrentNumbers()
         if (numbers.result != null) {
+            dataSource.updateCurrentNumbers(numbers)
             dataSource.addToAllPastNumbers(numbers)
             allPastNumbersCallback(dataSource.requestAllPastNumbers())
         }
     }
 
-    override fun requestAllPastNumbers(): List<Numbers> {
-        return dataSource.requestAllPastNumbers()
-    }
+    // HistoryRepository
 
     override fun subscribeForAllPastNumbers(callback: (allPastNumbers: List<Numbers>) -> Unit) {
         allPastNumbersCallback = callback

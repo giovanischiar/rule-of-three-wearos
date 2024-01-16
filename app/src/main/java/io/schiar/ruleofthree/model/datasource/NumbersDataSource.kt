@@ -6,19 +6,19 @@ class NumbersDataSource(
     private var allPastNumbers: List<Numbers> = emptyList(),
     private var currentNumbers: Numbers = Numbers()
 ): DataSource {
-    override fun requestCurrentNumbers(): Numbers {
+    override suspend fun requestCurrentNumbers(): Numbers {
         return currentNumbers
     }
 
-    override fun updateCurrentNumbers(numbers: Numbers) {
+    override suspend fun updateCurrentNumbers(numbers: Numbers) {
         currentNumbers = numbers
     }
 
-    override fun requestAllPastNumbers(): List<Numbers> {
+    override suspend fun requestAllPastNumbers(): List<Numbers> {
         return allPastNumbers
     }
 
-    override fun addToAllPastNumbers(numbers: Numbers) {
+    override suspend fun addToAllPastNumbers(numbers: Numbers) {
         allPastNumbers = listOf(numbers) + allPastNumbers
     }
 }

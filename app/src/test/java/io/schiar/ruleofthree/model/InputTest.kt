@@ -16,13 +16,13 @@ class InputTest {
 
     @Test
     fun `Add Trailing Zeroes`() {
-        Assert.assertEquals(Input(value = "1"), Input().add(newValue = "0").add(newValue = "1"))
+        Assert.assertEquals(Input(value = 1), Input().add(newValue = "0").add(newValue = "1"))
     }
 
     @Test
     fun `Add Number Less Than Zero With Zeroes After Decimal Point`() {
         Assert.assertEquals(
-            Input(value = "0.001"),
+            Input(value = 0.001),
             Input()
                 .add(newValue = "0")
                 .add(newValue = ".")
@@ -71,7 +71,7 @@ class InputTest {
     }
 
     @Test
-    fun `Clear`() {
+    fun `Add Two Inputs and Then Clear`() {
         Assert.assertEquals(Input(value = ""), Input().add("1").add("2").clear())
     }
 
@@ -91,7 +91,7 @@ class InputTest {
     }
 
     @Test
-    fun `Double value Value`() {
+    fun `Double valid Value`() {
         Assert.assertEquals(1.3, Input("1.3").toDoubleOrNull())
     }
 }

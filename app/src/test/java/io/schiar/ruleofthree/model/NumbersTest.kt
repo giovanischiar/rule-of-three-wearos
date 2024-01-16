@@ -139,7 +139,8 @@ class NumbersTest {
                 a = a.toString(),
                 b = b.toString(),
                 c = c.toString(),
-            ).calculateResult()
+            ).resultCalculated()
+            .result
         )
     }
 
@@ -147,7 +148,7 @@ class NumbersTest {
     fun `Calculate Result With Zero Division`() {
         Assert.assertEquals(
             null,
-            Numbers(a = "0", b = "1.3", c = "23.4").calculateResult()
+            Numbers(a = "0", b = "1.3", c = "23.4").resultCalculated().result
         )
     }
 
@@ -155,7 +156,7 @@ class NumbersTest {
     fun `Calculate Result With Input Invalid`() {
         Assert.assertEquals(
             null,
-            Numbers(a = "ere34", b = "e324", c = "jghn").calculateResult()
+            Numbers(a = "ere34", b = "e324", c = "jghn").resultCalculated().result
         )
     }
 }

@@ -4,7 +4,7 @@ data class Numbers(
     val a: Input = Input(),
     val b: Input = Input(),
     val c: Input = Input(),
-    var result: Double? = null
+    val result: Double? = null
 ) {
     constructor() : this (a = Input(), b = Input(), c = Input())
     constructor(a: String = "", b: String = "", c: String = ""): this(
@@ -13,13 +13,12 @@ data class Numbers(
         c = Input(value = c)
     )
 
-    fun calculateResult(): Double? {
-        val a = a.toDoubleOrNull() ?: return null
-        val b = b.toDoubleOrNull() ?: return null
-        val c = c.toDoubleOrNull() ?: return null
-        if (a == 0.0) return null
-        result = (c * b) / a
-        return result
+    fun resultCalculated(): Numbers {
+        val a = a.toDoubleOrNull() ?: return this
+        val b = b.toDoubleOrNull() ?: return this
+        val c = c.toDoubleOrNull() ?: return this
+        if (a == 0.0) return this
+        return Numbers(a = this.a, b = this.b, c = this.c, result = (c * b) / a)
     }
 
     fun addToInput(value: String, position: Int): Numbers {

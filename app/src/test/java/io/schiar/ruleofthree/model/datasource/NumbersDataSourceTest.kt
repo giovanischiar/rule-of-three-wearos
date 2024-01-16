@@ -1,6 +1,7 @@
 package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.Numbers
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
 
@@ -8,9 +9,11 @@ class NumbersDataSourceTest {
     @Test
     fun `Request Current Numbers`() {
         val expectedNumbers = Numbers(a = "1", b = "2.3", c = "45.3")
-        val actualNumbers = NumbersDataSource(
-            currentNumbers = expectedNumbers
-        ).requestCurrentNumbers()
+        val actualNumbers = runBlocking {
+            NumbersDataSource(
+                currentNumbers = expectedNumbers
+            ).requestCurrentNumbers()
+        }
 
         Assert.assertEquals(expectedNumbers, actualNumbers)
     }
@@ -19,18 +22,18 @@ class NumbersDataSourceTest {
     fun `Update Current Numbers`() {
         val numbers = Numbers(a = "1", b = "2.3", c = "45.3")
         val dataSource = NumbersDataSource()
-        dataSource.updateCurrentNumbers(numbers = numbers)
+        runBlocking { dataSource.updateCurrentNumbers(numbers = numbers) }
 
-        Assert.assertEquals(numbers, dataSource.requestCurrentNumbers())
+        Assert.assertEquals(numbers, runBlocking { dataSource.requestCurrentNumbers() })
     }
 
     @Test
     fun `Request All Past Numbers`() {
         Assert.assertEquals(
             listOf(Numbers(a = "1", b = "2.3", c = "45.3")),
-            NumbersDataSource(
+            runBlocking { NumbersDataSource(
                 allPastNumbers = listOf(Numbers(a = "1", b = "2.3", c = "45.3"))
-            ).requestAllPastNumbers()
+            ).requestAllPastNumbers() }
         )
     }
 
@@ -44,9 +47,11 @@ class NumbersDataSourceTest {
         )
         val dataSource = NumbersDataSource()
         for (numbers in numbersList) {
-            dataSource.addToAllPastNumbers(numbers)
+            runBlocking { dataSource.addToAllPastNumbers(numbers) }
         }
 
-        Assert.assertEquals(numbersList.reversed(), dataSource.requestAllPastNumbers())
+        Assert.assertEquals(numbersList.reversed(), runBlocking {
+            dataSource.requestAllPastNumbers()
+        })
     }
 }

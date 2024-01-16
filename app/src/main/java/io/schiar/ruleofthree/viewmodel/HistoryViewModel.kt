@@ -10,12 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class HistoryViewModel(private val repository: HistoryRepository = MainRepository()): ViewModel() {
-    private var _allPastNumbers = MutableStateFlow(repository.requestAllPastNumbers().map {
-        it.toViewData()
-    })
+class HistoryViewModel(repository: HistoryRepository = MainRepository()): ViewModel() {
+    private var _allPastNumbers = MutableStateFlow(emptyList<NumbersViewData>())
 
-    fun init() {
+    init {
         repository.subscribeForAllPastNumbers(::onAllPastNumbersChanged)
     }
 

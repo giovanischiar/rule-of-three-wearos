@@ -13,16 +13,18 @@ import androidx.navigation.compose.rememberNavController
 import io.schiar.ruleofthree.model.Numbers
 import io.schiar.ruleofthree.model.datasource.NumbersDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
+import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import io.schiar.ruleofthree.viewmodel.NumbersViewModel
 
 @Composable
 fun MainScreen(
+    appViewModel: AppViewModel,
     numbersViewModel: NumbersViewModel,
     historyViewModel: HistoryViewModel,
     navController: NavHostController = rememberNavController()
 ) {
-    LaunchedEffect(Unit) { numbersViewModel.init(); historyViewModel.init() }
+    LaunchedEffect(Unit) { appViewModel.loadDatabase() }
 
     NavHost(navController = navController, startDestination = "Numbers") {
         composable("Numbers") {
@@ -49,8 +51,13 @@ fun MainScreenPreview() {
     val repository = MainRepository(dataSource = NumbersDataSource(
         currentNumbers = Numbers(a = "4", b = "40", c = "400"))
     )
+    val appViewModel = AppViewModel(repository = repository)
     val numbersViewModel = NumbersViewModel(repository = repository)
     val historyViewModel = HistoryViewModel(repository = repository)
 
-    MainScreen(numbersViewModel = numbersViewModel, historyViewModel = historyViewModel)
+    MainScreen(
+        appViewModel = appViewModel,
+        numbersViewModel = numbersViewModel,
+        historyViewModel = historyViewModel
+    )
 }

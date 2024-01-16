@@ -1,6 +1,9 @@
 package io.schiar.ruleofthree.model
 
 data class Input(val value: String = "") {
+    constructor(value: Double): this(value = value.toString())
+    constructor(value: Int): this(value = value.toString())
+
     fun add(newValue: String): Input {
         val valueBuilder = StringBuilder(value)
         val newNumber = value + newValue

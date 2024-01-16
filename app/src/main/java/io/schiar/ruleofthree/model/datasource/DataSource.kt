@@ -3,8 +3,8 @@ package io.schiar.ruleofthree.model.datasource
 import io.schiar.ruleofthree.model.Numbers
 
 interface DataSource {
-    fun requestCurrentNumbers(): Numbers
-    fun updateCurrentNumbers(numbers: Numbers)
-    fun requestAllPastNumbers(): List<Numbers>
-    fun addToAllPastNumbers(numbers: Numbers)
+    suspend fun requestCurrentNumbers(): Numbers
+    suspend fun updateCurrentNumbers(numbers: Numbers)
+    suspend fun requestAllPastNumbers(): List<Numbers>
+    suspend fun addToAllPastNumbers(numbers: Numbers)
 }

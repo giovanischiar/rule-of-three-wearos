@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -27,11 +28,29 @@ import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 import io.schiar.ruleofthree.view.components.NumberInput
 import io.schiar.ruleofthree.viewmodel.NumbersViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) {
+    val coroutineScope = rememberCoroutineScope()
+
     val numbers by viewModel.numbers.collectAsState()
-    val result by viewModel.result.collectAsState()
+
+    fun addInput(value: String, position: Int) {
+        coroutineScope.launch { viewModel.addInput(value = value, position = position) }
+    }
+
+    fun removeInput(position: Int) {
+        coroutineScope.launch { viewModel.removeInput(position = position) }
+    }
+
+    fun clearInput(position: Int) {
+        coroutineScope.launch { viewModel.clearInput(position = position) }
+    }
+
+    fun submitInput() {
+        coroutineScope.launch { viewModel.submitInput() }
+    }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -48,18 +67,18 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
                 NumberInput(
                     modifier = Modifier.weight(1f),
                     displayValue = numbers.a,
-                    onDigitPressed = { value -> viewModel.addInput(value = value, position = 0) },
-                    onErasePressed = { viewModel.removeInput(position = 0) },
-                    onClearPressed = { viewModel.clearInput(position = 0) },
-                    onEnterPressed = { viewModel.submitInput() }
+                    onDigitPressed = { addInput(value = it, position = 0) },
+                    onErasePressed = { removeInput(position = 0) },
+                    onClearPressed = { clearInput(position = 0) },
+                    onEnterPressed = { submitInput() }
                 )
                 NumberInput(
                     modifier = Modifier.weight(1f),
                     displayValue = numbers.b,
-                    onDigitPressed = { value -> viewModel.addInput(value = value, position = 1) },
-                    onErasePressed = { viewModel.removeInput(position = 1) },
-                    onClearPressed = { viewModel.clearInput(position = 1) },
-                    onEnterPressed = { viewModel.submitInput() }
+                    onDigitPressed = { addInput(value = it, position = 1) },
+                    onErasePressed = { removeInput(position = 1) },
+                    onClearPressed = { clearInput(position = 1) },
+                    onEnterPressed = { submitInput() }
                 )
             }
 
@@ -69,10 +88,10 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
                 NumberInput(
                     modifier = Modifier.weight(1f),
                     displayValue = numbers.c,
-                    onDigitPressed = { value -> viewModel.addInput(value = value, position = 2) },
-                    onErasePressed = { viewModel.removeInput(position = 2) },
-                    onClearPressed = { viewModel.clearInput(position = 2) },
-                    onEnterPressed = { viewModel.submitInput() }
+                    onDigitPressed = { addInput(value = it, position = 2) },
+                    onErasePressed = { removeInput(position = 2) },
+                    onClearPressed = { clearInput(position = 2) },
+                    onEnterPressed = { submitInput() }
                 )
                 Box(
                     modifier = Modifier
@@ -83,9 +102,9 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
                     Text(
                         modifier = Modifier.horizontalScroll(rememberScrollState()),
                         textAlign = TextAlign.Center,
-                        text = result,
+                        text = numbers.result,
                         color = colorResource(id = R.color.questionMarkColor),
-                        fontSize = calculateTextUnitBasedOn(length = result.length)
+                        fontSize = calculateTextUnitBasedOn(length = numbers.result.length)
                     )
                 }
             }
@@ -99,7 +118,9 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
         )
 
         IconButton(
-            modifier = Modifier.align(alignment = Alignment.CenterEnd).size(25.dp),
+            modifier = Modifier
+                .align(alignment = Alignment.CenterEnd)
+                .size(25.dp),
             onClick = { onNavigationNumbers() }
         ) {
             Icon(
