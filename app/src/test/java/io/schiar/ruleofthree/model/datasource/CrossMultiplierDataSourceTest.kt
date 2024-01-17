@@ -10,7 +10,7 @@ class CrossMultiplierDataSourceTest {
     fun `Request Current Cross Multiplier`() {
         val expectedCrossMultiplier = CrossMultiplier(a = "1", b = "2.3", c = "45.3")
         val actualCrossMultiplier = runBlocking {
-            CrossMultiplierDataSource(currentCrossMultiplier = expectedCrossMultiplier).requestCurrentCrossMultipliers()
+            CrossMultiplierDataSource(currentCrossMultiplier = expectedCrossMultiplier).requestCurrentCrossMultiplier()
         }
 
         Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
@@ -22,7 +22,7 @@ class CrossMultiplierDataSourceTest {
         val dataSource = CrossMultiplierDataSource()
         runBlocking { dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier) }
 
-        Assert.assertEquals(crossMultiplier, runBlocking { dataSource.requestCurrentCrossMultipliers() })
+        Assert.assertEquals(crossMultiplier, runBlocking { dataSource.requestCurrentCrossMultiplier() })
     }
 
     @Test

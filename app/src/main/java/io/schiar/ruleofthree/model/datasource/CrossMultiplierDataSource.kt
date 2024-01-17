@@ -24,7 +24,7 @@ class CrossMultiplierDataSource(private val crossMultiplierDAO: CrossMultiplierD
         )
     )
 
-    override suspend fun requestCurrentCrossMultipliers(): CrossMultiplier {
+    override suspend fun requestCurrentCrossMultiplier(): CrossMultiplier {
         if (currentCrossMultiplier == null) {
             currentCrossMultiplier = withContext(Dispatchers.IO) {
                 (crossMultiplierDAO.selectCurrentCrossMultiplier())?.toModel()

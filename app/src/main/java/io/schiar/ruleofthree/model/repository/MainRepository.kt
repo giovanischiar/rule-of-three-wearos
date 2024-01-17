@@ -15,7 +15,7 @@ class MainRepository(
     // AppRepository
 
     override suspend fun loadDatabase() {
-        crossMultipliersCallback(dataSource.requestCurrentCrossMultipliers())
+        crossMultipliersCallback(dataSource.requestCurrentCrossMultiplier())
         val allPastCrossMultipliers = dataSource.requestAllPastCrossMultipliers()
         allPastCrossMultipliersCallback(allPastCrossMultipliers)
         isThereHistoryCallback(allPastCrossMultipliers.isNotEmpty())
@@ -33,7 +33,7 @@ class MainRepository(
 
     override suspend fun addToInput(value: String, position: Int) {
         val crossMultiplier = dataSource
-            .requestCurrentCrossMultipliers()
+            .requestCurrentCrossMultiplier()
             .addToInput(value = value, position = position)
             .resultCalculated()
         dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
@@ -42,7 +42,7 @@ class MainRepository(
 
     override suspend fun removeFromInput(position: Int) {
         val crossMultiplier = dataSource
-            .requestCurrentCrossMultipliers()
+            .requestCurrentCrossMultiplier()
             .removeFromInput(position = position)
             .resultCalculated()
         dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
@@ -51,7 +51,7 @@ class MainRepository(
 
     override suspend fun clearInput(position: Int) {
         val crossMultiplier = dataSource
-            .requestCurrentCrossMultipliers()
+            .requestCurrentCrossMultiplier()
             .clear(position = position)
             .resultCalculated()
         dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
@@ -59,7 +59,7 @@ class MainRepository(
     }
 
     override suspend fun submitToHistory() {
-        val crossMultiplier = dataSource.requestCurrentCrossMultipliers()
+        val crossMultiplier = dataSource.requestCurrentCrossMultiplier()
         if (crossMultiplier.result != null) {
             dataSource.updateCurrentCrossMultiplier(crossMultiplier)
             dataSource.addToAllPastCrossMultipliers(crossMultiplier)
@@ -71,7 +71,7 @@ class MainRepository(
 
     override suspend fun clearAllInputs() {
         val crossMultiplier = dataSource
-            .requestCurrentCrossMultipliers()
+            .requestCurrentCrossMultiplier()
             .clearAll()
         dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
         crossMultipliersCallback(crossMultiplier)
