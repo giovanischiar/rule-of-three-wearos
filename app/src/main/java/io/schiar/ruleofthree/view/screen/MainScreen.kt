@@ -14,8 +14,8 @@ import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.viewmodel.AppViewModel
-import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultiplierViewModel
+import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 @Composable
 fun MainScreen(

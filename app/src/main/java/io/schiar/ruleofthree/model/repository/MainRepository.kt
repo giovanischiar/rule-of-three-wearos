@@ -1,8 +1,8 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.DataSource
 import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.DataSource
 import io.schiar.ruleofthree.model.datasource.util.CrossMultiplierLocalDAO
 
 class MainRepository(

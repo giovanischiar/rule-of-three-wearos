@@ -2,8 +2,8 @@ package io.schiar.ruleofthree.viewmodel
 
 import androidx.lifecycle.ViewModel
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.model.repository.CrossMultiplierRepository
+import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import kotlinx.coroutines.flow.MutableStateFlow

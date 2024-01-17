@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.viewmodel.AppViewModel
-import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultiplierViewModel
+import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 class ViewModelFactory(private val repository: MainRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

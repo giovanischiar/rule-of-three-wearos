@@ -9,8 +9,8 @@ import io.schiar.ruleofthree.model.datasource.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.screen.MainScreen
 import io.schiar.ruleofthree.viewmodel.AppViewModel
-import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultiplierViewModel
+import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import io.schiar.ruleofthree.viewmodel.util.ViewModelFactory
 
 class MainActivity : ComponentActivity() {

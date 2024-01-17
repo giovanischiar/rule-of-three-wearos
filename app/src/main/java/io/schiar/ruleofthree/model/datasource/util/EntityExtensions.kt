@@ -1,7 +1,7 @@
 package io.schiar.ruleofthree.model.datasource.util
 
-import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.datasource.room.CrossMultiplierEntity
 
 fun CrossMultiplierEntity.toModel(): CrossMultiplier {
