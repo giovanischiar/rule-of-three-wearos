@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,7 +30,6 @@ import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +37,7 @@ import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.rememberActiveFocusRequester
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
+import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.Numbers
 import io.schiar.ruleofthree.model.datasource.NumbersDataSource
@@ -130,7 +131,7 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
     }
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun HistoryScreenPreview() {
     val dataSource = NumbersDataSource(
@@ -140,10 +141,10 @@ fun HistoryScreenPreview() {
             Numbers(a = "42", b = "440", c = "5").resultCalculated(),
             Numbers(a = "3", b = "10", c = "78").resultCalculated(),
             Numbers(a = "5", b = "135", c = "7").resultCalculated()
-        ),
-        currentNumbers = Numbers(a = "4", b = "40", c = "400")
+        )
     )
     val repository = MainRepository(dataSource = dataSource)
     val historyViewModel = HistoryViewModel(repository = repository)
+    LaunchedEffect(Unit) { repository.loadDatabase() }
     HistoryScreen(viewModel = historyViewModel)
 }

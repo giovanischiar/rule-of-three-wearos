@@ -17,13 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.dialog.Dialog
+import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 
@@ -84,13 +84,13 @@ fun NumberInput(
     }
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumberInputPreview() {
     NumberInput(displayValue = "0")
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumberInputFullPreview() {
     NumberInput(displayValue = "238947923")

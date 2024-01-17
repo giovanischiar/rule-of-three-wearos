@@ -14,11 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material3.Text
+import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 
@@ -56,25 +56,25 @@ fun NumbersHistoryView(modifier: Modifier = Modifier, value: String, isResult: B
     }
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumbersHistoryViewPreview() {
     NumbersHistoryView(value = "0")
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumbersHistoryViewFullPreview() {
     NumbersHistoryView(value = "238947923")
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumbersHistoryViewResultPreview() {
     NumbersHistoryView(value = "23.3", isResult = true)
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumbersHistoryViewResultFullPreview() {
     NumbersHistoryView(value = "23383474", isResult = true)
