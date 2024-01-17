@@ -79,12 +79,7 @@ class CrossMultiplierDataSource(private val crossMultiplierDAO: CrossMultiplierD
         val (_, a, b, c, result) = crossMultiplierDeleted.toEntity()
         coroutineScope {
             launch(Dispatchers.IO) {
-                val entityIDToDelete = crossMultiplierDAO.selectHistoryItemID(a, b, c, result)
-                crossMultiplierDAO.delete(
-                    crossMultiplierEntity = crossMultiplierDeleted.toEntity(
-                        id = entityIDToDelete ?: return@launch
-                    )
-                )
+                crossMultiplierDAO.deleteHistoryItem(a = a, b = b, c = c, result = result)
             }
         }
     }

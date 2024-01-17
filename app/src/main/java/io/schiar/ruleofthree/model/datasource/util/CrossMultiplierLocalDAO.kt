@@ -9,26 +9,25 @@ class CrossMultiplierLocalDAO(
     private var allPastCrossMultipliers: List<CrossMultiplier> = emptyList()
 ): CrossMultiplierDAO {
     override fun insert(crossMultiplierEntity: CrossMultiplierEntity): Long { return 0L }
+
     override fun update(crossMultiplierEntity: CrossMultiplierEntity) {
         allPastCrossMultipliers = listOf(crossMultiplierEntity.toModel()) + allPastCrossMultipliers
-    }
-
-    override fun delete(crossMultiplierEntity: CrossMultiplierEntity) {
-        val allPastCrossMultipliers = allPastCrossMultipliers.toMutableList()
-        allPastCrossMultipliers.remove(crossMultiplierEntity.toModel())
     }
 
     override fun selectAllPastCrossMultipliers(): List<CrossMultiplierEntity> {
         return allPastCrossMultipliers.map { it.toEntity() }
     }
+
     override fun selectCurrentCrossMultiplier(): CrossMultiplierEntity {
         return currentCrossMultiplier.toEntity()
     }
-    override fun selectHistoryItemID(a: String?, b: String?, c: String?, result: Double?): Long {
-        return 1L
+
+    override fun deleteHistoryItem(a: String?, b: String?, c: String?, result: Double?) {
+        val allPastCrossMultipliers = allPastCrossMultipliers.toMutableList()
+        val crossMultiplierEntity = CrossMultiplierEntity(a = a, b = b, c = c, result = result)
+        allPastCrossMultipliers.remove(crossMultiplierEntity.toModel())
+        this.allPastCrossMultipliers = allPastCrossMultipliers
     }
 
-    override fun deleteHistory() {
-        allPastCrossMultipliers = emptyList()
-    }
+    override fun deleteHistory() { allPastCrossMultipliers = emptyList() }
 }

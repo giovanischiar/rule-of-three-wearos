@@ -1,7 +1,6 @@
 package io.schiar.ruleofthree.model.datasource.room
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -15,18 +14,15 @@ interface CrossMultiplierDAO {
     @Update
     fun update(crossMultiplierEntity: CrossMultiplierEntity)
 
-    @Delete
-    fun delete(crossMultiplierEntity: CrossMultiplierEntity)
-
-    @Query("DELETE FROM CrossMultiplier WHERE id != 1")
-    fun deleteHistory()
-
     @Query("SELECT * FROM CrossMultiplier WHERE id != 1")
     fun selectAllPastCrossMultipliers(): List<CrossMultiplierEntity>
 
     @Query("SELECT * FROM CrossMultiplier WHERE id == 1")
     fun selectCurrentCrossMultiplier(): CrossMultiplierEntity?
 
-    @Query("SELECT id FROM CrossMultiplier WHERE a == :a AND b == :b AND c == :c AND result == :result")
-    fun selectHistoryItemID(a: String?, b: String?, c: String?, result: Double?): Long?
+    @Query("DELETE FROM CrossMultiplier WHERE a == :a AND b == :b AND c == :c AND result == :result")
+    fun deleteHistoryItem(a: String?, b: String?, c: String?, result: Double?)
+
+    @Query("DELETE FROM CrossMultiplier WHERE id != 1")
+    fun deleteHistory()
 }
