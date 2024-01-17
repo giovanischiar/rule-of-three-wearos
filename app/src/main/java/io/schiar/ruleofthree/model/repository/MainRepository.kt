@@ -60,6 +60,14 @@ class MainRepository(
         }
     }
 
+    override suspend fun clearAllInputs() {
+        val numbers = dataSource
+            .requestCurrentNumbers()
+            .clearAll()
+        dataSource.updateCurrentNumbers(numbers = numbers)
+        numbersCallback(numbers)
+    }
+
     // HistoryRepository
 
     override fun subscribeForAllPastNumbers(callback: (allPastNumbers: List<Numbers>) -> Unit) {

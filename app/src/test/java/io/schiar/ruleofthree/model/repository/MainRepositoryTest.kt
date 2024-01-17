@@ -103,6 +103,21 @@ class MainRepositoryTest {
     }
 
     @Test
+    fun `Clear All Inputs of Current Numbers`() {
+        val mainRepository = MainRepository(
+            dataSource = NumbersDataSource(
+                currentNumbers = Numbers(a = "2.45", b = "45", c = "3.5")
+            )
+        )
+
+        mainRepository.subscribeForNumbers {
+            Assert.assertEquals(Numbers(), it)
+        }
+
+        runBlocking { mainRepository.clearAllInputs() }
+    }
+
+    @Test
     fun `Add Input Position of Current Numbers and then Remove it`() {
         val mainRepository = MainRepository()
         runBlocking { mainRepository.addToInput(value = "1", position = 0) }

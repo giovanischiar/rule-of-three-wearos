@@ -58,6 +58,10 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
     fun submitInput() {
         coroutineScope.launch { viewModel.submitInput() }
     }
+    
+    fun clearAllInputs() {
+        coroutineScope.launch { viewModel.clearAllInputs() }
+    }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -123,6 +127,22 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
             color = colorResource(id = R.color.xColor),
             fontSize = 24.sp
         )
+
+        if (numbers.isNotEmpty()) {
+            IconButton(
+                modifier = Modifier
+                    .align(alignment = Alignment.BottomCenter)
+                    .size(25.dp),
+                onClick = { clearAllInputs() }
+            ) {
+                Icon(
+                    modifier = Modifier.padding(horizontal = 5.dp),
+                    painter = painterResource(id = R.drawable.baseline_delete_forever_24),
+                    contentDescription = "clear all inputs",
+                    tint = colorResource(R.color.hashColor)
+                )
+            }
+        }
 
         IconButton(
             modifier = Modifier

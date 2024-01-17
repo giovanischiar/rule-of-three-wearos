@@ -44,4 +44,8 @@ data class Numbers(
             else -> Numbers(a = a, b = b, c = c.clear())
         }
     }
+
+    fun clearAll(): Numbers {
+        return Numbers()
+    }
 }

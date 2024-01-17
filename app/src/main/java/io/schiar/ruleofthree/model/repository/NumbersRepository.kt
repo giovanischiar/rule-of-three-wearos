@@ -8,4 +8,5 @@ interface NumbersRepository {
     suspend fun submitToHistory()
     suspend fun removeFromInput(position: Int)
     suspend fun clearInput(position: Int)
+    suspend fun clearAllInputs()
 }

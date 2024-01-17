@@ -130,6 +130,18 @@ class NumbersTest {
     }
 
     @Test
+    fun `Add Inputs and Clear All`() {
+        Assert.assertEquals(
+            Numbers(),
+            Numbers()
+                .addToInput(value = "1", position = 2)
+                .addToInput(value = "2", position = 1)
+                .addToInput(value = "3", position = 0)
+                .clearAll()
+        )
+    }
+
+    @Test
     fun `Calculate Result`() {
         val a = 12.3
         val b = 45

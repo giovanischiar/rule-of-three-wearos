@@ -28,6 +28,10 @@ class NumbersViewModel(private val repository: NumbersRepository = MainRepositor
         repository.clearInput(position = position)
     }
 
+    suspend fun clearAllInputs() {
+        repository.clearAllInputs()
+    }
+
     suspend fun submitInput() {
         repository.submitToHistory()
     }
