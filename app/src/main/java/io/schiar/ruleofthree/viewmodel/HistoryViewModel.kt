@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class HistoryViewModel(repository: HistoryRepository = MainRepository()): ViewModel() {
+class HistoryViewModel(private val repository: HistoryRepository = MainRepository()): ViewModel() {
     private var _allPastNumbers = MutableStateFlow(emptyList<NumbersViewData>())
 
     init {
@@ -18,6 +18,10 @@ class HistoryViewModel(repository: HistoryRepository = MainRepository()): ViewMo
     }
 
     val allPastNumbers: StateFlow<List<NumbersViewData>> = _allPastNumbers
+
+    suspend fun deleteHistoryItem(index: Int) {
+        repository.deleteHistoryItem(index = index)
+    }
 
     private fun onAllPastNumbersChanged(allPastNumbers: List<Numbers>) {
         _allPastNumbers.update { allPastNumbers.map { it.toViewData() } }

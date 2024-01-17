@@ -50,10 +50,17 @@ import kotlinx.coroutines.launch
 @Composable
 fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
     val allPastNumbers by viewModel.allPastNumbers.collectAsState()
+    if (allPastNumbers.isEmpty()) {
+        onBackPressed()
+    }
 
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
     val coroutineScope = rememberCoroutineScope()
+
+    fun deleteHistoryItem(index: Int) {
+        coroutineScope.launch { viewModel.deleteHistoryItem(index = index) }
+    }
 
     Box(modifier = Modifier.background(color = colorResource(id = R.color.backgroundColor))) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -101,6 +108,20 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                             color = colorResource(id = R.color.xColor),
                             fontSize = 11.2.sp
                         )
+
+                        IconButton(
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterEnd)
+                                .size(25.dp),
+                            onClick = { deleteHistoryItem(it) }
+                        ) {
+                            Icon(
+                                modifier = Modifier.padding(horizontal = 5.dp),
+                                painter = painterResource(id = R.drawable.baseline_delete_forever_24),
+                                contentDescription = "clear all inputs",
+                                tint = colorResource(R.color.hashColor)
+                            )
+                        }
                     }
 
                     if (it < allPastNumbers.size - 1) {

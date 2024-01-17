@@ -102,6 +102,27 @@ class MainRepositoryTest {
     }
 
     @Test
+    fun `Remove Numbers of History`() {
+        val mainRepository = MainRepository(
+            dataSource = NumbersDataSource(
+                allPastNumbers = listOf(
+                    Numbers(a = "1", b = "2.3", c = "45.3"),
+                    Numbers(a = "45", b = "45.33", c = "45.3"),
+                    Numbers(a = "207", b = "97.33", c = "454.567")
+                )
+            )
+        )
+        mainRepository.subscribeForAllPastNumbers {
+            Assert.assertEquals(
+                listOf(
+                    Numbers(a = "1", b = "2.3", c = "45.3"),
+                    Numbers(a = "207", b = "97.33", c = "454.567")
+                ), it)
+        }
+        runBlocking { mainRepository.deleteHistoryItem(index = 1) }
+    }
+
+    @Test
     fun `Clear Input Position of Current Numbers`() {
         val mainRepository = MainRepository(
             dataSource = NumbersDataSource(

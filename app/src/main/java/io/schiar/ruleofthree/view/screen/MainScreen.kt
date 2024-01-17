@@ -41,7 +41,7 @@ fun MainScreen(
                 towards = AnimatedContentTransitionScope.SlideDirection.End
             ) }
         ) { HistoryScreen(viewModel = historyViewModel, onBackPressed = {
-            navController.popBackStack()
+            navController.navigateUp()
         }) }
     }
 }

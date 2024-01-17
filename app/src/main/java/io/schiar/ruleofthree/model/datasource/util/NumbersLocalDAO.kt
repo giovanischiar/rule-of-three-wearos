@@ -12,8 +12,17 @@ class NumbersLocalDAO(
     override fun update(numbersEntity: NumbersEntity) {
         allPastNumbers = listOf(numbersEntity.toModel()) + allPastNumbers
     }
+
+    override fun delete(numbersEntity: NumbersEntity) {
+        val allPastNumbers = allPastNumbers.toMutableList()
+        allPastNumbers.remove(numbersEntity.toModel())
+    }
+
     override fun selectAllPastNumbers(): List<NumbersEntity> {
         return allPastNumbers.map { it.toEntity() }
     }
     override fun selectCurrentNumbers(): NumbersEntity { return currentNumbers.toEntity() }
+    override fun selectHistoryItemID(a: String?, b: String?, c: String?, result: Double?): Long {
+        return 1L
+    }
 }

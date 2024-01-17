@@ -71,4 +71,19 @@ class NumbersDataSource(private val numbersDAO: NumbersDAO): DataSource {
             }
         }
     }
+
+    override suspend fun deleteHistoryItem(index: Int) {
+        val allPastNumbers = requestAllPastNumbers().toMutableList()
+        val numbers = allPastNumbers.removeAt(index)
+        this.allPastNumbers = allPastNumbers
+        val (_, a, b, c, result) = numbers.toEntity()
+        coroutineScope {
+            launch(Dispatchers.IO) {
+                val entityIDToDelete = numbersDAO.selectHistoryItemID(a, b, c, result)
+                numbersDAO.delete(
+                    numbersEntity = numbers.toEntity(id = entityIDToDelete ?: return@launch)
+                )
+            }
+        }
+    }
 }

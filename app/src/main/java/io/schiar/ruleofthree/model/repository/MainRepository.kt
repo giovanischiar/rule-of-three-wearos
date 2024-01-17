@@ -82,4 +82,11 @@ class MainRepository(
     override fun subscribeForAllPastNumbers(callback: (allPastNumbers: List<Numbers>) -> Unit) {
         allPastNumbersCallback = callback
     }
+
+    override suspend fun deleteHistoryItem(index: Int) {
+        dataSource.deleteHistoryItem(index = index)
+        val allPastNumbers = dataSource.requestAllPastNumbers()
+        allPastNumbersCallback(allPastNumbers)
+        isThereHistoryCallback(allPastNumbers.isNotEmpty())
+    }
 }

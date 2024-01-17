@@ -7,4 +7,5 @@ interface DataSource {
     suspend fun updateCurrentNumbers(numbers: Numbers)
     suspend fun requestAllPastNumbers(): List<Numbers>
     suspend fun addToAllPastNumbers(numbers: Numbers)
+    suspend fun deleteHistoryItem(index: Int)
 }
