@@ -72,6 +72,12 @@ class CrossMultiplierDataSource(private val crossMultiplierDAO: CrossMultiplierD
         }
     }
 
+    override suspend fun replaceCurrentCrossMultiplier(index: Int) {
+        val allPastCrossMultipliers = requestAllPastCrossMultipliers().toMutableList()
+        val crossMultiplierToReplace = allPastCrossMultipliers.getOrNull(index) ?: return
+        updateCurrentCrossMultiplier(crossMultiplier = crossMultiplierToReplace)
+    }
+
     override suspend fun deleteHistoryItem(index: Int) {
         val allPastCrossMultipliers = requestAllPastCrossMultipliers().toMutableList()
         val crossMultiplierDeleted = allPastCrossMultipliers.removeAt(index)

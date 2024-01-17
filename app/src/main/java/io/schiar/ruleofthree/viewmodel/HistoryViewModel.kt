@@ -18,6 +18,10 @@ class HistoryViewModel(private val repository: HistoryRepository = MainRepositor
         repository.subscribeForAllPastCrossMultipliers(::onAllPastCrossMultipliersChanged)
     }
 
+    suspend fun replaceCurrentCrossMultiplier(index: Int) {
+        repository.replaceCurrentCrossMultiplier(index = index)
+    }
+
     suspend fun deleteHistoryItem(index: Int) {
         repository.deleteHistoryItem(index = index)
     }

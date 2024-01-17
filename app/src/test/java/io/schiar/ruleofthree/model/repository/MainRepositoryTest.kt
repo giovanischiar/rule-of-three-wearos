@@ -119,6 +119,26 @@ class MainRepositoryTest {
     }
 
     @Test
+    fun `Replace Current Numbers With One From History`() {
+        val crossMultiplierToReplaceTo = CrossMultiplier(a = "207", b = "97.33", c = "454.567")
+            .resultCalculated()
+        val mainRepository = MainRepository(
+            dataSource = CrossMultiplierDataSource(
+                currentCrossMultiplier = CrossMultiplier(a = "2.45", b = "45", c = "3.5"),
+                allPastCrossMultipliers = listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3").resultCalculated(),
+                    crossMultiplierToReplaceTo
+                )
+            )
+        )
+        mainRepository.subscribeForCrossMultipliers { actualCrossMultiplier ->
+            Assert.assertEquals(crossMultiplierToReplaceTo, actualCrossMultiplier)
+        }
+        runBlocking { mainRepository.replaceCurrentCrossMultiplier(index = 2) }
+    }
+
+    @Test
     fun `Remove Cross Multiplier from History`() {
         val mainRepository = MainRepository(
             dataSource = CrossMultiplierDataSource(

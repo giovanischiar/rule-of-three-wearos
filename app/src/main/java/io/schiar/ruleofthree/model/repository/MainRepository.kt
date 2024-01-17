@@ -85,6 +85,11 @@ class MainRepository(
         allPastCrossMultipliersCallback = callback
     }
 
+    override suspend fun replaceCurrentCrossMultiplier(index: Int) {
+        dataSource.replaceCurrentCrossMultiplier(index = index)
+        crossMultipliersCallback(dataSource.requestCurrentCrossMultiplier())
+    }
+
     override suspend fun deleteHistoryItem(index: Int) {
         dataSource.deleteHistoryItem(index = index)
         val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()

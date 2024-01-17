@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -29,6 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.rememberActiveFocusRequester
+import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -51,6 +56,11 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
     val coroutineScope = rememberCoroutineScope()
+
+    fun replaceCurrentCrossMultiplier(index: Int) {
+        coroutineScope.launch { viewModel.replaceCurrentCrossMultiplier(index = index) }
+        onBackPressed()
+    }
 
     fun deleteHistoryItem(index: Int) {
         coroutineScope.launch { viewModel.deleteHistoryItem(index = index) }
@@ -87,15 +97,25 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                         }
                     }
                 }
-                items(count = allPastCrossMultipliers.size) {
+
+                items(count = allPastCrossMultipliers.size) { index ->
                     Box {
-                        CrossMultiplierHistoryView(crossMultiplier = allPastCrossMultipliers[it])
+                        Button(
+                            onClick = { replaceCurrentCrossMultiplier(index = index) },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                            shape = RectangleShape,
+                            contentPadding = PaddingValues(all = 0.dp)
+                        ) {
+                            CrossMultiplierHistoryView(
+                                crossMultiplier = allPastCrossMultipliers[index]
+                            )
+                        }
 
                         IconButton(
                             modifier = Modifier
                                 .align(alignment = Alignment.CenterEnd)
                                 .size(25.dp),
-                            onClick = { deleteHistoryItem(it) }
+                            onClick = { deleteHistoryItem(index = index) }
                         ) {
                             Icon(
                                 modifier = Modifier.padding(horizontal = 5.dp),
@@ -108,7 +128,7 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                         }
                     }
 
-                    if (it < allPastCrossMultipliers.size - 1) {
+                    if (index < allPastCrossMultipliers.size - 1) {
                         Divider(
                             modifier = Modifier.padding(vertical = 5.dp, horizontal = 25.dp),
                             color = colorResource(id = R.color.squareStrokeColor),
