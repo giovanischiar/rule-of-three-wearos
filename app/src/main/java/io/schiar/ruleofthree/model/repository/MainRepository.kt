@@ -3,9 +3,10 @@ package io.schiar.ruleofthree.model.repository
 import io.schiar.ruleofthree.model.Numbers
 import io.schiar.ruleofthree.model.datasource.DataSource
 import io.schiar.ruleofthree.model.datasource.NumbersDataSource
+import io.schiar.ruleofthree.model.datasource.util.NumbersLocalDAO
 
 class MainRepository(
-    private val dataSource: DataSource = NumbersDataSource()
+    private val dataSource: DataSource = NumbersDataSource(numbersDAO = NumbersLocalDAO())
 ): AppRepository, NumbersRepository, HistoryRepository {
     private var numbersCallback = { _: Numbers -> }
     private var allPastNumbersCallback = { _: List<Numbers> -> }

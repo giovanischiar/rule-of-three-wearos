@@ -135,11 +135,11 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
 fun HistoryScreenPreview() {
     val dataSource = NumbersDataSource(
         allPastNumbers = mutableListOf(
-            Numbers(a = "8342234", b = "324423", c = "45456").apply { resultCalculated() },
-            Numbers(a = "4", b = "40", c = "400").apply { resultCalculated() },
-            Numbers(a = "42", b = "440", c = "5").apply { resultCalculated() },
-            Numbers(a = "3", b = "10", c = "78").apply { resultCalculated() },
-            Numbers(a = "5", b = "135", c = "7").apply { resultCalculated() }
+            Numbers(a = "8342234", b = "324423", c = "45456").resultCalculated(),
+            Numbers(a = "4", b = "40", c = "400").resultCalculated(),
+            Numbers(a = "42", b = "440", c = "5").resultCalculated(),
+            Numbers(a = "3", b = "10", c = "78").resultCalculated(),
+            Numbers(a = "5", b = "135", c = "7").resultCalculated()
         ),
         currentNumbers = Numbers(a = "4", b = "40", c = "400")
     )

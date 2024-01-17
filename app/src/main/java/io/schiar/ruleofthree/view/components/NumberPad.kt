@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Devices.WEAR_OS_LARGE_ROUND
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.schiar.ruleofthree.R
@@ -73,7 +73,7 @@ fun NumberPad(
     }
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumberPadPreview() {
     var displayValue by remember { mutableStateOf("") }
@@ -85,7 +85,7 @@ fun NumberPadPreview() {
     )
 }
 
-@Preview(device = Devices.WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Preview(device = WEAR_OS_LARGE_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumberPadFullPreview() {
     var displayValue by remember { mutableStateOf("29347623986593847239074") }

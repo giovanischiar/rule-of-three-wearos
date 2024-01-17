@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.schiar.ruleofthree.model.Numbers
 import io.schiar.ruleofthree.model.datasource.NumbersDataSource
+import io.schiar.ruleofthree.model.datasource.util.NumbersLocalDAO
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
@@ -49,7 +50,7 @@ fun MainScreen(
 @Composable
 fun MainScreenPreview() {
     val repository = MainRepository(dataSource = NumbersDataSource(
-        currentNumbers = Numbers(a = "4", b = "40", c = "400"))
+        NumbersLocalDAO(currentNumbers = Numbers(a = "4", b = "40", c = "400")))
     )
     val appViewModel = AppViewModel(repository = repository)
     val numbersViewModel = NumbersViewModel(repository = repository)

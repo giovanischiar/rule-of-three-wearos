@@ -7,7 +7,6 @@ import org.junit.Assert
 import org.junit.Test
 
 class MainRepositoryTest {
-
     @Test
     fun `Subscribe For Result and Add Input For Result`() {
         val a = 12.3

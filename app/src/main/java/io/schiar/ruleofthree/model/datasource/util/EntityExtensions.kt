@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.model.datasource
+package io.schiar.ruleofthree.model.datasource.util
 
 import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.Numbers

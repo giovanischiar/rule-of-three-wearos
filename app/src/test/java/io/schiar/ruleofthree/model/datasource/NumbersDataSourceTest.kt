@@ -10,9 +10,7 @@ class NumbersDataSourceTest {
     fun `Request Current Numbers`() {
         val expectedNumbers = Numbers(a = "1", b = "2.3", c = "45.3")
         val actualNumbers = runBlocking {
-            NumbersDataSource(
-                currentNumbers = expectedNumbers
-            ).requestCurrentNumbers()
+            NumbersDataSource(currentNumbers = expectedNumbers).requestCurrentNumbers()
         }
 
         Assert.assertEquals(expectedNumbers, actualNumbers)

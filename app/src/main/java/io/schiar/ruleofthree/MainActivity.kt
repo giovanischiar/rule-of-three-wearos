@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModelProvider
-import io.schiar.ruleofthree.model.datasource.NumbersDBDataSource
+import io.schiar.ruleofthree.model.datasource.NumbersDataSource
 import io.schiar.ruleofthree.model.datasource.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.screen.MainScreen
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val ruleOfThreeDatabase = RuleOfThreeDatabase.getDatabase(context = applicationContext)
         val numbersDAO = ruleOfThreeDatabase.numbersDAO()
-        val repository = MainRepository(dataSource = NumbersDBDataSource(numbersDAO = numbersDAO))
+        val repository = MainRepository(dataSource = NumbersDataSource(numbersDAO = numbersDAO))
         val viewModelProvider = ViewModelProvider(
             this,
             ViewModelFactory(repository = repository)
