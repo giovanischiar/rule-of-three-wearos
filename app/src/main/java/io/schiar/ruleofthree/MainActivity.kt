@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.repository.MainRepository
-import io.schiar.ruleofthree.view.screen.MainScreen
+import io.schiar.ruleofthree.view.screen.AppScreen
 import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultiplierViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            MainScreen(
+            AppScreen(
                 appViewModel = viewModelProvider[AppViewModel::class.java],
                 crossMultiplierViewModel = viewModelProvider[CrossMultiplierViewModel::class.java],
                 historyViewModel = viewModelProvider[HistoryViewModel::class.java]

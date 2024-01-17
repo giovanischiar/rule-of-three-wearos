@@ -18,7 +18,7 @@ import io.schiar.ruleofthree.viewmodel.CrossMultiplierViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 @Composable
-fun MainScreen(
+fun AppScreen(
     appViewModel: AppViewModel,
     crossMultiplierViewModel: CrossMultiplierViewModel,
     historyViewModel: HistoryViewModel,
@@ -47,7 +47,7 @@ fun MainScreen(
 }
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun MainScreenPreview() {
+fun AppScreenPreview() {
     val dataSource = CrossMultiplierDataSource(
         currentCrossMultiplier = CrossMultiplier(a = "10", b = "345", c = "15.3").resultCalculated(),
         allPastCrossMultipliers = mutableListOf(
@@ -63,7 +63,7 @@ fun MainScreenPreview() {
     val crossMultiplierViewModel = CrossMultiplierViewModel(repository = repository)
     val historyViewModel = HistoryViewModel(repository = repository)
     LaunchedEffect(Unit) { repository.loadDatabase() }
-    MainScreen(
+    AppScreen(
         appViewModel = appViewModel,
         crossMultiplierViewModel = crossMultiplierViewModel,
         historyViewModel = historyViewModel
