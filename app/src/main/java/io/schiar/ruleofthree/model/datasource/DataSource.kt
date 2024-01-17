@@ -8,4 +8,5 @@ interface DataSource {
     suspend fun requestAllPastCrossMultipliers(): List<CrossMultiplier>
     suspend fun addToAllPastCrossMultipliers(crossMultiplier: CrossMultiplier)
     suspend fun deleteHistoryItem(index: Int)
+    suspend fun deleteHistory()
 }

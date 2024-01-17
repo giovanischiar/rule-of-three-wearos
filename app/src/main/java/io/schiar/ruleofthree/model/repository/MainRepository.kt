@@ -91,4 +91,11 @@ class MainRepository(
         allPastCrossMultipliersCallback(allPastCurrentMultipliers)
         isThereHistoryCallback(allPastCurrentMultipliers.isNotEmpty())
     }
+
+    override suspend fun deleteHistory() {
+        dataSource.deleteHistory()
+        val allPastCurrentMultipliers = emptyList<CrossMultiplier>()
+        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
+        isThereHistoryCallback(allPastCurrentMultipliers.isNotEmpty())
+    }
 }

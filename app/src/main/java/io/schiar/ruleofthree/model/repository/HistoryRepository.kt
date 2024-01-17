@@ -7,4 +7,5 @@ interface HistoryRepository {
         callback: (allPastCrossMultipliers: List<CrossMultiplier>) -> Unit
     )
     suspend fun deleteHistoryItem(index: Int)
+    suspend fun deleteHistory()
 }

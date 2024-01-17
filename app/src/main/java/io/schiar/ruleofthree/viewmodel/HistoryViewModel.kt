@@ -22,6 +22,10 @@ class HistoryViewModel(private val repository: HistoryRepository = MainRepositor
         repository.deleteHistoryItem(index = index)
     }
 
+    suspend fun deleteHistory() {
+        repository.deleteHistory()
+    }
+
     private fun onAllPastCrossMultipliersChanged(allPastCrossMultipliers: List<CrossMultiplier>) {
         _allPastCrossMultipliers.update { allPastCrossMultipliers.map { it.toViewData() } }
     }

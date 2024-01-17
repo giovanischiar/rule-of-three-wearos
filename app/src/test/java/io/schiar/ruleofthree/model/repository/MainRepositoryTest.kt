@@ -140,6 +140,23 @@ class MainRepositoryTest {
     }
 
     @Test
+    fun `Remove All Past Cross Multipliers from History`() {
+        val mainRepository = MainRepository(
+            dataSource = CrossMultiplierDataSource(
+                allPastCrossMultipliers = listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3"),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3"),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567")
+                )
+            )
+        )
+        mainRepository.subscribeForAllPastCrossMultipliers { actualAllPastCrossMultipliers ->
+            Assert.assertEquals(emptyList<CrossMultiplier>(), actualAllPastCrossMultipliers)
+        }
+        runBlocking { mainRepository.deleteHistory() }
+    }
+
+    @Test
     fun `Clear Input Position of Current Cross Multiplier`() {
         val mainRepository = MainRepository(
             dataSource = CrossMultiplierDataSource(

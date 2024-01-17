@@ -18,6 +18,9 @@ interface CrossMultiplierDAO {
     @Delete
     fun delete(crossMultiplierEntity: CrossMultiplierEntity)
 
+    @Query("DELETE FROM CrossMultiplier WHERE id != 1")
+    fun deleteHistory()
+
     @Query("SELECT * FROM CrossMultiplier WHERE id != 1")
     fun selectAllPastCrossMultipliers(): List<CrossMultiplierEntity>
 

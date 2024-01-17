@@ -88,4 +88,13 @@ class CrossMultiplierDataSource(private val crossMultiplierDAO: CrossMultiplierD
             }
         }
     }
+
+    override suspend fun deleteHistory() {
+        allPastCrossMultipliers = emptyList()
+        coroutineScope {
+            launch(Dispatchers.IO) {
+                crossMultiplierDAO.deleteHistory()
+            }
+        }
+    }
 }

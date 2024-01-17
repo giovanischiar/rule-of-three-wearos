@@ -27,4 +27,8 @@ class CrossMultiplierLocalDAO(
     override fun selectHistoryItemID(a: String?, b: String?, c: String?, result: Double?): Long {
         return 1L
     }
+
+    override fun deleteHistory() {
+        allPastCrossMultipliers = emptyList()
+    }
 }

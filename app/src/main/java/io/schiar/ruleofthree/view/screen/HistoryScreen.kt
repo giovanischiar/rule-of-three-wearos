@@ -56,6 +56,10 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
         coroutineScope.launch { viewModel.deleteHistoryItem(index = index) }
     }
 
+    fun deleteHistory() {
+        coroutineScope.launch { viewModel.deleteHistory() }
+    }
+
     Box(modifier = Modifier.background(color = colorResource(id = R.color.backgroundColor))) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             LazyColumn(
@@ -68,7 +72,21 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                     .focusable(),
                 state = listState
             ) {
-                item { Spacer(modifier = Modifier.fillMaxWidth().height(25.dp)) }
+                item {
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        IconButton(
+                            modifier = Modifier.size(25.dp),
+                            onClick = { deleteHistory() }
+                        ) {
+                            Icon(
+                                modifier = Modifier.padding(horizontal = 5.dp),
+                                painter = painterResource(id = R.drawable.baseline_delete_sweep_24),
+                                contentDescription = "clear all inputs",
+                                tint = colorResource(R.color.hashColor)
+                            )
+                        }
+                    }
+                }
                 items(count = allPastCrossMultipliers.size) {
                     Box {
                         CrossMultiplierHistoryView(crossMultiplier = allPastCrossMultipliers[it])
