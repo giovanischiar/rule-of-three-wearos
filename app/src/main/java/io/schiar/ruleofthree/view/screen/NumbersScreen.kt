@@ -42,6 +42,7 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
     val coroutineScope = rememberCoroutineScope()
 
     val numbers by viewModel.numbers.collectAsState()
+    val isThereHistory by viewModel.isThereHistory.collectAsState()
 
     fun addInput(value: String, position: Int) {
         coroutineScope.launch { viewModel.addInput(value = value, position = position) }
@@ -144,19 +145,22 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
             }
         }
 
-        IconButton(
-            modifier = Modifier
-                .align(alignment = Alignment.CenterEnd)
-                .size(25.dp),
-            onClick = { onNavigationNumbers() }
-        ) {
-            Icon(
-                modifier = Modifier.padding(horizontal = 5.dp),
-                painter = painterResource(id = android.R.drawable.ic_menu_recent_history),
-                contentDescription = "history",
-                tint = colorResource(R.color.hashColor)
-            )
+        if (isThereHistory) {
+            IconButton(
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterEnd)
+                    .size(25.dp),
+                onClick = { onNavigationNumbers() }
+            ) {
+                Icon(
+                    modifier = Modifier.padding(horizontal = 5.dp),
+                    painter = painterResource(id = android.R.drawable.ic_menu_recent_history),
+                    contentDescription = "history",
+                    tint = colorResource(R.color.hashColor)
+                )
+            }
         }
+
     }
 }
 

@@ -13,8 +13,13 @@ import kotlinx.coroutines.flow.update
 class NumbersViewModel(private val repository: NumbersRepository = MainRepository()): ViewModel() {
     private val _numbers = MutableStateFlow(NumbersViewData())
     val numbers: StateFlow<NumbersViewData> = _numbers
+    private val _isThereHistory = MutableStateFlow(false)
+    val isThereHistory: StateFlow<Boolean> = _isThereHistory
 
-    init { repository.subscribeForNumbers(::onInputChanged) }
+    init {
+        repository.subscribeForNumbers(::onInputChanged)
+        repository.subscribeForIsThereHistory(::onIsThereHistoryChanged)
+    }
 
     suspend fun addInput(value: String, position: Int) {
         repository.addToInput(value = value, position = position)
@@ -38,5 +43,9 @@ class NumbersViewModel(private val repository: NumbersRepository = MainRepositor
 
     private fun onInputChanged(numbers: Numbers) {
         _numbers.update { numbers.toViewData() }
+    }
+
+    private fun onIsThereHistoryChanged(value: Boolean) {
+        _isThereHistory.update { value }
     }
 }

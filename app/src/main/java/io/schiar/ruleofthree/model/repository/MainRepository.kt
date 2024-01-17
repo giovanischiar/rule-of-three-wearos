@@ -9,19 +9,26 @@ class MainRepository(
     private val dataSource: DataSource = NumbersDataSource(numbersDAO = NumbersLocalDAO())
 ): AppRepository, NumbersRepository, HistoryRepository {
     private var numbersCallback = { _: Numbers -> }
+    private var isThereHistoryCallback = { _: Boolean -> }
     private var allPastNumbersCallback = { _: List<Numbers> -> }
 
     // AppRepository
 
     override suspend fun loadDatabase() {
         numbersCallback(dataSource.requestCurrentNumbers())
-        allPastNumbersCallback(dataSource.requestAllPastNumbers())
+        val allPastNumbers = dataSource.requestAllPastNumbers()
+        allPastNumbersCallback(allPastNumbers)
+        isThereHistoryCallback(allPastNumbers.isNotEmpty())
     }
 
     // NumbersRepository
 
     override fun subscribeForNumbers(callback: (numbers: Numbers) -> Unit) {
         this.numbersCallback = callback
+    }
+
+    override fun subscribeForIsThereHistory(callback: (value: Boolean) -> Unit) {
+        isThereHistoryCallback = callback
     }
 
     override suspend fun addToInput(value: String, position: Int) {
@@ -56,7 +63,9 @@ class MainRepository(
         if (numbers.result != null) {
             dataSource.updateCurrentNumbers(numbers)
             dataSource.addToAllPastNumbers(numbers)
-            allPastNumbersCallback(dataSource.requestAllPastNumbers())
+            val allPastNumbers = dataSource.requestAllPastNumbers()
+            allPastNumbersCallback(allPastNumbers)
+            isThereHistoryCallback(allPastNumbers.isNotEmpty())
         }
     }
 

@@ -36,6 +36,18 @@ class MainRepositoryTest {
         runBlocking { mainRepository.addToInput(value = "2", position = 0) }
     }
 
+    @Test
+    fun `Subscribe For Is There History and Add Numbers To History`() {
+        val mainRepository = MainRepository()
+        runBlocking { mainRepository.addToInput(value = "2", position = 0) }
+        runBlocking { mainRepository.addToInput(value = "12", position = 1) }
+        runBlocking { mainRepository.addToInput(value = "40", position = 2) }
+        mainRepository.subscribeForIsThereHistory {
+            Assert.assertTrue(it)
+        }
+        runBlocking { mainRepository.submitToHistory() }
+    }
+
     private fun addInputToInput(numbersValue: String, position: Int, repository: MainRepository) {
         runBlocking { repository.clearInput(position = position) }
         for (value in numbersValue) {
