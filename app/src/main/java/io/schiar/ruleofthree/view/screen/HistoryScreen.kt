@@ -43,6 +43,7 @@ import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.components.CrossMultiplierHistoryItemView
+import io.schiar.ruleofthree.view.components.CrossMultiplierHistoryView
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import kotlinx.coroutines.launch
 
@@ -76,38 +77,8 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
             ) {
                 item { Spacer(modifier = Modifier.fillMaxWidth().height(25.dp)) }
                 items(count = allPastCrossMultipliers.size) {
-                    val (a, b, c, result) = allPastCrossMultipliers[it]
-
                     Box {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 45.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            Row {
-                                CrossMultiplierHistoryItemView(modifier = Modifier.weight(1f), value = a)
-                                CrossMultiplierHistoryItemView(modifier = Modifier.weight(1f), value = b)
-                            }
-
-                            Row {
-                                CrossMultiplierHistoryItemView(modifier = Modifier.weight(1f), value = c)
-                                CrossMultiplierHistoryItemView(
-                                    modifier = Modifier.weight(1f),
-                                    value = result,
-                                    isResult = true
-                                )
-                            }
-                        }
-
-                        Text(
-                            modifier = Modifier.align(alignment = Alignment.Center),
-                            text = "×",
-                            textAlign = TextAlign.Center,
-                            color = colorResource(id = R.color.xColor),
-                            fontSize = 11.2.sp
-                        )
+                        CrossMultiplierHistoryView(crossMultiplier = allPastCrossMultipliers[it])
 
                         IconButton(
                             modifier = Modifier
@@ -117,7 +88,9 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                         ) {
                             Icon(
                                 modifier = Modifier.padding(horizontal = 5.dp),
-                                painter = painterResource(id = R.drawable.baseline_delete_forever_24),
+                                painter = painterResource(
+                                    id = R.drawable.baseline_delete_forever_24
+                                ),
                                 contentDescription = "clear all inputs",
                                 tint = colorResource(R.color.hashColor)
                             )
@@ -132,7 +105,9 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                         )
                     }
                 }
-                item { Spacer(modifier = Modifier.fillMaxWidth().height(25.dp)) }
+                item { Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(25.dp)) }
             }
         }
 

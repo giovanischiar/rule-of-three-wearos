@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -28,7 +29,7 @@ import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 
 @Composable
-fun NumberInput(
+fun InputView(
     modifier: Modifier = Modifier,
     displayValue: String = "",
     onDigitPressed: (value: String) -> Unit = {},
@@ -65,9 +66,7 @@ fun NumberInput(
             .border(BorderStroke(2.dp, colorResource(id = R.color.squareStrokeColor)))
             .padding(all = 5.dp)
         ,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(R.color.backgroundColor)
-        ),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
         shape = RectangleShape,
         onClick = { numericKeyboardShow = true }
     ) {
@@ -87,11 +86,11 @@ fun NumberInput(
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumberInputPreview() {
-    NumberInput(displayValue = "0")
+    InputView(displayValue = "0")
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun NumberInputFullPreview() {
-    NumberInput(displayValue = "238947923")
+    InputView(displayValue = "238947923")
 }

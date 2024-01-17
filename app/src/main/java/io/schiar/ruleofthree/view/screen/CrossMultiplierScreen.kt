@@ -2,15 +2,10 @@ package io.schiar.ruleofthree.view.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,11 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.wear.compose.material.Text
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -32,8 +24,7 @@ import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
-import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
-import io.schiar.ruleofthree.view.components.NumberInput
+import io.schiar.ruleofthree.view.components.CrossMultiplierView
 import io.schiar.ruleofthree.viewmodel.CrossMultiplierViewModel
 import kotlinx.coroutines.launch
 
@@ -68,72 +59,17 @@ fun CrossMultiplierScreen(viewModel: CrossMultiplierViewModel, onNavigationToHis
         .fillMaxSize()
         .background(color = colorResource(id = R.color.backgroundColor))
     ) {
-        Column(
-            modifier = Modifier
-                .padding(all = 25.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(modifier = Modifier.weight(1f) ) {
-                NumberInput(
-                    modifier = Modifier.weight(1f),
-                    displayValue = crossMultiplier.a,
-                    onDigitPressed = { addInput(value = it, position = 0) },
-                    onErasePressed = { removeInput(position = 0) },
-                    onClearPressed = { clearInput(position = 0) },
-                    onEnterPressed = { submitInput() }
-                )
-                NumberInput(
-                    modifier = Modifier.weight(1f),
-                    displayValue = crossMultiplier.b,
-                    onDigitPressed = { addInput(value = it, position = 1) },
-                    onErasePressed = { removeInput(position = 1) },
-                    onClearPressed = { clearInput(position = 1) },
-                    onEnterPressed = { submitInput() }
-                )
-            }
-
-            Row(modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                NumberInput(
-                    modifier = Modifier.weight(1f),
-                    displayValue = crossMultiplier.c,
-                    onDigitPressed = { addInput(value = it, position = 2) },
-                    onErasePressed = { removeInput(position = 2) },
-                    onClearPressed = { clearInput(position = 2) },
-                    onEnterPressed = { submitInput() }
-                )
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(all = 15.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        modifier = Modifier.horizontalScroll(rememberScrollState()),
-                        textAlign = TextAlign.Center,
-                        text = crossMultiplier.result,
-                        color = colorResource(id = R.color.questionMarkColor),
-                        fontSize = calculateTextUnitBasedOn(length = crossMultiplier.result.length)
-                    )
-                }
-            }
-        }
-        Text(
-            modifier = Modifier.align(alignment = Alignment.Center),
-            text = "×",
-            textAlign = TextAlign.Center,
-            color = colorResource(id = R.color.xColor),
-            fontSize = 24.sp
+        CrossMultiplierView(
+            crossMultiplier = crossMultiplier,
+            addInput = ::addInput,
+            removeInput = ::removeInput,
+            clearInput = ::clearInput,
+            submitInput = ::submitInput
         )
 
         if (crossMultiplier.isNotEmpty()) {
             IconButton(
-                modifier = Modifier
-                    .align(alignment = Alignment.BottomCenter)
-                    .size(25.dp),
+                modifier = Modifier.align(alignment = Alignment.BottomCenter).size(25.dp),
                 onClick = { clearAllInputs() }
             ) {
                 Icon(
@@ -147,9 +83,7 @@ fun CrossMultiplierScreen(viewModel: CrossMultiplierViewModel, onNavigationToHis
 
         if (isThereHistory) {
             IconButton(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterEnd)
-                    .size(25.dp),
+                modifier = Modifier.align(alignment = Alignment.CenterEnd).size(25.dp),
                 onClick = { onNavigationToHistory() }
             ) {
                 Icon(
@@ -160,7 +94,6 @@ fun CrossMultiplierScreen(viewModel: CrossMultiplierViewModel, onNavigationToHis
                 )
             }
         }
-
     }
 }
 
