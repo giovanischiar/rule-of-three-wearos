@@ -6,12 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [NumbersEntity::class],
+    entities = [CrossMultiplierEntity::class],
     version = 1,
     exportSchema = false
 )
 abstract class RuleOfThreeDatabase : RoomDatabase() {
-    abstract fun numbersDAO(): NumbersDAO
+    abstract fun crossMultiplierDAO(): CrossMultiplierDAO
 
     companion object {
         @Volatile

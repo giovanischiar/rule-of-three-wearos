@@ -1,24 +1,24 @@
 package io.schiar.ruleofthree.viewmodel
 
 import androidx.lifecycle.ViewModel
-import io.schiar.ruleofthree.model.Numbers
+import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.repository.MainRepository
-import io.schiar.ruleofthree.model.repository.NumbersRepository
-import io.schiar.ruleofthree.view.viewdata.NumbersViewData
+import io.schiar.ruleofthree.model.repository.CrossMultiplierRepository
+import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class NumbersViewModel(private val repository: NumbersRepository = MainRepository()): ViewModel() {
-    private val _numbers = MutableStateFlow(NumbersViewData())
-    val numbers: StateFlow<NumbersViewData> = _numbers
+class CrossMultiplierViewModel(private val repository: CrossMultiplierRepository = MainRepository()): ViewModel() {
+    private val _crossMultiplier = MutableStateFlow(CrossMultiplierViewData())
+    val crossMultiplier: StateFlow<CrossMultiplierViewData> = _crossMultiplier
     private val _isThereHistory = MutableStateFlow(false)
     val isThereHistory: StateFlow<Boolean> = _isThereHistory
 
     init {
-        repository.subscribeForNumbers(::onInputChanged)
-        repository.subscribeForIsThereHistory(::onIsThereHistoryChanged)
+        repository.subscribeForCrossMultipliers(::onInputChanged)
+        repository.subscribeForIsThereHistories(::onIsThereHistoryChanged)
     }
 
     suspend fun addInput(value: String, position: Int) {
@@ -41,8 +41,8 @@ class NumbersViewModel(private val repository: NumbersRepository = MainRepositor
         repository.submitToHistory()
     }
 
-    private fun onInputChanged(numbers: Numbers) {
-        _numbers.update { numbers.toViewData() }
+    private fun onInputChanged(crossMultiplier: CrossMultiplier) {
+        _crossMultiplier.update { crossMultiplier.toViewData() }
     }
 
     private fun onIsThereHistoryChanged(value: Boolean) {

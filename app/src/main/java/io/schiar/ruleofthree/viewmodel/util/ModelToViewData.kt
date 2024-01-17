@@ -1,11 +1,11 @@
 package io.schiar.ruleofthree.viewmodel.util
 
-import io.schiar.ruleofthree.model.Numbers
-import io.schiar.ruleofthree.view.viewdata.NumbersViewData
+import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
 import java.text.DecimalFormat
 
-fun Numbers.toViewData(): NumbersViewData {
-    return NumbersViewData(
+fun CrossMultiplier.toViewData(): CrossMultiplierViewData {
+    return CrossMultiplierViewData(
         a = a.value,
         b = b.value,
         c = c.value,

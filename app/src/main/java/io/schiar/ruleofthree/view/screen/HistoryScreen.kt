@@ -39,18 +39,18 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
-import io.schiar.ruleofthree.model.Numbers
-import io.schiar.ruleofthree.model.datasource.NumbersDataSource
+import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
-import io.schiar.ruleofthree.view.components.NumbersHistoryView
+import io.schiar.ruleofthree.view.components.CrossMultiplierHistoryItemView
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalWearFoundationApi::class)
 @Composable
 fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
-    val allPastNumbers by viewModel.allPastNumbers.collectAsState()
-    if (allPastNumbers.isEmpty()) {
+    val allPastCrossMultipliers by viewModel.allPastCrossMultipliers.collectAsState()
+    if (allPastCrossMultipliers.isEmpty()) {
         onBackPressed()
     }
 
@@ -75,8 +75,8 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                 state = listState
             ) {
                 item { Spacer(modifier = Modifier.fillMaxWidth().height(25.dp)) }
-                items(count = allPastNumbers.size) {
-                    val (a, b, c, result) = allPastNumbers[it]
+                items(count = allPastCrossMultipliers.size) {
+                    val (a, b, c, result) = allPastCrossMultipliers[it]
 
                     Box {
                         Column(
@@ -87,13 +87,13 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                             verticalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Row {
-                                NumbersHistoryView(modifier = Modifier.weight(1f), value = a)
-                                NumbersHistoryView(modifier = Modifier.weight(1f), value = b)
+                                CrossMultiplierHistoryItemView(modifier = Modifier.weight(1f), value = a)
+                                CrossMultiplierHistoryItemView(modifier = Modifier.weight(1f), value = b)
                             }
 
                             Row {
-                                NumbersHistoryView(modifier = Modifier.weight(1f), value = c)
-                                NumbersHistoryView(
+                                CrossMultiplierHistoryItemView(modifier = Modifier.weight(1f), value = c)
+                                CrossMultiplierHistoryItemView(
                                     modifier = Modifier.weight(1f),
                                     value = result,
                                     isResult = true
@@ -124,7 +124,7 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                         }
                     }
 
-                    if (it < allPastNumbers.size - 1) {
+                    if (it < allPastCrossMultipliers.size - 1) {
                         Divider(
                             modifier = Modifier.padding(vertical = 5.dp, horizontal = 25.dp),
                             color = colorResource(id = R.color.squareStrokeColor),
@@ -155,13 +155,13 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun HistoryScreenPreview() {
-    val dataSource = NumbersDataSource(
-        allPastNumbers = mutableListOf(
-            Numbers(a = "8342234", b = "324423", c = "45456").resultCalculated(),
-            Numbers(a = "4", b = "40", c = "400").resultCalculated(),
-            Numbers(a = "42", b = "440", c = "5").resultCalculated(),
-            Numbers(a = "3", b = "10", c = "78").resultCalculated(),
-            Numbers(a = "5", b = "135", c = "7").resultCalculated()
+    val dataSource = CrossMultiplierDataSource(
+        allPastCrossMultipliers = mutableListOf(
+            CrossMultiplier(a = "8342234", b = "324423", c = "45456").resultCalculated(),
+            CrossMultiplier(a = "4", b = "40", c = "400").resultCalculated(),
+            CrossMultiplier(a = "42", b = "440", c = "5").resultCalculated(),
+            CrossMultiplier(a = "3", b = "10", c = "78").resultCalculated(),
+            CrossMultiplier(a = "5", b = "135", c = "7").resultCalculated()
         )
     )
     val repository = MainRepository(dataSource = dataSource)

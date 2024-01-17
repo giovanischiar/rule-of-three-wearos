@@ -29,19 +29,19 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
-import io.schiar.ruleofthree.model.Numbers
-import io.schiar.ruleofthree.model.datasource.NumbersDataSource
+import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 import io.schiar.ruleofthree.view.components.NumberInput
-import io.schiar.ruleofthree.viewmodel.NumbersViewModel
+import io.schiar.ruleofthree.viewmodel.CrossMultiplierViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) {
+fun CrossMultiplierScreen(viewModel: CrossMultiplierViewModel, onNavigationToHistory: () -> Unit) {
     val coroutineScope = rememberCoroutineScope()
 
-    val numbers by viewModel.numbers.collectAsState()
+    val crossMultiplier by viewModel.crossMultiplier.collectAsState()
     val isThereHistory by viewModel.isThereHistory.collectAsState()
 
     fun addInput(value: String, position: Int) {
@@ -78,7 +78,7 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
             Row(modifier = Modifier.weight(1f) ) {
                 NumberInput(
                     modifier = Modifier.weight(1f),
-                    displayValue = numbers.a,
+                    displayValue = crossMultiplier.a,
                     onDigitPressed = { addInput(value = it, position = 0) },
                     onErasePressed = { removeInput(position = 0) },
                     onClearPressed = { clearInput(position = 0) },
@@ -86,7 +86,7 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
                 )
                 NumberInput(
                     modifier = Modifier.weight(1f),
-                    displayValue = numbers.b,
+                    displayValue = crossMultiplier.b,
                     onDigitPressed = { addInput(value = it, position = 1) },
                     onErasePressed = { removeInput(position = 1) },
                     onClearPressed = { clearInput(position = 1) },
@@ -99,7 +99,7 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
             ) {
                 NumberInput(
                     modifier = Modifier.weight(1f),
-                    displayValue = numbers.c,
+                    displayValue = crossMultiplier.c,
                     onDigitPressed = { addInput(value = it, position = 2) },
                     onErasePressed = { removeInput(position = 2) },
                     onClearPressed = { clearInput(position = 2) },
@@ -114,9 +114,9 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
                     Text(
                         modifier = Modifier.horizontalScroll(rememberScrollState()),
                         textAlign = TextAlign.Center,
-                        text = numbers.result,
+                        text = crossMultiplier.result,
                         color = colorResource(id = R.color.questionMarkColor),
-                        fontSize = calculateTextUnitBasedOn(length = numbers.result.length)
+                        fontSize = calculateTextUnitBasedOn(length = crossMultiplier.result.length)
                     )
                 }
             }
@@ -129,7 +129,7 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
             fontSize = 24.sp
         )
 
-        if (numbers.isNotEmpty()) {
+        if (crossMultiplier.isNotEmpty()) {
             IconButton(
                 modifier = Modifier
                     .align(alignment = Alignment.BottomCenter)
@@ -150,7 +150,7 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
                 modifier = Modifier
                     .align(alignment = Alignment.CenterEnd)
                     .size(25.dp),
-                onClick = { onNavigationNumbers() }
+                onClick = { onNavigationToHistory() }
             ) {
                 Icon(
                     modifier = Modifier.padding(horizontal = 5.dp),
@@ -166,12 +166,12 @@ fun NumbersScreen(viewModel: NumbersViewModel, onNavigationNumbers: () -> Unit) 
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumbersScreenPreview() {
-    val dataSource = NumbersDataSource(
-        currentNumbers = Numbers(a = "10", b = "345", c = "15.3").resultCalculated()
+fun CrossMultiplicationScreenPreview() {
+    val dataSource = CrossMultiplierDataSource(
+        currentCrossMultiplier = CrossMultiplier(a = "10", b = "345", c = "15.3").resultCalculated()
     )
     val repository = MainRepository(dataSource = dataSource)
-    val numbersViewModel = NumbersViewModel(repository = repository)
+    val crossMultiplierViewModel = CrossMultiplierViewModel(repository = repository)
     LaunchedEffect(Unit) { repository.loadDatabase() }
-    NumbersScreen(viewModel = numbersViewModel, onNavigationNumbers = {})
+    CrossMultiplierScreen(viewModel = crossMultiplierViewModel, onNavigationToHistory = {})
 }

@@ -23,7 +23,9 @@ import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 
 @Composable
-fun NumbersHistoryView(modifier: Modifier = Modifier, value: String, isResult: Boolean = false) {
+fun CrossMultiplierHistoryItemView(
+    modifier: Modifier = Modifier, value: String, isResult: Boolean = false
+) {
     val valueColor = if (!isResult) {
         colorResource(id = R.color.hashColor)
     } else {
@@ -58,24 +60,24 @@ fun NumbersHistoryView(modifier: Modifier = Modifier, value: String, isResult: B
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumbersHistoryViewPreview() {
-    NumbersHistoryView(value = "0")
+fun CrossMultiplierHistoryItemViewPreview() {
+    CrossMultiplierHistoryItemView(value = "0")
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumbersHistoryViewFullPreview() {
-    NumbersHistoryView(value = "238947923")
+fun CrossMultiplierHistoryItemViewFullPreview() {
+    CrossMultiplierHistoryItemView(value = "238947923")
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumbersHistoryViewResultPreview() {
-    NumbersHistoryView(value = "23.3", isResult = true)
+fun CrossMultiplierHistoryItemViewResultPreview() {
+    CrossMultiplierHistoryItemView(value = "23.3", isResult = true)
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumbersHistoryViewResultFullPreview() {
-    NumbersHistoryView(value = "23383474", isResult = true)
+fun CrossMultiplierHistoryItemViewResultFullPreview() {
+    CrossMultiplierHistoryItemView(value = "23383474", isResult = true)
 }

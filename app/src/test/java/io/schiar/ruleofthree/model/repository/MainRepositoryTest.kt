@@ -1,7 +1,7 @@
 package io.schiar.ruleofthree.model.repository
 
-import io.schiar.ruleofthree.model.Numbers
-import io.schiar.ruleofthree.model.datasource.NumbersDataSource
+import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
@@ -15,166 +15,183 @@ class MainRepositoryTest {
         val mainRepository = MainRepository()
         runBlocking { mainRepository.addToInput(value = a.toString(), position = 0) }
         runBlocking { mainRepository.addToInput(value = b.toString(), position = 1) }
-        mainRepository.subscribeForNumbers { actualNumbers ->
-            val expectedNumbers = Numbers(
+        mainRepository.subscribeForCrossMultipliers { actualCrossMultiplier ->
+            val expectedCrossMultiplier = CrossMultiplier(
                 a = a.toString(),
                 b = b.toString(),
                 c = c.toString()
             ).resultCalculated()
-            Assert.assertEquals(expectedNumbers, actualNumbers)
+            Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
         }
         runBlocking { mainRepository.addToInput(value = c.toString(), position = 2) }
     }
 
     @Test
-    fun `Subscribe For Numbers and Add Input`() {
+    fun `Subscribe For Cross Multiplier and Add Input`() {
         val mainRepository = MainRepository()
         runBlocking { mainRepository.addToInput(value = "2", position = 0) }
-        mainRepository.subscribeForNumbers {
-            Assert.assertEquals(Numbers(a = "22", b = "", c = ""), it)
+        mainRepository.subscribeForCrossMultipliers {
+            Assert.assertEquals(CrossMultiplier(a = "22", b = "", c = ""), it)
         }
         runBlocking { mainRepository.addToInput(value = "2", position = 0) }
     }
 
     @Test
-    fun `Subscribe For Is There History and Add Numbers To History`() {
+    fun `Subscribe For Is There History and Add Cross Multiplier To History`() {
         val mainRepository = MainRepository()
         runBlocking { mainRepository.addToInput(value = "2", position = 0) }
         runBlocking { mainRepository.addToInput(value = "12", position = 1) }
         runBlocking { mainRepository.addToInput(value = "40", position = 2) }
-        mainRepository.subscribeForIsThereHistory {
+        mainRepository.subscribeForIsThereHistories {
             Assert.assertTrue(it)
         }
         runBlocking { mainRepository.submitToHistory() }
     }
 
-    private fun addInputToInput(numbersValue: String, position: Int, repository: MainRepository) {
+    private fun addInputToInput(
+        crossMultiplierInputValue: String, position: Int, repository: MainRepository
+    ) {
         runBlocking { repository.clearInput(position = position) }
-        for (value in numbersValue) {
+        for (value in crossMultiplierInputValue) {
             runBlocking { repository.addToInput(value = value.toString(), position = position) }
         }
     }
 
     @Test
-    fun `Receive All Past Numbers`() {
-        val numbersList = listOf(
-            Numbers(a = "1", b = "2.3", c = "45.3"),
-            Numbers(a = "45", b = "45.33", c = "45.3"),
-            Numbers(a = "207", b = "97.33", c = "454.567")
+    fun `Receive All Past Cross Multipliers`() {
+        val crossMultipliers = listOf(
+            CrossMultiplier(a = "1", b = "2.3", c = "45.3"),
+            CrossMultiplier(a = "45", b = "45.33", c = "45.3"),
+            CrossMultiplier(a = "207", b = "97.33", c = "454.567")
         )
         val repository = MainRepository()
-        for (numbers in numbersList) {
-            addInputToInput(numbersValue = numbers.a.value, position = 0, repository = repository)
-            addInputToInput(numbersValue = numbers.b.value, position = 1, repository = repository)
-            addInputToInput(numbersValue = numbers.c.value, position = 2, repository = repository)
+        for (crossMultiplier in crossMultipliers) {
+            addInputToInput(crossMultiplierInputValue = crossMultiplier.a.value, position = 0, repository = repository)
+            addInputToInput(crossMultiplierInputValue = crossMultiplier.b.value, position = 1, repository = repository)
+            addInputToInput(crossMultiplierInputValue = crossMultiplier.c.value, position = 2, repository = repository)
             runBlocking { repository.submitToHistory() }
         }
-        val lastNumbers = Numbers(a = "34.4", b = "82.13", c = "905.57")
+        val lastCrossMultiplier = CrossMultiplier(a = "34.4", b = "82.13", c = "905.57")
 
-        repository.subscribeForAllPastNumbers {
-            val numberListReversed = listOf(lastNumbers) + numbersList.reversed()
+        repository.subscribeForAllPastCrossMultipliers {
+            val numberListReversed = listOf(lastCrossMultiplier) + crossMultipliers.reversed()
             for (i in numberListReversed.indices) {
-                val actualNumbers = numberListReversed[i]
-                val expectedNumbers = it[i]
-                Assert.assertEquals(actualNumbers.a, expectedNumbers.a)
-                Assert.assertEquals(actualNumbers.b, expectedNumbers.b)
-                Assert.assertEquals(actualNumbers.c, expectedNumbers.c)
+                val actualCrossMultiplier = numberListReversed[i]
+                val expectedCrossMultiplier = it[i]
+                Assert.assertEquals(actualCrossMultiplier.a, expectedCrossMultiplier.a)
+                Assert.assertEquals(actualCrossMultiplier.b, expectedCrossMultiplier.b)
+                Assert.assertEquals(actualCrossMultiplier.c, expectedCrossMultiplier.c)
             }
         }
 
-        addInputToInput(numbersValue = lastNumbers.a.value, position = 0, repository = repository)
-        addInputToInput(numbersValue = lastNumbers.b.value, position = 1, repository = repository)
-        addInputToInput(numbersValue = lastNumbers.c.value, position = 2, repository = repository)
+        addInputToInput(
+            crossMultiplierInputValue = lastCrossMultiplier.a.value,
+            position = 0, repository = repository
+        )
+        addInputToInput(
+            crossMultiplierInputValue = lastCrossMultiplier.b.value,
+            position = 1,
+            repository = repository
+        )
+        addInputToInput(
+            crossMultiplierInputValue = lastCrossMultiplier.c.value,
+            position = 2,
+            repository = repository
+        )
         runBlocking { repository.submitToHistory() }
     }
 
     @Test
-    fun `Remove Input Position of Current Numbers`() {
+    fun `Remove Input Position of Current Cross Multiplier`() {
         val mainRepository = MainRepository(
-            dataSource = NumbersDataSource(
-                currentNumbers = Numbers(a = "2.45", b = "45", c = "3.5")
+            dataSource = CrossMultiplierDataSource(
+                currentCrossMultiplier = CrossMultiplier(a = "2.45", b = "45", c = "3.5")
             )
         )
-        mainRepository.subscribeForNumbers {
-            Assert.assertEquals(Numbers(a = "2.4", b = "45", c = "3.5").resultCalculated(), it)
+        mainRepository.subscribeForCrossMultipliers { expectedCrossMultiplier ->
+            Assert
+                .assertEquals(CrossMultiplier(a = "2.4", b = "45", c = "3.5")
+                    .resultCalculated(),
+                    expectedCrossMultiplier
+                )
         }
         runBlocking { mainRepository.removeFromInput(position = 0) }
     }
 
     @Test
-    fun `Remove Numbers of History`() {
+    fun `Remove Cross Multiplier from History`() {
         val mainRepository = MainRepository(
-            dataSource = NumbersDataSource(
-                allPastNumbers = listOf(
-                    Numbers(a = "1", b = "2.3", c = "45.3"),
-                    Numbers(a = "45", b = "45.33", c = "45.3"),
-                    Numbers(a = "207", b = "97.33", c = "454.567")
+            dataSource = CrossMultiplierDataSource(
+                allPastCrossMultipliers = listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3"),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3"),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567")
                 )
             )
         )
-        mainRepository.subscribeForAllPastNumbers {
+        mainRepository.subscribeForAllPastCrossMultipliers {
             Assert.assertEquals(
                 listOf(
-                    Numbers(a = "1", b = "2.3", c = "45.3"),
-                    Numbers(a = "207", b = "97.33", c = "454.567")
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3"),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567")
                 ), it)
         }
         runBlocking { mainRepository.deleteHistoryItem(index = 1) }
     }
 
     @Test
-    fun `Clear Input Position of Current Numbers`() {
+    fun `Clear Input Position of Current Cross Multiplier`() {
         val mainRepository = MainRepository(
-            dataSource = NumbersDataSource(
-                currentNumbers = Numbers(a = "2.45", b = "45", c = "3.5")
+            dataSource = CrossMultiplierDataSource(
+                currentCrossMultiplier = CrossMultiplier(a = "2.45", b = "45", c = "3.5")
             )
         )
-        mainRepository.subscribeForNumbers {
-            Assert.assertEquals(Numbers(a = "2.45", b = "", c = "3.5"), it)
+        mainRepository.subscribeForCrossMultipliers {
+            Assert.assertEquals(CrossMultiplier(a = "2.45", b = "", c = "3.5"), it)
         }
         runBlocking { mainRepository.clearInput(position = 1) }
     }
 
     @Test
-    fun `Clear All Inputs of Current Numbers`() {
+    fun `Clear All Inputs of Current Cross Multiplier`() {
         val mainRepository = MainRepository(
-            dataSource = NumbersDataSource(
-                currentNumbers = Numbers(a = "2.45", b = "45", c = "3.5")
+            dataSource = CrossMultiplierDataSource(
+                currentCrossMultiplier = CrossMultiplier(a = "2.45", b = "45", c = "3.5")
             )
         )
 
-        mainRepository.subscribeForNumbers {
-            Assert.assertEquals(Numbers(), it)
+        mainRepository.subscribeForCrossMultipliers {
+            Assert.assertEquals(CrossMultiplier(), it)
         }
 
         runBlocking { mainRepository.clearAllInputs() }
     }
 
     @Test
-    fun `Add Input Position of Current Numbers and then Remove it`() {
+    fun `Add Input Position of Current Cross Multiplier and then Remove it`() {
         val mainRepository = MainRepository()
         runBlocking { mainRepository.addToInput(value = "1", position = 0) }
-        mainRepository.subscribeForNumbers {
-            Assert.assertEquals(Numbers(a = "", b = "", c = ""), it)
+        mainRepository.subscribeForCrossMultipliers {
+            Assert.assertEquals(CrossMultiplier(a = "", b = "", c = ""), it)
         }
         runBlocking { mainRepository.removeFromInput(position = 0) }
     }
 
     @Test
-    fun `Add Two Input to Position 0 in Current Numbers and then Remove it`() {
+    fun `Add Two Input to Position 0 in Current Cross Multiplier and then Remove it`() {
         val mainRepository = MainRepository()
         runBlocking { mainRepository.addToInput(value = "1", position = 0) }
         runBlocking { mainRepository.addToInput(value = "4", position = 0) }
         runBlocking { mainRepository.removeFromInput(position = 0) }
 
-        mainRepository.subscribeForNumbers {
-            Assert.assertEquals(Numbers(a = "", b = "", c = ""), it)
+        mainRepository.subscribeForCrossMultipliers {
+            Assert.assertEquals(CrossMultiplier(a = "", b = "", c = ""), it)
         }
         runBlocking { mainRepository.removeFromInput(position = 0) }
     }
 
     @Test
-    fun `Add Two Input to Position 0, 1, and 2 in Current Numbers and then Remove Them All`() {
+    fun `Add Two Input to Position 0, 1, and 2 in Current Cross Multiplier and then Remove Them All`() {
         val mainRepository = MainRepository()
         runBlocking { mainRepository.addToInput(value = "1", position = 0) }
         runBlocking { mainRepository.addToInput(value = "4", position = 0) }
@@ -191,8 +208,8 @@ class MainRepositoryTest {
         runBlocking { mainRepository.removeFromInput(position = 2) }
         runBlocking { mainRepository.removeFromInput(position = 2) }
         runBlocking { mainRepository.removeFromInput(position = 2) }
-        mainRepository.subscribeForNumbers {
-            Assert.assertEquals(Numbers(a = "", b = "", c = ""), it)
+        mainRepository.subscribeForCrossMultipliers {
+            Assert.assertEquals(CrossMultiplier(a = "", b = "", c = ""), it)
         }
         runBlocking { mainRepository.removeFromInput(position = 0) }
     }

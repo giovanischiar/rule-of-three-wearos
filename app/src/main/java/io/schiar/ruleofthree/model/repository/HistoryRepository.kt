@@ -1,8 +1,10 @@
 package io.schiar.ruleofthree.model.repository
 
-import io.schiar.ruleofthree.model.Numbers
+import io.schiar.ruleofthree.model.CrossMultiplier
 
 interface HistoryRepository {
-    fun subscribeForAllPastNumbers(callback: (allPastNumbers: List<Numbers>) -> Unit)
+    fun subscribeForAllPastCrossMultipliers(
+        callback: (allPastCrossMultipliers: List<CrossMultiplier>) -> Unit
+    )
     suspend fun deleteHistoryItem(index: Int)
 }

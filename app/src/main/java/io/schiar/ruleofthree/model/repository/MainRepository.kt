@@ -1,92 +1,94 @@
 package io.schiar.ruleofthree.model.repository
 
-import io.schiar.ruleofthree.model.Numbers
+import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.DataSource
-import io.schiar.ruleofthree.model.datasource.NumbersDataSource
-import io.schiar.ruleofthree.model.datasource.util.NumbersLocalDAO
+import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.util.CrossMultiplierLocalDAO
 
 class MainRepository(
-    private val dataSource: DataSource = NumbersDataSource(numbersDAO = NumbersLocalDAO())
-): AppRepository, NumbersRepository, HistoryRepository {
-    private var numbersCallback = { _: Numbers -> }
+    private val dataSource: DataSource = CrossMultiplierDataSource(crossMultiplierDAO = CrossMultiplierLocalDAO())
+): AppRepository, CrossMultiplierRepository, HistoryRepository {
+    private var crossMultipliersCallback = { _: CrossMultiplier -> }
     private var isThereHistoryCallback = { _: Boolean -> }
-    private var allPastNumbersCallback = { _: List<Numbers> -> }
+    private var allPastCrossMultipliersCallback = { _: List<CrossMultiplier> -> }
 
     // AppRepository
 
     override suspend fun loadDatabase() {
-        numbersCallback(dataSource.requestCurrentNumbers())
-        val allPastNumbers = dataSource.requestAllPastNumbers()
-        allPastNumbersCallback(allPastNumbers)
-        isThereHistoryCallback(allPastNumbers.isNotEmpty())
+        crossMultipliersCallback(dataSource.requestCurrentCrossMultipliers())
+        val allPastCrossMultipliers = dataSource.requestAllPastCrossMultipliers()
+        allPastCrossMultipliersCallback(allPastCrossMultipliers)
+        isThereHistoryCallback(allPastCrossMultipliers.isNotEmpty())
     }
 
-    // NumbersRepository
+    // CrossMultiplierRepository
 
-    override fun subscribeForNumbers(callback: (numbers: Numbers) -> Unit) {
-        this.numbersCallback = callback
+    override fun subscribeForCrossMultipliers(callback: (crossMultiplier: CrossMultiplier) -> Unit) {
+        this.crossMultipliersCallback = callback
     }
 
-    override fun subscribeForIsThereHistory(callback: (value: Boolean) -> Unit) {
+    override fun subscribeForIsThereHistories(callback: (value: Boolean) -> Unit) {
         isThereHistoryCallback = callback
     }
 
     override suspend fun addToInput(value: String, position: Int) {
-        val numbers = dataSource
-            .requestCurrentNumbers()
+        val crossMultiplier = dataSource
+            .requestCurrentCrossMultipliers()
             .addToInput(value = value, position = position)
             .resultCalculated()
-        dataSource.updateCurrentNumbers(numbers = numbers)
-        numbersCallback(numbers)
+        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
+        crossMultipliersCallback(crossMultiplier)
     }
 
     override suspend fun removeFromInput(position: Int) {
-        val numbers = dataSource
-            .requestCurrentNumbers()
+        val crossMultiplier = dataSource
+            .requestCurrentCrossMultipliers()
             .removeFromInput(position = position)
             .resultCalculated()
-        dataSource.updateCurrentNumbers(numbers = numbers)
-        numbersCallback(numbers)
+        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
+        crossMultipliersCallback(crossMultiplier)
     }
 
     override suspend fun clearInput(position: Int) {
-        val numbers = dataSource
-            .requestCurrentNumbers()
+        val crossMultiplier = dataSource
+            .requestCurrentCrossMultipliers()
             .clear(position = position)
             .resultCalculated()
-        dataSource.updateCurrentNumbers(numbers = numbers)
-        numbersCallback(numbers)
+        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
+        crossMultipliersCallback(crossMultiplier)
     }
 
     override suspend fun submitToHistory() {
-        val numbers = dataSource.requestCurrentNumbers()
-        if (numbers.result != null) {
-            dataSource.updateCurrentNumbers(numbers)
-            dataSource.addToAllPastNumbers(numbers)
-            val allPastNumbers = dataSource.requestAllPastNumbers()
-            allPastNumbersCallback(allPastNumbers)
-            isThereHistoryCallback(allPastNumbers.isNotEmpty())
+        val crossMultiplier = dataSource.requestCurrentCrossMultipliers()
+        if (crossMultiplier.result != null) {
+            dataSource.updateCurrentCrossMultiplier(crossMultiplier)
+            dataSource.addToAllPastCrossMultipliers(crossMultiplier)
+            val allPastCrossMultipliers = dataSource.requestAllPastCrossMultipliers()
+            allPastCrossMultipliersCallback(allPastCrossMultipliers)
+            isThereHistoryCallback(allPastCrossMultipliers.isNotEmpty())
         }
     }
 
     override suspend fun clearAllInputs() {
-        val numbers = dataSource
-            .requestCurrentNumbers()
+        val crossMultiplier = dataSource
+            .requestCurrentCrossMultipliers()
             .clearAll()
-        dataSource.updateCurrentNumbers(numbers = numbers)
-        numbersCallback(numbers)
+        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
+        crossMultipliersCallback(crossMultiplier)
     }
 
     // HistoryRepository
 
-    override fun subscribeForAllPastNumbers(callback: (allPastNumbers: List<Numbers>) -> Unit) {
-        allPastNumbersCallback = callback
+    override fun subscribeForAllPastCrossMultipliers(
+        callback: (allPastCrossMultipliers: List<CrossMultiplier>) -> Unit
+    ) {
+        allPastCrossMultipliersCallback = callback
     }
 
     override suspend fun deleteHistoryItem(index: Int) {
         dataSource.deleteHistoryItem(index = index)
-        val allPastNumbers = dataSource.requestAllPastNumbers()
-        allPastNumbersCallback(allPastNumbers)
-        isThereHistoryCallback(allPastNumbers.isNotEmpty())
+        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
+        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
+        isThereHistoryCallback(allPastCurrentMultipliers.isNotEmpty())
     }
 }

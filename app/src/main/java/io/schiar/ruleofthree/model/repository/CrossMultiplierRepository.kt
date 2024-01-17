@@ -1,10 +1,10 @@
 package io.schiar.ruleofthree.model.repository
 
-import io.schiar.ruleofthree.model.Numbers
+import io.schiar.ruleofthree.model.CrossMultiplier
 
-interface NumbersRepository {
-    fun subscribeForNumbers(callback: (numbers: Numbers) -> Unit)
-    fun subscribeForIsThereHistory(callback: (value: Boolean) -> Unit)
+interface CrossMultiplierRepository {
+    fun subscribeForCrossMultipliers(callback: (crossMultiplier: CrossMultiplier) -> Unit)
+    fun subscribeForIsThereHistories(callback: (value: Boolean) -> Unit)
     suspend fun addToInput(value: String, position: Int)
     suspend fun submitToHistory()
     suspend fun removeFromInput(position: Int)

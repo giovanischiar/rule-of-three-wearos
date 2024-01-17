@@ -1,11 +1,11 @@
 package io.schiar.ruleofthree.model.datasource.util
 
 import io.schiar.ruleofthree.model.Input
-import io.schiar.ruleofthree.model.Numbers
-import io.schiar.ruleofthree.model.datasource.room.NumbersEntity
+import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.room.CrossMultiplierEntity
 
-fun NumbersEntity.toModel(): Numbers {
-    return Numbers(
+fun CrossMultiplierEntity.toModel(): CrossMultiplier {
+    return CrossMultiplier(
         a = Input(value = a ?: ""),
         b = Input(value = b ?: ""),
         c = Input(value = c ?: ""),
@@ -13,8 +13,8 @@ fun NumbersEntity.toModel(): Numbers {
     )
 }
 
-fun Numbers.toEntity(): NumbersEntity {
-    return NumbersEntity(
+fun CrossMultiplier.toEntity(): CrossMultiplierEntity {
+    return CrossMultiplierEntity(
         a = a.value,
         b = b.value,
         c = c.value,
@@ -22,8 +22,8 @@ fun Numbers.toEntity(): NumbersEntity {
     )
 }
 
-fun Numbers.toEntity(id: Long): NumbersEntity {
-    return NumbersEntity(
+fun CrossMultiplier.toEntity(id: Long): CrossMultiplierEntity {
+    return CrossMultiplierEntity(
         id = id,
         a = a.value,
         b = b.value,
