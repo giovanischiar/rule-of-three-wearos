@@ -68,20 +68,7 @@ fun CrossMultiplierView(
                     onClearPressed = { clearInput(2) },
                     onEnterPressed = { submitInput() }
                 )
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(all = 15.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        modifier = Modifier.horizontalScroll(rememberScrollState()),
-                        textAlign = TextAlign.Center,
-                        text = result,
-                        color = colorResource(id = R.color.questionMarkColor),
-                        fontSize = calculateTextUnitBasedOn(length = crossMultiplier.result.length)
-                    )
-                }
+                ResultView(modifier = Modifier.weight(1f), displayValue = result)
             }
         }
         Text(
