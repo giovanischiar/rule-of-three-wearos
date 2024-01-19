@@ -56,7 +56,7 @@ fun CrossMultiplierItemView(
         ),
         shape = RectangleShape,
         onClick = { onClick() },
-        enabled = displayValue != "?"
+        enabled = enabled || displayValue != "?"
     ) {
         Text(
             modifier = Modifier.horizontalScroll(rememberScrollState()),
