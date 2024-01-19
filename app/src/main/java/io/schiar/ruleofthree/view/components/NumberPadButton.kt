@@ -41,7 +41,7 @@ fun NumberPadButton(
             "clear" -> {
                 Icon(
                     modifier = Modifier.padding(5.dp),
-                    painter = painterResource(android.R.drawable.ic_menu_close_clear_cancel),
+                    painter = painterResource(R.drawable.baseline_delete_forever_24),
                     contentDescription = name,
                     tint = colorResource(id = R.color.hashColor)
                 )

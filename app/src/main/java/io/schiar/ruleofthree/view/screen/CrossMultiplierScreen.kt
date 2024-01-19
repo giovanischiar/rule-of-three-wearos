@@ -78,7 +78,7 @@ fun CrossMultiplierScreen(viewModel: CrossMultiplierViewModel, onNavigationToHis
         TouchableIcon(
             modifier = Modifier.fillMaxHeight().width(iconSize),
             onClick = { onNavigationToHistory() },
-            iconDrawableID = android.R.drawable.ic_menu_recent_history,
+            iconDrawableID = R.drawable.baseline_history_24,
             contentDescription = "history",
             colorID = R.color.hashColor,
             visible = isThereHistory

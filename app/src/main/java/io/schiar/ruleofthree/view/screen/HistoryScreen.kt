@@ -73,7 +73,7 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
         TouchableIcon(
             modifier = Modifier.fillMaxHeight().width(iconSize),
             onClick = { onBackPressed() },
-            iconDrawableID = R.drawable.baseline_arrow_back_24dp,
+            iconDrawableID = R.drawable.baseline_arrow_back_24,
             contentDescription = "back",
             colorID = R.color.hashColor
         )
