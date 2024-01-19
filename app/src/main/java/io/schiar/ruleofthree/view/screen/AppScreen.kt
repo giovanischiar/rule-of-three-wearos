@@ -2,14 +2,18 @@ package io.schiar.ruleofthree.view.screen
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.wear.tooling.preview.devices.WearDevices
+import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
@@ -26,7 +30,10 @@ fun AppScreen(
 ) {
     LaunchedEffect(Unit) { appViewModel.loadDatabase() }
 
-    NavHost(navController = navController, startDestination = "CrossMultiplier") {
+    NavHost(
+        modifier = Modifier.background(color = colorResource(R.color.backgroundColor)),
+        navController = navController, startDestination = "CrossMultiplier"
+    ) {
         composable("CrossMultiplier") {
             CrossMultiplierScreen(viewModel = crossMultiplierViewModel, onNavigationToHistory = {
                 navController.navigate(route = "History")

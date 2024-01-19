@@ -1,12 +1,9 @@
 package io.schiar.ruleofthree.view.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,31 +11,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.Button
-import androidx.wear.compose.material.ButtonDefaults
-import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.dialog.Dialog
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.IconButton
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
-import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 
 @Composable
 fun InputView(
-    modifier: Modifier = Modifier,
     displayValue: String = "",
+    editable: Boolean = true,
     onDigitPressed: (value: String) -> Unit = {},
     onErasePressed: () -> Unit = {},
     onClearPressed: () -> Unit = {},
     onEnterPressed: () -> Unit = {},
-    numberPadOpened: Boolean = false
 ) {
-    var numericKeyboardShow by remember { mutableStateOf(numberPadOpened) }
+    var numericKeyboardShow by remember { mutableStateOf(value = false) }
 
     fun handleEnterPressed() {
         if (displayValue == ".") { onClearPressed() }
@@ -50,37 +42,34 @@ fun InputView(
         showDialog = numericKeyboardShow,
         onDismissRequest = { numericKeyboardShow = false }
     ) {
-        NumberPad(
-            displayValue = displayValue,
-            onDigitPressed = onDigitPressed,
-            onErasePressed = onErasePressed,
-            onClearPressed = onClearPressed,
-            onEnterPressed = ::handleEnterPressed
-        )
-    }
-
-    Button(
-        modifier =
-        modifier
-            .padding(all = 10.dp)
-            .border(BorderStroke(2.dp, colorResource(id = R.color.squareStrokeColor)))
-            .padding(all = 5.dp)
-        ,
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-        shape = RectangleShape,
-        onClick = { numericKeyboardShow = true }
-    ) {
-        Box(contentAlignment = Alignment.Center) {
-            Text(
-                modifier = Modifier.horizontalScroll(rememberScrollState()),
-                text = displayValue,
-                color = colorResource(id = R.color.hashColor),
-                fontSize = calculateTextUnitBasedOn(length = displayValue.length),
-                textAlign = TextAlign.Center
+        Box {
+            NumberPad(
+                displayValue = displayValue,
+                onDigitPressed = onDigitPressed,
+                onErasePressed = onErasePressed,
+                onClearPressed = onClearPressed,
+                onEnterPressed = ::handleEnterPressed
             )
+            IconButton(
+                modifier = Modifier.align(alignment = Alignment.TopStart)
+                    .padding(start = 20.dp, top = 20.dp).size(30.dp),
+                onClick = { numericKeyboardShow = false }
+            ) {
+                Icon(
+                    modifier = Modifier.padding(horizontal = 5.dp),
+                    painter = painterResource(id = android.R.drawable.ic_menu_close_clear_cancel),
+                    contentDescription = "close",
+                    tint = colorResource(R.color.hashColor)
+                )
+            }
         }
-
     }
+
+    CrossMultiplierItemView(
+        displayValue = displayValue,
+        onClick = { numericKeyboardShow = true },
+        enabled = editable
+    )
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)

@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -44,7 +44,7 @@ fun ResultDialogView(value: String, onClosePressed: () -> Unit = {}) {
 
         IconButton(
             modifier = Modifier.align(alignment = Alignment.TopStart)
-                .padding(start = 20.dp, top = 20.dp).size(40.dp),
+                .padding(start = 20.dp, top = 20.dp).size(30.dp),
             onClick = { onClosePressed() }
         ) {
             Icon(

@@ -1,17 +1,17 @@
 package io.schiar.ruleofthree.view.screen
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
@@ -19,43 +19,42 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.rememberActiveFocusRequester
-import androidx.wear.compose.material3.Button
-import androidx.wear.compose.material3.ButtonDefaults
-import androidx.wear.compose.material3.Icon
-import androidx.wear.compose.material3.IconButton
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
-import io.schiar.ruleofthree.view.components.CrossMultiplierHistoryView
+import io.schiar.ruleofthree.view.components.CrossMultiplierView
+import io.schiar.ruleofthree.view.components.TouchableArea
+import io.schiar.ruleofthree.view.components.TouchableIcon
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalWearFoundationApi::class)
 @Composable
 fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
-    val allPastCrossMultipliers by viewModel.allPastCrossMultipliers.collectAsState()
-    if (allPastCrossMultipliers.isEmpty()) {
-        onBackPressed()
-    }
-
+    val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
-    val coroutineScope = rememberCoroutineScope()
+    val allPastCrossMultipliers by viewModel.allPastCrossMultipliers.collectAsState()
+
+    val iconSize = 30.dp
+
+    if (allPastCrossMultipliers.isEmpty()) { onBackPressed() }
 
     fun replaceCurrentCrossMultiplier(index: Int) {
         coroutineScope.launch { viewModel.replaceCurrentCrossMultiplier(index = index) }
@@ -70,90 +69,75 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
         coroutineScope.launch { viewModel.deleteHistory() }
     }
 
-    Box(modifier = Modifier.background(color = colorResource(id = R.color.backgroundColor))) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            LazyColumn(
-                modifier = Modifier
-                    .onRotaryScrollEvent {
-                        coroutineScope.launch { listState.scrollBy(it.verticalScrollPixels) }
-                        true
-                    }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                state = listState
-            ) {
-                item {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        IconButton(
-                            modifier = Modifier.size(25.dp),
-                            onClick = { deleteHistory() }
-                        ) {
-                            Icon(
-                                modifier = Modifier.padding(horizontal = 5.dp),
-                                painter = painterResource(id = R.drawable.baseline_delete_sweep_24),
-                                contentDescription = "clear all inputs",
-                                tint = colorResource(R.color.hashColor)
-                            )
-                        }
-                    }
+    Row {
+        TouchableIcon(
+            modifier = Modifier.fillMaxHeight().width(iconSize),
+            onClick = { onBackPressed() },
+            iconDrawableID = R.drawable.baseline_arrow_back_24dp,
+            contentDescription = "back",
+            colorID = R.color.hashColor
+        )
+
+        LazyColumn(
+            modifier = Modifier
+                .onRotaryScrollEvent {
+                    coroutineScope.launch { listState.scrollBy(it.verticalScrollPixels) }
+                    true
                 }
+                .focusRequester(focusRequester)
+                .focusable(),
+            state = listState
+        ) {
+            item {
+                TouchableIcon(
+                    modifier = Modifier.fillMaxWidth().padding(end = iconSize).height(iconSize),
+                    onClick = { deleteHistory() },
+                    iconDrawableID = R.drawable.baseline_delete_sweep_24,
+                    contentDescription = "clear all inputs",
+                    colorID = R.color.hashColor
+                )
+            }
 
-                items(count = allPastCrossMultipliers.size) { index ->
-                    Box {
-                        Button(
-                            onClick = { replaceCurrentCrossMultiplier(index = index) },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                            shape = RectangleShape,
-                            contentPadding = PaddingValues(all = 0.dp)
-                        ) {
-                            CrossMultiplierHistoryView(
-                                crossMultiplier = allPastCrossMultipliers[index]
-                            )
-                        }
-
-                        IconButton(
+            items(count = allPastCrossMultipliers.size) { index ->
+                var crossMultiplierHeight by remember { mutableIntStateOf(0) }
+                Column {
+                    Row {
+                        TouchableArea(
                             modifier = Modifier
-                                .align(alignment = Alignment.CenterEnd)
-                                .size(25.dp),
-                            onClick = { deleteHistoryItem(index = index) }
+                                .weight(1f)
+                                .onSizeChanged { crossMultiplierHeight = it.height }
+                                .aspectRatio(1f),
+                            onClick = { replaceCurrentCrossMultiplier(index = index) }
                         ) {
-                            Icon(
-                                modifier = Modifier.padding(horizontal = 5.dp),
-                                painter = painterResource(
-                                    id = R.drawable.baseline_delete_forever_24
-                                ),
-                                contentDescription = "clear all inputs",
-                                tint = colorResource(R.color.hashColor)
+                            CrossMultiplierView(
+                                crossMultiplier = allPastCrossMultipliers[index],
+                                editable = false
                             )
                         }
+
+                        TouchableIcon(
+                            modifier = Modifier.width(iconSize).height(
+                                with(LocalDensity.current) { crossMultiplierHeight.toDp() }
+                            ),
+                            onClick = { deleteHistoryItem(index = index) },
+                            iconDrawableID = R.drawable.baseline_delete_forever_24,
+                            contentDescription = "clear input",
+                            colorID = R.color.hashColor
+                        )
                     }
 
                     if (index < allPastCrossMultipliers.size - 1) {
                         Divider(
-                            modifier = Modifier.padding(vertical = 5.dp, horizontal = 25.dp),
+                            modifier = Modifier.padding(
+                                start = 5.dp, end = iconSize + 5.dp, top = 15.dp, bottom = 15.dp
+                            ),
                             color = colorResource(id = R.color.squareStrokeColor),
                             thickness = 1.dp
                         )
                     }
                 }
-                item { Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(25.dp)) }
             }
-        }
-
-        IconButton(
-            modifier = Modifier
-                .align(alignment = Alignment.CenterStart)
-                .size(25.dp),
-            onClick = { onBackPressed() }
-        ) {
-            Icon(
-                modifier = Modifier.padding(horizontal = 5.dp),
-                painter = painterResource(id = R.drawable.baseline_arrow_back_24dp),
-                contentDescription = "back",
-                tint = colorResource(R.color.hashColor)
-            )
+            item { Spacer(modifier = Modifier.fillMaxWidth().height(30.dp)) }
         }
     }
 }

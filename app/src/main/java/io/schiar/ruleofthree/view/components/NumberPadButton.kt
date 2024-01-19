@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +29,7 @@ fun NumberPadButton(
         backgroundPadding = 0.dp,
         onClick = { onClick(name) },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(R.color.backgroundColor)
+            backgroundColor = Color.Transparent
         ),
         border = ButtonDefaults.outlinedButtonBorder(
             borderColor = colorResource(R.color.squareStrokeColor),
