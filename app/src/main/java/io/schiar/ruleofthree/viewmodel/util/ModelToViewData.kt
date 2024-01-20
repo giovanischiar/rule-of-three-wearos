@@ -1,22 +1,19 @@
 package io.schiar.ruleofthree.viewmodel.util
 
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
-import io.schiar.ruleofthree.view.viewdata.ResultViewData
-import java.text.DecimalFormat
 
 fun CrossMultiplier.toViewData(): CrossMultiplierViewData {
-    return CrossMultiplierViewData(
-        a = a.value,
-        b = b.value,
-        c = c.value,
-        result = ResultViewData(result = result.toFormattedString(), _result = result ?: 0.0)
-    )
+    return CrossMultiplierViewData(values = values.toViewData(), unknownPosition = unknownPosition)
 }
 
-fun Double?.toFormattedString(decimals: Int = 2): String {
-    this ?: return "?"
-    val patternBuilder = StringBuilder("#,###.")
-    for (i in 1..decimals) { patternBuilder.append("#") }
-    return DecimalFormat(patternBuilder.toString()).format(this)
+fun Array<Array<Input>>.toViewData(): Array<Array<String>> {
+    val newArray = Array(this.size) { arrayOf("", "") }
+    for (i in indices) {
+        for (j in this[i].indices) {
+            newArray[i][j] = this[i][j].value
+        }
+    }
+    return newArray
 }

@@ -5,9 +5,9 @@ import io.schiar.ruleofthree.model.CrossMultiplier
 interface CrossMultiplierRepository {
     fun subscribeForCrossMultipliers(callback: (crossMultiplier: CrossMultiplier) -> Unit)
     fun subscribeForIsThereHistories(callback: (value: Boolean) -> Unit)
-    suspend fun addToInput(value: String, position: Int)
+    suspend fun addToInput(value: String, position: Pair<Int, Int>)
     suspend fun submitToHistory()
-    suspend fun removeFromInput(position: Int)
-    suspend fun clearInput(position: Int)
+    suspend fun removeFromInput(position: Pair<Int, Int>)
+    suspend fun clearInput(position: Pair<Int, Int>)
     suspend fun clearAllInputs()
 }

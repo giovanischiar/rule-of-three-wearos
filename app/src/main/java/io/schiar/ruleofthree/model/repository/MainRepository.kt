@@ -31,7 +31,7 @@ class MainRepository(
         isThereHistoryCallback = callback
     }
 
-    override suspend fun addToInput(value: String, position: Int) {
+    override suspend fun addToInput(value: String, position: Pair<Int, Int>) {
         val crossMultiplier = dataSource
             .requestCurrentCrossMultiplier()
             .addToInput(value = value, position = position)
@@ -40,7 +40,7 @@ class MainRepository(
         crossMultipliersCallback(crossMultiplier)
     }
 
-    override suspend fun removeFromInput(position: Int) {
+    override suspend fun removeFromInput(position: Pair<Int, Int>) {
         val crossMultiplier = dataSource
             .requestCurrentCrossMultiplier()
             .removeFromInput(position = position)
@@ -49,7 +49,7 @@ class MainRepository(
         crossMultipliersCallback(crossMultiplier)
     }
 
-    override suspend fun clearInput(position: Int) {
+    override suspend fun clearInput(position: Pair<Int, Int>) {
         val crossMultiplier = dataSource
             .requestCurrentCrossMultiplier()
             .clear(position = position)
@@ -60,7 +60,7 @@ class MainRepository(
 
     override suspend fun submitToHistory() {
         val crossMultiplier = dataSource.requestCurrentCrossMultiplier()
-        if (crossMultiplier.result != null) {
+        if (crossMultiplier.result() != null) {
             dataSource.updateCurrentCrossMultiplier(crossMultiplier)
             dataSource.addToAllPastCrossMultipliers(crossMultiplier)
             val allPastCrossMultipliers = dataSource.requestAllPastCrossMultipliers()

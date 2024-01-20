@@ -15,19 +15,19 @@ fun CrossMultiplierEntity.toModel(): CrossMultiplier {
 
 fun CrossMultiplier.toEntity(): CrossMultiplierEntity {
     return CrossMultiplierEntity(
-        a = a.value,
-        b = b.value,
-        c = c.value,
-        result = result
+        a = values[0][0].value,
+        b = values[0][1].value,
+        c = values[1][0].value,
+        result = values[1][1].value.toDoubleOrNull()
     )
 }
 
 fun CrossMultiplier.toEntity(id: Long): CrossMultiplierEntity {
     return CrossMultiplierEntity(
         id = id,
-        a = a.value,
-        b = b.value,
-        c = c.value,
-        result = result
+        a = values[0][0].value,
+        b = values[0][1].value,
+        c = values[1][0].value,
+        result = values[1][1].value.toDoubleOrNull()
     )
 }

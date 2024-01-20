@@ -34,15 +34,15 @@ fun CrossMultiplierScreen(viewModel: CrossMultiplierViewModel, onNavigationToHis
 
     val iconSize = 30.dp
 
-    fun addInput(value: String, position: Int) {
+    fun addInput(value: String, position: Pair<Int, Int>) {
         coroutineScope.launch { viewModel.addInput(value = value, position = position) }
     }
 
-    fun removeInput(position: Int) {
+    fun removeInput(position: Pair<Int, Int>) {
         coroutineScope.launch { viewModel.removeInput(position = position) }
     }
 
-    fun clearInput(position: Int) {
+    fun clearInput(position: Pair<Int, Int>) {
         coroutineScope.launch { viewModel.clearInput(position = position) }
     }
 

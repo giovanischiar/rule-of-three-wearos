@@ -21,15 +21,15 @@ class CrossMultiplierViewModel(private val repository: CrossMultiplierRepository
         repository.subscribeForIsThereHistories(::onIsThereHistoryChanged)
     }
 
-    suspend fun addInput(value: String, position: Int) {
+    suspend fun addInput(value: String, position: Pair<Int, Int>) {
         repository.addToInput(value = value, position = position)
     }
 
-    suspend fun removeInput(position: Int) {
+    suspend fun removeInput(position: Pair<Int, Int>) {
         repository.removeFromInput(position = position)
     }
 
-    suspend fun clearInput(position: Int) {
+    suspend fun clearInput(position: Pair<Int, Int>) {
         repository.clearInput(position = position)
     }
 

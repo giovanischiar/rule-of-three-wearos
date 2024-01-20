@@ -22,16 +22,13 @@ import io.schiar.ruleofthree.R
 @Composable
 fun CrossMultiplierLayout(
     modifier: Modifier = Modifier,
-    upperLeftQuadrant: @Composable () -> Unit,
-    upperRightQuadrant: @Composable () -> Unit,
-    lowerLeftQuadrant: @Composable () -> Unit,
-    lowerRightQuadrant: @Composable () -> Unit
+    values: Array<Array<@Composable () -> Unit>>,
 ) {
     Column(modifier = modifier.aspectRatio(1f)) {
         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.BottomCenter) {
             Row {
-                Box(modifier = Modifier.weight(1f).padding(end = 10.dp)) { upperLeftQuadrant() }
-                Box(modifier = Modifier.weight(1f).padding(start = 10.dp)) { upperRightQuadrant() }
+                Box(modifier = Modifier.weight(1f).padding(end = 10.dp)) { values[0][0]() }
+                Box(modifier = Modifier.weight(1f).padding(start = 10.dp)) { values[0][1]() }
             }
         }
 
@@ -49,8 +46,8 @@ fun CrossMultiplierLayout(
 
         Box(modifier = Modifier.weight(1f)) {
             Row {
-                Box(modifier = Modifier.weight(1f).padding(end = 10.dp)) { lowerLeftQuadrant() }
-                Box(modifier = Modifier.weight(1f).padding(start = 10.dp)) { lowerRightQuadrant() }
+                Box(modifier = Modifier.weight(1f).padding(end = 10.dp)) { values[1][0]() }
+                Box(modifier = Modifier.weight(1f).padding(start = 10.dp)) { values[1][1]() }
             }
         }
     }
@@ -60,9 +57,14 @@ fun CrossMultiplierLayout(
 @Composable
 fun CrossMultiplierLayoutPreview() {
     CrossMultiplierLayout(
-        upperLeftQuadrant = { CrossMultiplierItemView(displayValue = "2") },
-        upperRightQuadrant = { CrossMultiplierItemView(displayValue = "23") },
-        lowerLeftQuadrant = { CrossMultiplierItemView(displayValue = "1.23") },
-        lowerRightQuadrant = { CrossMultiplierItemView(displayValue = "14.145", isResult = true) }
+        values = arrayOf(
+            arrayOf(
+                {CrossMultiplierItemView(displayValue = "2")},
+                { CrossMultiplierItemView(displayValue = "23")}),
+            arrayOf(
+                {CrossMultiplierItemView(displayValue = "1.23")},
+                {CrossMultiplierItemView(displayValue = "14.145", isResult = true)}
+            )
+        )
     )
 }
