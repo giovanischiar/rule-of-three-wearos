@@ -20,7 +20,7 @@
 ### Calculate the 4th number
 |Screenshot|Description|
 |:-:|:-:|
-|![](./readme-res/screenshots/cross-multiplication-empty-screen.png)|This is how the app looks like when you open it. To add the numbers click on the squares|
+|![](./readme-res/screenshots/cross-multiplication-screen-empty-without-history.png)|This is how the app looks like when you open it. To add the numbers click on the squares|
 |![](./readme-res/screenshots/inputting-numbers.gif)|When you click on the square the input number appear. You can input any number, backspace, or clear it and then click on the most right button to submit| 
 |![](./readme-res/screenshots/erase-all-inputs.gif)|When the numbers are being input you can start over by clicking on bottom icon to erase all inputs|
 |![](./readme-res/screenshots/calculate-the-4th-number.gif)|Imagine you are cooking rice, and you saw on the nutritional table that to make 45g of raw rice is 160kcal, and you wonder how many calories would be if you cook 62g of rice. You can input "45" and "160" on the first and second square, and then you can input "62" on the third square. The Result will appear right where the "?" is|
