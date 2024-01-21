@@ -60,9 +60,8 @@ data class CrossMultiplier(
     fun result(): Double? { return values[unknownPosition].toDoubleOrNull() }
 
     fun unknownPositionChangedTo(newPosition: Pair<Int, Int>): CrossMultiplier {
-        val (newI, newJ) = newPosition
         val newValues = copyValues()
-        newValues[newI][newJ] = Input()
+        newValues[newPosition] = Input()
         return CrossMultiplier(values = newValues, unknownPosition = newPosition).resultCalculated()
     }
 
