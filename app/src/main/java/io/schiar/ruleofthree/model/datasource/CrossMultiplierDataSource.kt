@@ -100,4 +100,29 @@ class CrossMultiplierDataSource(private val crossMultiplierDAO: CrossMultiplierD
             }
         }
     }
+
+    override suspend fun requestCrossMultiplier(index: Int): CrossMultiplier {
+        allPastCrossMultipliers = requestAllPastCrossMultipliers()
+        return allPastCrossMultipliers?.get(index = index) ?: CrossMultiplier()
+    }
+
+    override suspend fun updateCrossMultiplier(crossMultiplier: CrossMultiplier, index: Int) {
+        val allPastCrossMultipliers = requestAllPastCrossMultipliers().toMutableList()
+        val crossMultiplierToUpdate = allPastCrossMultipliers[index]
+        allPastCrossMultipliers[index] = crossMultiplier
+        this.allPastCrossMultipliers = allPastCrossMultipliers
+        val (_, a, b, c, result, unknownPosition) = crossMultiplierToUpdate.toEntity()
+        coroutineScope {
+            launch(Dispatchers.IO) {
+                val entity = withContext(Dispatchers.IO) {
+                    crossMultiplierDAO.selectCrossMultiplier(
+                        a = a, b = b, c = c, d = result, unknownPosition = unknownPosition
+                    )
+                }
+                crossMultiplierDAO.update(crossMultiplier.toEntity(
+                    id = entity?.id ?: return@launch)
+                )
+            }
+        }
+    }
 }

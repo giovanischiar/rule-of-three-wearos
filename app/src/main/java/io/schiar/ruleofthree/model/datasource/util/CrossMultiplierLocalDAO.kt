@@ -34,4 +34,19 @@ class CrossMultiplierLocalDAO(
     }
 
     override fun deleteHistory() { allPastCrossMultipliers = emptyList() }
+    override fun selectCrossMultiplier(
+        a: String?,
+        b: String?,
+        c: String?,
+        d: String?,
+        unknownPosition: String?
+    ): CrossMultiplierEntity? {
+        val allPastCrossMultipliers = allPastCrossMultipliers.toMutableList()
+        val crossMultiplierEntity = CrossMultiplierEntity(
+            a = a, b = b, c = c, d = d, unknownPosition = unknownPosition
+        )
+        val index = allPastCrossMultipliers.indexOf(crossMultiplierEntity.toModel())
+        if (index == -1) return null
+        return allPastCrossMultipliers[index].toEntity()
+    }
 }

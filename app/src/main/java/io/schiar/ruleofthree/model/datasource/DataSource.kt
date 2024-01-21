@@ -10,4 +10,6 @@ interface DataSource {
     suspend fun replaceCurrentCrossMultiplier(index: Int)
     suspend fun deleteHistoryItem(index: Int)
     suspend fun deleteHistory()
+    suspend fun requestCrossMultiplier(index: Int): CrossMultiplier
+    suspend fun updateCrossMultiplier(crossMultiplier: CrossMultiplier, index: Int)
 }

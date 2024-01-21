@@ -39,7 +39,6 @@ import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
-import io.schiar.ruleofthree.view.components.TouchableArea
 import io.schiar.ruleofthree.view.components.TouchableIcon
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import kotlinx.coroutines.launch
@@ -67,6 +66,22 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
 
     fun deleteHistory() {
         coroutineScope.launch { viewModel.deleteHistory() }
+    }
+
+    fun addInput(index: Int, value: String, position: Pair<Int, Int>) {
+        coroutineScope.launch { viewModel.addInput(index = index, value = value, position = position) }
+    }
+
+    fun removeInput(index: Int, position: Pair<Int, Int>) {
+        coroutineScope.launch { viewModel.removeInput(index = index, position = position) }
+    }
+
+    fun clearInput(index: Int, position: Pair<Int, Int>) {
+        coroutineScope.launch { viewModel.clearInput(index = index, position = position) }
+    }
+
+    fun changeUnknownPosition(index: Int, position: Pair<Int, Int>) {
+        coroutineScope.launch { viewModel.changeUnknownPosition(index = index, position = position) }
     }
 
     Row {
@@ -102,18 +117,25 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                 var crossMultiplierHeight by remember { mutableIntStateOf(0) }
                 Column {
                     Row {
-                        TouchableArea(
+                        CrossMultiplierView(
                             modifier = Modifier
                                 .weight(1f)
                                 .onSizeChanged { crossMultiplierHeight = it.height }
                                 .aspectRatio(1f),
-                            onClick = { replaceCurrentCrossMultiplier(index = index) }
-                        ) {
-                            CrossMultiplierView(
-                                crossMultiplier = allPastCrossMultipliers[index],
-                                editable = false
-                            )
-                        }
+                            crossMultiplier = allPastCrossMultipliers[index],
+                            addInput = { value: String, position: Pair<Int, Int> ->
+                                run { addInput(index = index, value = value, position = position) }
+                            },
+                            removeInput = { position: Pair<Int, Int> ->
+                                run { removeInput(index = index, position = position) }
+                            },
+                            clearInput = { position: Pair<Int, Int> ->
+                                run { clearInput(index = index, position = position) }
+                            },
+                            changeUnknownPosition = { position: Pair<Int, Int> ->
+                                run { changeUnknownPosition(index = index, position = position) }
+                            },
+                        )
 
                         TouchableIcon(
                             modifier = Modifier.width(iconSize).height(

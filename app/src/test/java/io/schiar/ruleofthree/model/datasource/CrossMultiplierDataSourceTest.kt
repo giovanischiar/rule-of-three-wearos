@@ -52,4 +52,22 @@ class CrossMultiplierDataSourceTest {
             dataSource.requestAllPastCrossMultipliers()
         })
     }
+
+    @Test
+    fun `Request Cross Multiplier`() {
+        val expectedCrossMultiplier = CrossMultiplier(
+            a = "207", b = "97.33", c = "454.567"
+        ).resultCalculated()
+        val actualCrossMultiplier = runBlocking {
+            CrossMultiplierDataSource(
+                allPastCrossMultipliers = listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3").resultCalculated(),
+                    expectedCrossMultiplier
+                )
+            ).requestCrossMultiplier(index = 2)
+        }
+
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+    }
 }

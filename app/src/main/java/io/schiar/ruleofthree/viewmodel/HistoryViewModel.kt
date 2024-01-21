@@ -30,6 +30,22 @@ class HistoryViewModel(private val repository: HistoryRepository = MainRepositor
         repository.deleteHistory()
     }
 
+    suspend fun addInput(index: Int, value: String, position: Pair<Int, Int>) {
+        repository.addToInput(index = index, value = value, position = position)
+    }
+
+    suspend fun removeInput(index: Int, position: Pair<Int, Int>) {
+        repository.removeFromInput(index = index, position = position)
+    }
+
+    suspend fun clearInput(index: Int, position: Pair<Int, Int>) {
+        repository.clearInput(index = index, position = position)
+    }
+
+    suspend fun changeUnknownPosition(index: Int, position: Pair<Int, Int>) {
+        repository.changeUnknownPosition(index = index, position = position)
+    }
+
     private fun onAllPastCrossMultipliersChanged(allPastCrossMultipliers: List<CrossMultiplier>) {
         _allPastCrossMultipliers.update { allPastCrossMultipliers.map { it.toViewData() } }
     }

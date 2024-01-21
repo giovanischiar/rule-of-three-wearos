@@ -112,4 +112,44 @@ class MainRepository(
         allPastCrossMultipliersCallback(allPastCurrentMultipliers)
         isThereHistoryCallback(allPastCurrentMultipliers.isNotEmpty())
     }
+
+    override suspend fun addToInput(index: Int, value: String, position: Pair<Int, Int>) {
+        val crossMultiplier = dataSource
+            .requestAllPastCrossMultipliers()[index]
+            .addToInput(value = value, position = position)
+            .resultCalculated()
+        dataSource.updateCrossMultiplier(index = index, crossMultiplier = crossMultiplier)
+        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
+        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
+    }
+
+    override suspend fun removeFromInput(index: Int, position: Pair<Int, Int>) {
+        val crossMultiplier = dataSource
+            .requestAllPastCrossMultipliers()[index]
+            .removeFromInput(position = position)
+            .resultCalculated()
+        dataSource.updateCrossMultiplier(index = index, crossMultiplier = crossMultiplier)
+        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
+        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
+    }
+
+    override suspend fun clearInput(index: Int, position: Pair<Int, Int>) {
+        val crossMultiplier = dataSource
+            .requestAllPastCrossMultipliers()[index]
+            .clear(position = position)
+            .resultCalculated()
+        dataSource.updateCrossMultiplier(index = index, crossMultiplier = crossMultiplier)
+        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
+        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
+    }
+
+    override suspend fun changeUnknownPosition(index: Int, position: Pair<Int, Int>) {
+        val crossMultiplier = dataSource
+            .requestAllPastCrossMultipliers()[index]
+            .unknownPositionChangedTo(newPosition = position)
+            .resultCalculated()
+        dataSource.updateCrossMultiplier(index = index, crossMultiplier = crossMultiplier)
+        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
+        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
+    }
 }

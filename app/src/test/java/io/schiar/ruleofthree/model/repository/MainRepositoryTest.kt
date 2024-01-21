@@ -261,4 +261,97 @@ class MainRepositoryTest {
         }
         runBlocking { mainRepository.removeFromInput(position = Pair(0, 0)) }
     }
+
+    @Test
+    fun `Add to a Cross Multiplier's Input from History`() {
+        val mainRepository = MainRepository(
+            dataSource = CrossMultiplierDataSource(
+                allPastCrossMultipliers = listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567").resultCalculated()
+                )
+            )
+        )
+        mainRepository.subscribeForAllPastCrossMultipliers {
+            Assert.assertEquals(
+                listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.334", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567").resultCalculated()
+                ), it)
+        }
+        runBlocking { mainRepository.addToInput(index = 1, "4", Pair(0, 1)) }
+    }
+
+    @Test
+    fun `Remove to a Cross Multiplier's Input from History`() {
+        val mainRepository = MainRepository(
+            dataSource = CrossMultiplierDataSource(
+                allPastCrossMultipliers = listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567").resultCalculated()
+                )
+            )
+        )
+        mainRepository.subscribeForAllPastCrossMultipliers {
+            Assert.assertEquals(
+                listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.56").resultCalculated()
+                ), it)
+        }
+        runBlocking { mainRepository.removeFromInput(index = 2, Pair(1, 0)) }
+    }
+
+    @Test
+    fun `Clear a Cross Multiplier's Input from History`() {
+        val mainRepository = MainRepository(
+            dataSource = CrossMultiplierDataSource(
+                allPastCrossMultipliers = listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567").resultCalculated()
+                )
+            )
+        )
+        mainRepository.subscribeForAllPastCrossMultipliers {
+            Assert.assertEquals(
+                listOf(
+                    CrossMultiplier(a = "", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567").resultCalculated()
+                ), it)
+        }
+        runBlocking { mainRepository.clearInput(index = 0, Pair(0, 0)) }
+    }
+
+    @Test
+    fun `Change the Multiplier's Uknown Position from History`() {
+        val mainRepository = MainRepository(
+            dataSource = CrossMultiplierDataSource(
+                allPastCrossMultipliers = listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "45", b = "45.33", c = "45.3").resultCalculated(),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567").resultCalculated()
+                )
+            )
+        )
+        mainRepository.subscribeForAllPastCrossMultipliers {
+            Assert.assertEquals(
+                listOf(
+                    CrossMultiplier(a = "1", b = "2.3", c = "45.3").resultCalculated(),
+                    CrossMultiplier(
+                        a = "",
+                        b = "45.33",
+                        c = "45.3",
+                        unknownPosition = Pair(0, 0)
+                    ).resultCalculated(),
+                    CrossMultiplier(a = "207", b = "97.33", c = "454.567").resultCalculated()
+                ), it)
+        }
+        runBlocking { mainRepository.changeUnknownPosition(index = 1, Pair(0, 0)) }
+    }
 }
