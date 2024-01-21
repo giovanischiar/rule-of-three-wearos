@@ -13,7 +13,8 @@ fun CrossMultiplierView(
     addInput: (value: String, position: Pair<Int, Int>) -> Unit = {_,_ ->},
     removeInput: (position: Pair<Int, Int>) -> Unit = {},
     clearInput: (position: Pair<Int, Int>) -> Unit = {},
-    submit: () -> Unit = {}
+    submit: () -> Unit = {},
+    changeUnknownPosition: (position: Pair<Int, Int>) -> Unit = {}
 ) {
     val (values, unknownPosition, result) = crossMultiplier
     val (i, j) = unknownPosition
@@ -27,6 +28,7 @@ fun CrossMultiplierView(
             onErasePressed = { removeInput(Pair(!i, j)) },
             onClearPressed = { clearInput(Pair(!i, j)) },
             onEnterPressed = submit,
+            onLongPress = { changeUnknownPosition(Pair(!i, j)) }
         )
     }
     layoutValues[i][!j] = {
@@ -37,6 +39,7 @@ fun CrossMultiplierView(
             onErasePressed = { removeInput(Pair(i, !j)) },
             onClearPressed = { clearInput(Pair(i, !j)) },
             onEnterPressed = submit,
+            onLongPress = { changeUnknownPosition(Pair(i, !j)) }
         )
     }
     layoutValues[!i][!j] = {
@@ -47,6 +50,7 @@ fun CrossMultiplierView(
             onErasePressed = { removeInput(Pair(!i, !j)) },
             onClearPressed = { clearInput(Pair(!i, !j)) },
             onEnterPressed = submit,
+            onLongPress = { changeUnknownPosition(Pair(!i, !j)) }
         )
     }
 

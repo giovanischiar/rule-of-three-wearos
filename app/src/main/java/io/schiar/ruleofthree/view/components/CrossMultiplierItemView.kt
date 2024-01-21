@@ -2,32 +2,34 @@ package io.schiar.ruleofthree.view.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.Button
-import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CrossMultiplierItemView(
     modifier: Modifier = Modifier,
     displayValue: String,
     isResult: Boolean = false,
     onClick: () -> Unit = {},
+    onLongPress: () -> Unit = {},
     enabled: Boolean = true,
     baseTextSize: Int = 30
 ) {
@@ -37,7 +39,7 @@ fun CrossMultiplierItemView(
         colorResource(id = R.color.questionMarkColor)
     }
 
-    Button(
+    Box(
         modifier = modifier
             .run {
                 if (!isResult) {
@@ -48,15 +50,12 @@ fun CrossMultiplierItemView(
             }
             .padding(all = 5.dp)
             .aspectRatio(ratio = 1f)
-        ,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.Transparent,
-            disabledBackgroundColor = Color.Transparent,
-            contentColor = Color.Transparent
-        ),
-        shape = RectangleShape,
-        onClick = { onClick() },
-        enabled = enabled && displayValue != "?"
+            .combinedClickable (
+                enabled = enabled && displayValue != "?",
+                onClick = { onClick() },
+                onLongClick = { onLongPress() }
+            ),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             modifier = Modifier.horizontalScroll(rememberScrollState()),

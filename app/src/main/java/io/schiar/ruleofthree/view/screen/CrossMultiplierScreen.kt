@@ -49,6 +49,10 @@ fun CrossMultiplierScreen(viewModel: CrossMultiplierViewModel, onNavigationToHis
     fun submitInput() {
         coroutineScope.launch { viewModel.submitInput() }
     }
+
+    fun changeUnknownPosition(position: Pair<Int, Int>) {
+        coroutineScope.launch { viewModel.changeUnknownPosition(position = position) }
+    }
     
     fun clearAllInputs() {
         coroutineScope.launch { viewModel.clearAllInputs() }
@@ -62,7 +66,8 @@ fun CrossMultiplierScreen(viewModel: CrossMultiplierViewModel, onNavigationToHis
                 addInput = ::addInput,
                 removeInput = ::removeInput,
                 clearInput = ::clearInput,
-                submit = ::submitInput
+                submit = ::submitInput,
+                changeUnknownPosition = ::changeUnknownPosition
             )
 
             TouchableIcon(

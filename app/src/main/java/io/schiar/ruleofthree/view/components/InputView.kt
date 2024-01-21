@@ -29,6 +29,7 @@ fun InputView(
     onErasePressed: () -> Unit = {},
     onClearPressed: () -> Unit = {},
     onEnterPressed: () -> Unit = {},
+    onLongPress: () -> Unit = {}
 ) {
     var numericKeyboardShow by remember { mutableStateOf(value = false) }
 
@@ -68,6 +69,7 @@ fun InputView(
     CrossMultiplierItemView(
         displayValue = displayValue,
         onClick = { numericKeyboardShow = true },
+        onLongPress = { onLongPress() },
         enabled = editable
     )
 }

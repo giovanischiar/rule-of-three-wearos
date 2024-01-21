@@ -41,6 +41,10 @@ class CrossMultiplierViewModel(private val repository: CrossMultiplierRepository
         repository.submitToHistory()
     }
 
+    suspend fun changeUnknownPosition(position: Pair<Int, Int>) {
+        repository.changeUnknownPosition(position = position)
+    }
+
     private fun onInputChanged(crossMultiplier: CrossMultiplier) {
         _crossMultiplier.update { crossMultiplier.toViewData() }
     }

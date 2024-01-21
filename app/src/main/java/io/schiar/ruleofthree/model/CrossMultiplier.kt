@@ -29,6 +29,20 @@ data class CrossMultiplier(
         unknownPosition = Pair(1, 1)
     )
 
+    constructor(
+        a: String = "",
+        b: String = "",
+        c: String = "",
+        result: Double? = null,
+        unknownPosition: Pair<Int, Int>
+    ) : this(
+        values = arrayOf(
+            arrayOf(Input(value = a), Input(value = b)),
+            arrayOf(Input(value = c), Input(value = result?.toString() ?: ""))
+        ),
+        unknownPosition = unknownPosition
+    )
+
     constructor(a: String = "", b: String = "", c: String = ""): this(
         values = arrayOf(
             arrayOf(Input(value = a), Input(value = b)),
@@ -44,6 +58,13 @@ data class CrossMultiplier(
     fun c(): Input { return values[cPosition()] }
 
     fun result(): Double? { return values[unknownPosition].toDoubleOrNull() }
+
+    fun unknownPositionChangedTo(newPosition: Pair<Int, Int>): CrossMultiplier {
+        val (newI, newJ) = newPosition
+        val newValues = copyValues()
+        newValues[newI][newJ] = Input()
+        return CrossMultiplier(values = newValues, unknownPosition = newPosition).resultCalculated()
+    }
 
     fun resultCalculated(): CrossMultiplier {
         if (!values.isValid(unknownPosition = unknownPosition)) return this
@@ -74,7 +95,7 @@ data class CrossMultiplier(
     }
 
     fun clearAll(): CrossMultiplier {
-        return CrossMultiplier()
+        return CrossMultiplier(unknownPosition = unknownPosition)
     }
 
     private fun aPosition(): Pair<Int, Int> { val (i, j) = unknownPosition; return Pair(!i, !j) }

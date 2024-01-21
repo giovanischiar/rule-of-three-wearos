@@ -58,6 +58,15 @@ class MainRepository(
         crossMultipliersCallback(crossMultiplier)
     }
 
+    override suspend fun changeUnknownPosition(position: Pair<Int, Int>) {
+        val crossMultiplier = dataSource
+            .requestCurrentCrossMultiplier()
+            .unknownPositionChangedTo(newPosition = position)
+            .resultCalculated()
+        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
+        crossMultipliersCallback(crossMultiplier)
+    }
+
     override suspend fun submitToHistory() {
         val crossMultiplier = dataSource.requestCurrentCrossMultiplier()
         if (crossMultiplier.result() != null) {

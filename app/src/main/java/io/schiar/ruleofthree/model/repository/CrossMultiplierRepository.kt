@@ -9,5 +9,6 @@ interface CrossMultiplierRepository {
     suspend fun submitToHistory()
     suspend fun removeFromInput(position: Pair<Int, Int>)
     suspend fun clearInput(position: Pair<Int, Int>)
+    suspend fun changeUnknownPosition(position: Pair<Int, Int>)
     suspend fun clearAllInputs()
 }
