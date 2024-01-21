@@ -82,11 +82,11 @@ class CrossMultiplierDataSource(private val crossMultiplierDAO: CrossMultiplierD
         val allPastCrossMultipliers = requestAllPastCrossMultipliers().toMutableList()
         val crossMultiplierDeleted = allPastCrossMultipliers.removeAt(index)
         this.allPastCrossMultipliers = allPastCrossMultipliers
-        val (_, a, b, c, result, unknownPosition) = crossMultiplierDeleted.toEntity()
+        val (_, a, b, c, d, unknownPosition) = crossMultiplierDeleted.toEntity()
         coroutineScope {
             launch(Dispatchers.IO) {
                 crossMultiplierDAO.deleteHistoryItem(
-                    a = a, b = b, c = c, result = result, unknownPosition = unknownPosition
+                    a = a, b = b, c = c, d = d, unknownPosition = unknownPosition
                 )
             }
         }

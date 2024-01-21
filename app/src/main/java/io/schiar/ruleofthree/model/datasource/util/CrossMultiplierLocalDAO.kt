@@ -23,11 +23,11 @@ class CrossMultiplierLocalDAO(
     }
 
     override fun deleteHistoryItem(
-        a: String?, b: String?, c: String?, result: Double?, unknownPosition: String?
+        a: String?, b: String?, c: String?, d: String?, unknownPosition: String?
     ) {
         val allPastCrossMultipliers = allPastCrossMultipliers.toMutableList()
         val crossMultiplierEntity = CrossMultiplierEntity(
-            a = a, b = b, c = c, result = result, unknownPosition = unknownPosition
+            a = a, b = b, c = c, d = d, unknownPosition = unknownPosition
         )
         allPastCrossMultipliers.remove(crossMultiplierEntity.toModel())
         this.allPastCrossMultipliers = allPastCrossMultipliers

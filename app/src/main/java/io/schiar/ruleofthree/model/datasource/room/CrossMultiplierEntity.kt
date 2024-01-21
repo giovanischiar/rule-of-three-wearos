@@ -10,6 +10,6 @@ data class CrossMultiplierEntity(
     val a: String?,
     val b: String?,
     val c: String?,
-    val result: Double?,
+    val d: String?,
     val unknownPosition: String?
 )

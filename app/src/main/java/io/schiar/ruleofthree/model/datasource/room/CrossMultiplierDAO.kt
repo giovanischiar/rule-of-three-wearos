@@ -20,8 +20,8 @@ interface CrossMultiplierDAO {
     @Query("SELECT * FROM CrossMultiplier WHERE id == 1")
     fun selectCurrentCrossMultiplier(): CrossMultiplierEntity?
 
-    @Query("DELETE FROM CrossMultiplier WHERE a == :a AND b == :b AND c == :c AND result == :result AND unknownPosition == :unknownPosition")
-    fun deleteHistoryItem(a: String?, b: String?, c: String?, result: Double?, unknownPosition: String?)
+    @Query("DELETE FROM CrossMultiplier WHERE a == :a AND b == :b AND c == :c AND d == :d AND unknownPosition == :unknownPosition")
+    fun deleteHistoryItem(a: String?, b: String?, c: String?, d: String?, unknownPosition: String?)
 
     @Query("DELETE FROM CrossMultiplier WHERE id != 1")
     fun deleteHistory()
