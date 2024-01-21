@@ -329,7 +329,7 @@ class MainRepositoryTest {
     }
 
     @Test
-    fun `Change the Multiplier's Uknown Position from History`() {
+    fun `Change the Multiplier's Unknown Position from History`() {
         val mainRepository = MainRepository(
             dataSource = CrossMultiplierDataSource(
                 allPastCrossMultipliers = listOf(
