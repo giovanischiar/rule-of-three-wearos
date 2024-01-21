@@ -130,6 +130,23 @@ class MainRepositoryTest {
     }
 
     @Test
+    fun `Change the Unknown Position of Current Cross Multiplier`() {
+        val mainRepository = MainRepository(
+            dataSource = CrossMultiplierDataSource(
+                currentCrossMultiplier = CrossMultiplier(
+                    a = "2.45", b = "45", c = "3.5"
+                ).resultCalculated()
+            )
+        )
+        mainRepository.subscribeForCrossMultipliers {
+            Assert.assertEquals(CrossMultiplier(
+                a = "2.45", b = "45", c = "", unknownPosition = Pair(1, 0)
+            ).resultCalculated(), it)
+        }
+        runBlocking { mainRepository.changeUnknownPosition(position = Pair(1, 0)) }
+    }
+
+    @Test
     fun `Replace Current Numbers With One From History`() {
         val crossMultiplierToReplaceTo = CrossMultiplier(a = "207", b = "97.33", c = "454.567")
             .resultCalculated()

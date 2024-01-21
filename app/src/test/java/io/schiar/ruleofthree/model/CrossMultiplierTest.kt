@@ -176,4 +176,20 @@ class CrossMultiplierTest {
             CrossMultiplier(a = "ere34", b = "e324", c = "jghn").resultCalculated().result()
         )
     }
+
+    @Test
+    fun `Change The Unknown Position`() {
+        Assert.assertEquals(
+            CrossMultiplier(
+                a = "2.46",
+                b = "",
+                c = "23.4",
+                result = null,
+                unknownPosition = Pair(0, 1)
+            ),
+            CrossMultiplier(a = "2.46", b = "83.4", c = "23.4")
+                .unknownPositionChangedTo(newPosition = Pair(0, 1))
+                .resultCalculated()
+        )
+    }
 }
