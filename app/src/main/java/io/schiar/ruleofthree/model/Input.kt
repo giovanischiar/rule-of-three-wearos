@@ -4,9 +4,9 @@ data class Input(val value: String = "") {
     constructor(value: Double): this(value = value.toString())
     constructor(value: Int): this(value = value.toString())
 
-    fun add(newValue: String): Input {
+    fun characterPushed(character: String): Input {
         val valueBuilder = StringBuilder(value)
-        val newNumber = value + newValue
+        val newNumber = value + character
         if (newNumber != "." && newNumber.toDoubleOrNull() == null) return this
 
         if (valueBuilder.isNotEmpty()
@@ -16,11 +16,11 @@ data class Input(val value: String = "") {
         ) {
             valueBuilder.clear()
         }
-        valueBuilder.append(newValue)
+        valueBuilder.append(character)
         return Input(value = valueBuilder.toString())
     }
 
-    fun remove(): Input {
+    fun characterPopped(): Input {
         val valueBuilder = StringBuilder(value)
         if (valueBuilder.isNotEmpty()) {
             valueBuilder.deleteCharAt(value.length - 1)
@@ -28,7 +28,7 @@ data class Input(val value: String = "") {
         return Input(value = valueBuilder.toString())
     }
 
-    fun clear(): Input {
+    fun cleared(): Input {
         val valueBuilder = StringBuilder(value)
         valueBuilder.clear()
         return Input(value = valueBuilder.toString())

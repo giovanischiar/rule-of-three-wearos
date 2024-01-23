@@ -4,94 +4,217 @@ import org.junit.Assert
 import org.junit.Test
 
 class InputTest {
+    private val emptyInput = Input()
+
     @Test
-    fun `Add Invalid String`() {
-        Assert.assertEquals(
-            Input(value = ""),
-            Input()
-                .add(newValue = "a")
-                .add(newValue = "b")
-        )
+    fun `Invalid Character Pushed`() {
+        // Given
+        val expectedInput = emptyInput
+
+        // When
+        val actualInput = emptyInput
+            .characterPushed(character = "a")
+            .characterPushed(character = "b")
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Add Trailing Zeroes`() {
-        Assert.assertEquals(Input(value = 1), Input().add(newValue = "0").add(newValue = "1"))
+    fun `Trailing Zero Characters Pushed`() {
+        // Given
+        val expectedInput = Input(value = 1)
+
+        // When
+        val actualInput = emptyInput
+            .characterPushed(character = "0")
+            .characterPushed(character = "1")
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Add Number Less Than Zero With Zeroes After Decimal Point`() {
-        Assert.assertEquals(
-            Input(value = 0.001),
-            Input()
-                .add(newValue = "0")
-                .add(newValue = ".")
-                .add(newValue = "0")
-                .add(newValue = "0")
-                .add(newValue = "1")
-        )
+    fun `Characters Less Than Zero With Zeroes After Decimal Point Pushed`() {
+        // Given
+        val expectedInput = Input(value = 0.001)
+
+        // When
+        val actualInput = emptyInput
+            .characterPushed(character = "0")
+            .characterPushed(character = ".")
+            .characterPushed(character = "0")
+            .characterPushed(character = "0")
+            .characterPushed(character = "1")
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Add Multiple Decimal Points`() {
-        Assert.assertEquals(
-            Input(value = "1.23"),
-            Input()
-                .add(newValue = "1")
-                .add(newValue = ".")
-                .add(newValue = "2")
-                .add(newValue = ".")
-                .add(newValue = "3")
-        )
+    fun `Multiple Decimal Points Pushed`() {
+        val expectedInput = Input(value = "1.23")
+
+        val actualInput = emptyInput
+            .characterPushed(character = "1")
+            .characterPushed(character = ".")
+            .characterPushed(character = "2")
+            .characterPushed(character = ".")
+            .characterPushed(character = "3")
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Add and Remove Values`() {
-        Assert.assertEquals(
-            Input(value = "1.23"),
-            Input()
-                .add(newValue = "1")
-                .add(newValue = ".")
-                .remove()
-                .add(newValue = ".")
-                .add(newValue = "2")
-                .add(newValue = "3")
-                .add(newValue = "5")
-                .add(newValue = "6")
-                .add(newValue = "7")
-                .remove()
-                .remove()
-                .remove()
-        )
+    fun `Characters Pushed and Popped`() {
+        // Given
+        val expectedInput = Input(value = "1.23")
+
+        // When
+        val actualInput = emptyInput
+            .characterPushed(character = "1")
+            .characterPushed(character = ".")
+            .characterPopped()
+            .characterPushed(character = ".")
+            .characterPushed(character = "2")
+            .characterPushed(character = "3")
+            .characterPushed(character = "5")
+            .characterPushed(character = "6")
+            .characterPushed(character = "7")
+            .characterPopped()
+            .characterPopped()
+            .characterPopped()
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Remove Values When Empty`() {
-        Assert.assertEquals(Input(value = ""), Input().remove().remove())
+    fun `Characters Popped When Input is Empty`() {
+        // Given
+        val expectedInput = emptyInput
+
+        // When
+        val actualInput = emptyInput.characterPopped().characterPopped()
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Add Two Inputs and Then Clear`() {
-        Assert.assertEquals(Input(value = ""), Input().add("1").add("2").clear())
+    fun `Two Inputs Pushed and Then Cleared`() {
+        // Given
+        val expectedInput = emptyInput
+
+        // When
+        val actualInput = emptyInput
+            .characterPushed("1")
+            .characterPushed("2")
+            .cleared()
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Clear When Empty`() {
-        Assert.assertEquals(Input(value = ""), Input().clear())
+    fun `Cleared When Input is Empty`() {
+        // Given
+        val expectedInput = emptyInput
+
+        // When
+        val actualInput = emptyInput.cleared()
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Clear and Then Remove`() {
-        Assert.assertEquals(Input(value = ""), Input().clear().remove())
+    fun `Clear and Then Remove When Empty`() {
+        // Given
+        val expectedInput = emptyInput
+
+        // When
+        val actualInput = emptyInput.cleared().characterPopped()
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 
     @Test
-    fun `Double Invalid Value`() {
-        Assert.assertEquals(null, Input().toDoubleOrNull())
+    fun `Check Validity Of Empty Input`() {
+        // When
+        val actualResult = emptyInput.toDoubleOrNull()
+
+        // Then
+        Assert.assertNull(actualResult)
     }
 
     @Test
     fun `Double valid Value`() {
-        Assert.assertEquals(1.3, Input("1.3").toDoubleOrNull())
+        // Given
+        val input = Input(value = "1.3")
+        val expectedDouble = 1.3
+
+        // When
+        val actualDouble = input.toDoubleOrNull()
+
+        // Then
+        Assert.assertEquals(expectedDouble, actualDouble)
+    }
+
+    @Test
+    fun `To String`() {
+        // Given
+        val input = Input(value = "3.45")
+        val expectedString = "3.45"
+
+        // When
+        val actualString = input.toString()
+
+        // Then
+        Assert.assertEquals(expectedString, actualString)
+    }
+
+    @Test
+    fun `Multiplying Two Inputs`() {
+        // Given
+        val inputA = Input(value = "3.45")
+        val inputB = Input(value = "74.38")
+        val expectedInput = Input(value = 3.45 * 74.38)
+
+        // When
+        val actualInput = inputA * inputB
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
+    }
+
+    @Test
+    fun `Dividing Two Inputs`() {
+        // Given
+        val inputA = Input(value = "57.4")
+        val inputB = Input(value = "7.45")
+        val expectedInput = Input(value = 57.4 / 7.45)
+
+        // When
+        val actualInput = inputA / inputB
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
+    }
+
+    @Test
+    fun `Dividing Two Inputs With 0 Denominator`() {
+        // Given
+        val inputA = Input(value = "903.73")
+        val inputB = Input(value = "0")
+        val expectedInput = Input(value = "903.73")
+
+        // When
+        val actualInput = inputA / inputB
+
+        // Then
+        Assert.assertEquals(expectedInput, actualInput)
     }
 }

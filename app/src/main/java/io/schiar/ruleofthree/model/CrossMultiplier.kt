@@ -54,19 +54,19 @@ data class CrossMultiplier(
 
     fun characterPushedAt(position: Pair<Int, Int>, character: String): CrossMultiplier {
         val updatedValues = copyValues()
-        updatedValues[position] = updatedValues[position].add(newValue = character)
+        updatedValues[position] = updatedValues[position].characterPushed(character = character)
         return CrossMultiplier(id = id, values = updatedValues, unknownPosition = unknownPosition)
     }
 
     fun characterPoppedAt(position: Pair<Int, Int>): CrossMultiplier {
         val updatedValues = copyValues()
-        updatedValues[position] = updatedValues[position].remove()
+        updatedValues[position] = updatedValues[position].characterPopped()
         return CrossMultiplier(id = id, values = updatedValues, unknownPosition = unknownPosition)
     }
 
     fun inputClearedAt(position: Pair<Int, Int>): CrossMultiplier {
         val updatedValues : Array<Array<Input>> = copyValues()
-        updatedValues[position] = updatedValues[position].clear()
+        updatedValues[position] = updatedValues[position].cleared()
         return CrossMultiplier(id = id, values = updatedValues, unknownPosition = unknownPosition)
     }
 
