@@ -4,32 +4,48 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModelProvider
-import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
-import io.schiar.ruleofthree.model.datasource.room.RuleOfThreeDatabase
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.screen.AppScreen
 import io.schiar.ruleofthree.viewmodel.AppViewModel
-import io.schiar.ruleofthree.viewmodel.CrossMultiplierViewModel
+import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
+import io.schiar.ruleofthree.viewmodel.PastCrossMultipliersViewModel
 import io.schiar.ruleofthree.viewmodel.util.ViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val ruleOfThreeDatabase = RuleOfThreeDatabase.getDatabase(context = applicationContext)
-        val crossMultiplierDAO = ruleOfThreeDatabase.crossMultiplierDAO()
-        val repository = MainRepository(dataSource = CrossMultiplierDataSource(
-            crossMultiplierDAO = crossMultiplierDAO)
+        val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
+            currentCrossMultiplierDAO = ruleOfThreeDatabase.currentCrossMultiplierDAO()
+        )
+        val currentCrossMultiplierRepository = CrossMultipliersCreatorRepository(
+            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+        )
+        val mainRepository = MainRepository(
+            pastCrossMultipliersDataSourceable = PastCrossMultipliersDataSource(
+                pastCrossMultipliersDAO = ruleOfThreeDatabase.pastCrossMultipliersDAO()
+            ),
+            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
         )
         val viewModelProvider = ViewModelProvider(
             this,
-            ViewModelFactory(repository = repository)
+            ViewModelFactory(
+                mainRepository = mainRepository,
+                crossMultipliersCreatorRepository = currentCrossMultiplierRepository
+            )
         )
 
         setContent {
             AppScreen(
                 appViewModel = viewModelProvider[AppViewModel::class.java],
-                crossMultiplierViewModel = viewModelProvider[CrossMultiplierViewModel::class.java],
+                crossMultiplierViewModel =
+                    viewModelProvider[PastCrossMultipliersViewModel::class.java],
+                createNewCrossMultiplierViewModel =
+                    viewModelProvider[CrossMultipliersCreatorViewModel::class.java],
                 historyViewModel = viewModelProvider[HistoryViewModel::class.java]
             )
         }

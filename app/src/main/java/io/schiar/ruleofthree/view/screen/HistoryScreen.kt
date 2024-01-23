@@ -36,52 +36,58 @@ import androidx.wear.compose.foundation.rememberActiveFocusRequester
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
 import io.schiar.ruleofthree.view.components.TouchableIcon
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
+import io.schiar.ruleofthree.viewmodel.PastCrossMultipliersViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalWearFoundationApi::class)
 @Composable
-fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
+fun HistoryScreen(
+    historyViewModel: HistoryViewModel,
+    crossMultiplierViewModel: PastCrossMultipliersViewModel,
+    onBackPressed: () -> Unit = {}
+) {
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
-    val allPastCrossMultipliers by viewModel.allPastCrossMultipliers.collectAsState()
+    val allPastCrossMultipliers by historyViewModel.pastCrossMultipliers.collectAsState()
 
     val iconSize = 30.dp
 
     if (allPastCrossMultipliers.isEmpty()) { onBackPressed() }
 
-    fun replaceCurrentCrossMultiplier(index: Int) {
-        coroutineScope.launch { viewModel.replaceCurrentCrossMultiplier(index = index) }
-        onBackPressed()
-    }
-
     fun deleteHistoryItem(index: Int) {
-        coroutineScope.launch { viewModel.deleteHistoryItem(index = index) }
+        coroutineScope.launch { historyViewModel.deleteCrossMultiplier(index = index) }
     }
 
     fun deleteHistory() {
-        coroutineScope.launch { viewModel.deleteHistory() }
+        coroutineScope.launch { historyViewModel.deleteHistory() }
     }
 
     fun addInput(index: Int, value: String, position: Pair<Int, Int>) {
-        coroutineScope.launch { viewModel.addInput(index = index, value = value, position = position) }
+        coroutineScope.launch {
+            crossMultiplierViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(index = index, character = value, position = position) }
     }
 
     fun removeInput(index: Int, position: Pair<Int, Int>) {
-        coroutineScope.launch { viewModel.removeInput(index = index, position = position) }
+        coroutineScope.launch {
+            crossMultiplierViewModel.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(index = index, position = position)
+        }
     }
 
     fun clearInput(index: Int, position: Pair<Int, Int>) {
-        coroutineScope.launch { viewModel.clearInput(index = index, position = position) }
+        coroutineScope.launch {
+            crossMultiplierViewModel.clearInputOnPositionOfTheCrossMultiplierAt(index = index, position = position) }
     }
 
     fun changeUnknownPosition(index: Int, position: Pair<Int, Int>) {
-        coroutineScope.launch { viewModel.changeUnknownPosition(index = index, position = position) }
+        coroutineScope.launch {
+            crossMultiplierViewModel.changeTheUnknownPositionOfTheCrossMultiplierAt(index = index, position = position)
+        }
     }
 
     Row {
@@ -123,16 +129,16 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
                                 .onSizeChanged { crossMultiplierHeight = it.height }
                                 .aspectRatio(1f),
                             crossMultiplier = allPastCrossMultipliers[index],
-                            addInput = { value: String, position: Pair<Int, Int> ->
+                            onValueAddedToInput = { value: String, position: Pair<Int, Int> ->
                                 run { addInput(index = index, value = value, position = position) }
                             },
-                            removeInput = { position: Pair<Int, Int> ->
+                            onInputBackspaced = { position: Pair<Int, Int> ->
                                 run { removeInput(index = index, position = position) }
                             },
-                            clearInput = { position: Pair<Int, Int> ->
+                            onInputCleared = { position: Pair<Int, Int> ->
                                 run { clearInput(index = index, position = position) }
                             },
-                            changeUnknownPosition = { position: Pair<Int, Int> ->
+                            onInputLongClicked = { position: Pair<Int, Int> ->
                                 run { changeUnknownPosition(index = index, position = position) }
                             },
                         )
@@ -167,8 +173,9 @@ fun HistoryScreen(viewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun HistoryScreenPreview() {
-    val dataSource = CrossMultiplierDataSource(
-        allPastCrossMultipliers = mutableListOf(
+    val dataSource = PastCrossMultipliersDataSource(
+        crossMultipliers = mutableListOf(
+            CrossMultiplier(a = "", b = "", c = "").resultCalculated(),
             CrossMultiplier(a = "8342234", b = "324423", c = "45456").resultCalculated(),
             CrossMultiplier(a = "4", b = "40", c = "400").resultCalculated(),
             CrossMultiplier(a = "42", b = "440", c = "5").resultCalculated(),
@@ -176,8 +183,13 @@ fun HistoryScreenPreview() {
             CrossMultiplier(a = "5", b = "135", c = "7").resultCalculated()
         )
     )
-    val repository = MainRepository(dataSource = dataSource)
-    val historyViewModel = HistoryViewModel(repository = repository)
-    LaunchedEffect(Unit) { repository.loadDatabase() }
-    HistoryScreen(viewModel = historyViewModel)
+    val repository = MainRepository(pastCrossMultipliersDataSourceable = dataSource)
+    val historyViewModel = HistoryViewModel(historyRepository = repository)
+    val crossMultiplierViewModel = PastCrossMultipliersViewModel(
+        pastCrossMultipliersRepository = repository
+    )
+    LaunchedEffect(Unit) { repository.loadPastCrossMultipliers() }
+    HistoryScreen(
+        historyViewModel = historyViewModel, crossMultiplierViewModel = crossMultiplierViewModel
+    )
 }

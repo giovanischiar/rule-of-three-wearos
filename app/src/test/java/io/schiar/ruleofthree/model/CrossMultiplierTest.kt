@@ -9,8 +9,8 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(a = "12", b = "", ""),
             CrossMultiplier()
-                .addToInput(value = "1", position = Pair(0, 0))
-                .addToInput(value = "2", position = Pair(0, 0))
+                .characterPushedAt(character = "1", position = Pair(0, 0))
+                .characterPushedAt(character = "2", position = Pair(0, 0))
         )
     }
 
@@ -19,8 +19,8 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(a = "", b = "12", ""),
             CrossMultiplier()
-                .addToInput(value = "1", position = Pair(0, 1))
-                .addToInput(value = "2", position = Pair(0, 1))
+                .characterPushedAt(character = "1", position = Pair(0, 1))
+                .characterPushedAt(character = "2", position = Pair(0, 1))
         )
     }
 
@@ -29,8 +29,8 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(a = "", b = "", "12"),
             CrossMultiplier()
-                .addToInput(value = "1", position = Pair(1, 0))
-                .addToInput(value = "2", position = Pair(1, 0))
+                .characterPushedAt(character = "1", position = Pair(1, 0))
+                .characterPushedAt(character = "2", position = Pair(1, 0))
         )
     }
 
@@ -39,19 +39,19 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(a = "34.5", b = "532.3", "53.6"),
             CrossMultiplier()
-                .addToInput(value = "3", position = Pair(0, 0))
-                .addToInput(value = "4", position = Pair(0, 0))
-                .addToInput(value = ".", position = Pair(0, 0))
-                .addToInput(value = "5", position = Pair(0, 0))
-                .addToInput(value = "5", position = Pair(0, 1))
-                .addToInput(value = "3", position = Pair(0, 1))
-                .addToInput(value = "2", position = Pair(0, 1))
-                .addToInput(value = ".", position = Pair(0, 1))
-                .addToInput(value = "3", position = Pair(0, 1))
-                .addToInput(value = "5", position = Pair(1, 0))
-                .addToInput(value = "3", position = Pair(1, 0))
-                .addToInput(value = ".", position = Pair(1, 0))
-                .addToInput(value = "6", position = Pair(1, 0))
+                .characterPushedAt(character = "3", position = Pair(0, 0))
+                .characterPushedAt(character = "4", position = Pair(0, 0))
+                .characterPushedAt(character = ".", position = Pair(0, 0))
+                .characterPushedAt(character = "5", position = Pair(0, 0))
+                .characterPushedAt(character = "5", position = Pair(0, 1))
+                .characterPushedAt(character = "3", position = Pair(0, 1))
+                .characterPushedAt(character = "2", position = Pair(0, 1))
+                .characterPushedAt(character = ".", position = Pair(0, 1))
+                .characterPushedAt(character = "3", position = Pair(0, 1))
+                .characterPushedAt(character = "5", position = Pair(1, 0))
+                .characterPushedAt(character = "3", position = Pair(1, 0))
+                .characterPushedAt(character = ".", position = Pair(1, 0))
+                .characterPushedAt(character = "6", position = Pair(1, 0))
         )
     }
 
@@ -60,14 +60,14 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(a = "", b = "", ""),
             CrossMultiplier()
-                .addToInput(value = "3", position = Pair(0, 0))
-                .addToInput(value = "4", position = Pair(0, 0))
-                .addToInput(value = ".", position = Pair(0, 0))
-                .addToInput(value = "5", position = Pair(0, 0))
-                .removeFromInput(position = Pair(0, 0))
-                .removeFromInput(position = Pair(0, 0))
-                .removeFromInput(position = Pair(0, 0))
-                .removeFromInput(position = Pair(0, 0))
+                .characterPushedAt(character = "3", position = Pair(0, 0))
+                .characterPushedAt(character = "4", position = Pair(0, 0))
+                .characterPushedAt(character = ".", position = Pair(0, 0))
+                .characterPushedAt(character = "5", position = Pair(0, 0))
+                .characterPoppedAt(position = Pair(0, 0))
+                .characterPoppedAt(position = Pair(0, 0))
+                .characterPoppedAt(position = Pair(0, 0))
+                .characterPoppedAt(position = Pair(0, 0))
         )
     }
 
@@ -76,32 +76,32 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(a = "", b = "", ""),
             CrossMultiplier()
-                .addToInput(value = "3", position = Pair(0, 0))
-                .addToInput(value = "4", position = Pair(0, 0))
-                .addToInput(value = ".", position = Pair(0, 0))
-                .addToInput(value = "5", position = Pair(0, 0))
-                .addToInput(value = "5", position = Pair(0, 1))
-                .addToInput(value = "3", position = Pair(0, 1))
-                .addToInput(value = "2", position = Pair(0, 1))
-                .addToInput(value = ".", position = Pair(0, 1))
-                .addToInput(value = "3", position = Pair(0, 1))
-                .addToInput(value = "5", position = Pair(1, 0))
-                .addToInput(value = "3", position = Pair(1, 0))
-                .addToInput(value = ".", position = Pair(1, 0))
-                .addToInput(value = "6", position = Pair(1, 0))
-                .removeFromInput(position = Pair(0, 0))
-                .removeFromInput(position = Pair(0, 0))
-                .removeFromInput(position = Pair(0, 0))
-                .removeFromInput(position = Pair(0, 0))
-                .removeFromInput(position = Pair(0, 1))
-                .removeFromInput(position = Pair(0, 1))
-                .removeFromInput(position = Pair(0, 1))
-                .removeFromInput(position = Pair(0, 1))
-                .removeFromInput(position = Pair(0, 1))
-                .removeFromInput(position = Pair(1, 0))
-                .removeFromInput(position = Pair(1, 0))
-                .removeFromInput(position = Pair(1, 0))
-                .removeFromInput(position = Pair(1, 0))
+                .characterPushedAt(character = "3", position = Pair(0, 0))
+                .characterPushedAt(character = "4", position = Pair(0, 0))
+                .characterPushedAt(character = ".", position = Pair(0, 0))
+                .characterPushedAt(character = "5", position = Pair(0, 0))
+                .characterPushedAt(character = "5", position = Pair(0, 1))
+                .characterPushedAt(character = "3", position = Pair(0, 1))
+                .characterPushedAt(character = "2", position = Pair(0, 1))
+                .characterPushedAt(character = ".", position = Pair(0, 1))
+                .characterPushedAt(character = "3", position = Pair(0, 1))
+                .characterPushedAt(character = "5", position = Pair(1, 0))
+                .characterPushedAt(character = "3", position = Pair(1, 0))
+                .characterPushedAt(character = ".", position = Pair(1, 0))
+                .characterPushedAt(character = "6", position = Pair(1, 0))
+                .characterPoppedAt(position = Pair(0, 0))
+                .characterPoppedAt(position = Pair(0, 0))
+                .characterPoppedAt(position = Pair(0, 0))
+                .characterPoppedAt(position = Pair(0, 0))
+                .characterPoppedAt(position = Pair(0, 1))
+                .characterPoppedAt(position = Pair(0, 1))
+                .characterPoppedAt(position = Pair(0, 1))
+                .characterPoppedAt(position = Pair(0, 1))
+                .characterPoppedAt(position = Pair(0, 1))
+                .characterPoppedAt(position = Pair(1, 0))
+                .characterPoppedAt(position = Pair(1, 0))
+                .characterPoppedAt(position = Pair(1, 0))
+                .characterPoppedAt(position = Pair(1, 0))
         )
     }
 
@@ -110,7 +110,7 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(),
             CrossMultiplier()
-                .addToInput(value = "1", position = Pair(0, 0)).clear(position = Pair(0, 0))
+                .characterPushedAt(character = "1", position = Pair(0, 0)).inputClearedAt(position = Pair(0, 0))
         )
     }
 
@@ -119,8 +119,8 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(),
             CrossMultiplier()
-                .addToInput(value = "1", position = Pair(0, 1))
-                .clear(position = Pair(0, 1))
+                .characterPushedAt(character = "1", position = Pair(0, 1))
+                .inputClearedAt(position = Pair(0, 1))
         )
     }
 
@@ -129,8 +129,8 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(),
             CrossMultiplier()
-                .addToInput(value = "1", position = Pair(1, 0))
-                .clear(position = Pair(1, 0))
+                .characterPushedAt(character = "1", position = Pair(1, 0))
+                .inputClearedAt(position = Pair(1, 0))
         )
     }
 
@@ -139,10 +139,10 @@ class CrossMultiplierTest {
         Assert.assertEquals(
             CrossMultiplier(),
             CrossMultiplier()
-                .addToInput(value = "1", position = Pair(1, 0))
-                .addToInput(value = "2", position = Pair(0, 1))
-                .addToInput(value = "3", position = Pair(0, 0))
-                .clearAll()
+                .characterPushedAt(character = "1", position = Pair(1, 0))
+                .characterPushedAt(character = "2", position = Pair(0, 1))
+                .characterPushedAt(character = "3", position = Pair(0, 0))
+                .allInputsCleared()
         )
     }
 
@@ -184,11 +184,10 @@ class CrossMultiplierTest {
                 a = "2.46",
                 b = "",
                 c = "23.4",
-                result = null,
                 unknownPosition = Pair(0, 1)
-            ),
+            ).resultCalculated(),
             CrossMultiplier(a = "2.46", b = "83.4", c = "23.4")
-                .unknownPositionChangedTo(newPosition = Pair(0, 1))
+                .unknownPositionChangedTo(position = Pair(0, 1))
                 .resultCalculated()
         )
     }

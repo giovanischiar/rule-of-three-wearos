@@ -1,155 +1,114 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.CrossMultiplierDataSource
-import io.schiar.ruleofthree.model.datasource.DataSource
-import io.schiar.ruleofthree.model.datasource.util.CrossMultiplierLocalDAO
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSourceable
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSourceable
 
 class MainRepository(
-    private val dataSource: DataSource = CrossMultiplierDataSource(crossMultiplierDAO = CrossMultiplierLocalDAO())
-): AppRepository, CrossMultiplierRepository, HistoryRepository {
-    private var crossMultipliersCallback = { _: CrossMultiplier -> }
-    private var isThereHistoryCallback = { _: Boolean -> }
-    private var allPastCrossMultipliersCallback = { _: List<CrossMultiplier> -> }
-
+    private val pastCrossMultipliersDataSourceable: PastCrossMultipliersDataSourceable
+        = PastCrossMultipliersDataSource(),
+    private val currentCrossMultiplierDataSourceable: CurrentCrossMultiplierDataSourceable
+        = CurrentCrossMultiplierDataSource()
+): AppRepository, PastCrossMultipliersRepository, HistoryRepository {
     // AppRepository
 
-    override suspend fun loadDatabase() {
-        crossMultipliersCallback(dataSource.requestCurrentCrossMultiplier())
-        val allPastCrossMultipliers = dataSource.requestAllPastCrossMultipliers()
-        allPastCrossMultipliersCallback(allPastCrossMultipliers)
-        isThereHistoryCallback(allPastCrossMultipliers.isNotEmpty())
+    private var isThereHistoryCallback = { _: Boolean -> }
+
+    override suspend fun loadPastCrossMultipliers() {
+        val pastCrossMultipliers = pastCrossMultipliersDataSourceable.retrievePastCrossMultipliers()
+        pastCrossMultipliersCallback(pastCrossMultipliers)
+        isThereHistoryCallback(pastCrossMultipliers.isNotEmpty())
     }
 
-    // CrossMultiplierRepository
-
-    override fun subscribeForCrossMultipliers(callback: (crossMultiplier: CrossMultiplier) -> Unit) {
-        this.crossMultipliersCallback = callback
-    }
-
-    override fun subscribeForIsThereHistories(callback: (value: Boolean) -> Unit) {
+    override fun subscribeForIsTherePastCrossMultipliers(callback: (value: Boolean) -> Unit) {
         isThereHistoryCallback = callback
     }
 
-    override suspend fun addToInput(value: String, position: Pair<Int, Int>) {
-        val crossMultiplier = dataSource
-            .requestCurrentCrossMultiplier()
-            .addToInput(value = value, position = position)
+    override suspend fun addCurrentCrossMultiplierToPastCrossMultipliers() {
+        val crossMultiplierToBeCreated = currentCrossMultiplierDataSourceable
+            .retrieveCurrentCrossMultiplier()
             .resultCalculated()
-        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
-        crossMultipliersCallback(crossMultiplier)
-    }
-
-    override suspend fun removeFromInput(position: Pair<Int, Int>) {
-        val crossMultiplier = dataSource
-            .requestCurrentCrossMultiplier()
-            .removeFromInput(position = position)
-            .resultCalculated()
-        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
-        crossMultipliersCallback(crossMultiplier)
-    }
-
-    override suspend fun clearInput(position: Pair<Int, Int>) {
-        val crossMultiplier = dataSource
-            .requestCurrentCrossMultiplier()
-            .clear(position = position)
-            .resultCalculated()
-        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
-        crossMultipliersCallback(crossMultiplier)
-    }
-
-    override suspend fun changeUnknownPosition(position: Pair<Int, Int>) {
-        val crossMultiplier = dataSource
-            .requestCurrentCrossMultiplier()
-            .unknownPositionChangedTo(newPosition = position)
-            .resultCalculated()
-        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
-        crossMultipliersCallback(crossMultiplier)
-    }
-
-    override suspend fun submitToHistory() {
-        val crossMultiplier = dataSource.requestCurrentCrossMultiplier()
-        if (crossMultiplier.result() != null) {
-            dataSource.updateCurrentCrossMultiplier(crossMultiplier)
-            dataSource.addToAllPastCrossMultipliers(crossMultiplier)
-            val allPastCrossMultipliers = dataSource.requestAllPastCrossMultipliers()
-            allPastCrossMultipliersCallback(allPastCrossMultipliers)
-            isThereHistoryCallback(allPastCrossMultipliers.isNotEmpty())
+        if (crossMultiplierToBeCreated.isTheResultValid()) {
+            pastCrossMultipliersDataSourceable.createPastCrossMultiplier(
+                crossMultiplierToBeCreated = crossMultiplierToBeCreated
+            )
+            loadPastCrossMultipliers()
         }
     }
 
-    override suspend fun clearAllInputs() {
-        val crossMultiplier = dataSource
-            .requestCurrentCrossMultiplier()
-            .clearAll()
-        dataSource.updateCurrentCrossMultiplier(crossMultiplier = crossMultiplier)
-        crossMultipliersCallback(crossMultiplier)
+    // PastCrossMultipliersRepository
+
+    private suspend fun crossMultiplierAt(index: Int): CrossMultiplier? {
+        return pastCrossMultipliersDataSourceable.retrievePastCrossMultiplierAt(index = index)
+    }
+
+    private suspend fun updatePastCrossMultiplierAt(crossMultiplierUpdated: CrossMultiplier) {
+        pastCrossMultipliersDataSourceable.updatePastCrossMultiplier(
+            crossMultiplierUpdated = crossMultiplierUpdated.resultCalculated()
+        )
+        pastCrossMultipliersCallback(
+            pastCrossMultipliersDataSourceable.retrievePastCrossMultipliers()
+        )
+    }
+
+    override suspend fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
+        index: Int, character: String, position: Pair<Int, Int>
+    ) {
+        val crossMultiplierUpdated = (crossMultiplierAt(index = index) ?: return)
+            .characterPushedAt(position = position, character = character)
+        updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
+    }
+
+    override suspend fun popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
+        index: Int, position: Pair<Int, Int>
+    ) {
+        val crossMultiplierUpdated = (crossMultiplierAt(index = index) ?: return)
+            .characterPoppedAt(position = position)
+        updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
+    }
+
+    override suspend fun changeTheUnknownPositionOfTheCrossMultiplierAt(
+        index: Int, position: Pair<Int, Int>
+    ) {
+        val crossMultiplierUpdated = (crossMultiplierAt(index = index) ?: return)
+            .unknownPositionChangedTo(position = position)
+        updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
+    }
+
+    override suspend fun clearInputOnPositionOfTheCrossMultiplierAt(
+        index: Int, position: Pair<Int, Int>
+    ) {
+        val crossMultiplierUpdated = (crossMultiplierAt(index = index) ?: return)
+            .inputClearedAt(position = position)
+        updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
     }
 
     // HistoryRepository
+    private var pastCrossMultipliersCallback = { _: List<CrossMultiplier> -> }
 
-    override fun subscribeForAllPastCrossMultipliers(
+    private suspend fun pastCrossMultipliers(): List<CrossMultiplier> {
+        return pastCrossMultipliersDataSourceable.retrievePastCrossMultipliers()
+    }
+
+    override fun subscribeForPastCrossMultipliers(
         callback: (allPastCrossMultipliers: List<CrossMultiplier>) -> Unit
     ) {
-        allPastCrossMultipliersCallback = callback
+        pastCrossMultipliersCallback = callback
     }
 
-    override suspend fun replaceCurrentCrossMultiplier(index: Int) {
-        dataSource.replaceCurrentCrossMultiplier(index = index)
-        crossMultipliersCallback(dataSource.requestCurrentCrossMultiplier())
-    }
-
-    override suspend fun deleteHistoryItem(index: Int) {
-        dataSource.deleteHistoryItem(index = index)
-        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
-        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
-        isThereHistoryCallback(allPastCurrentMultipliers.isNotEmpty())
+    override suspend fun deleteCrossMultiplier(index: Int) {
+        pastCrossMultipliersDataSourceable.deletePastCrossMultiplierAt(index = index)
+        val pastCrossMultipliers = pastCrossMultipliers()
+        pastCrossMultipliersCallback(pastCrossMultipliers)
+        isThereHistoryCallback(pastCrossMultipliers.isNotEmpty())
     }
 
     override suspend fun deleteHistory() {
-        dataSource.deleteHistory()
-        val allPastCurrentMultipliers = emptyList<CrossMultiplier>()
-        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
-        isThereHistoryCallback(allPastCurrentMultipliers.isNotEmpty())
-    }
-
-    override suspend fun addToInput(index: Int, value: String, position: Pair<Int, Int>) {
-        val crossMultiplier = dataSource
-            .requestAllPastCrossMultipliers()[index]
-            .addToInput(value = value, position = position)
-            .resultCalculated()
-        dataSource.updateCrossMultiplier(index = index, crossMultiplier = crossMultiplier)
-        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
-        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
-    }
-
-    override suspend fun removeFromInput(index: Int, position: Pair<Int, Int>) {
-        val crossMultiplier = dataSource
-            .requestAllPastCrossMultipliers()[index]
-            .removeFromInput(position = position)
-            .resultCalculated()
-        dataSource.updateCrossMultiplier(index = index, crossMultiplier = crossMultiplier)
-        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
-        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
-    }
-
-    override suspend fun clearInput(index: Int, position: Pair<Int, Int>) {
-        val crossMultiplier = dataSource
-            .requestAllPastCrossMultipliers()[index]
-            .clear(position = position)
-            .resultCalculated()
-        dataSource.updateCrossMultiplier(index = index, crossMultiplier = crossMultiplier)
-        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
-        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
-    }
-
-    override suspend fun changeUnknownPosition(index: Int, position: Pair<Int, Int>) {
-        val crossMultiplier = dataSource
-            .requestAllPastCrossMultipliers()[index]
-            .unknownPositionChangedTo(newPosition = position)
-            .resultCalculated()
-        dataSource.updateCrossMultiplier(index = index, crossMultiplier = crossMultiplier)
-        val allPastCurrentMultipliers = dataSource.requestAllPastCrossMultipliers()
-        allPastCrossMultipliersCallback(allPastCurrentMultipliers)
+        pastCrossMultipliersDataSourceable.deletePastCrossMultipliers()
+        val pastCurrentMultipliers = emptyList<CrossMultiplier>()
+        pastCrossMultipliersCallback(pastCurrentMultipliers)
+        isThereHistoryCallback(false)
     }
 }

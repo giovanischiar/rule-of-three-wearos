@@ -10,43 +10,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class HistoryViewModel(private val repository: HistoryRepository = MainRepository()): ViewModel() {
-    private var _allPastCrossMultipliers = MutableStateFlow(emptyList<CrossMultiplierViewData>())
-    val allPastCrossMultipliers: StateFlow<List<CrossMultiplierViewData>> = _allPastCrossMultipliers
+class HistoryViewModel(
+    private val historyRepository: HistoryRepository = MainRepository()
+): ViewModel() {
+    private var _pastCrossMultipliers = MutableStateFlow(emptyList<CrossMultiplierViewData>())
+    val pastCrossMultipliers: StateFlow<List<CrossMultiplierViewData>> = _pastCrossMultipliers
 
-    init {
-        repository.subscribeForAllPastCrossMultipliers(::onAllPastCrossMultipliersChanged)
-    }
+    init { historyRepository.subscribeForPastCrossMultipliers(::onPastCrossMultipliersChanged) }
 
-    suspend fun replaceCurrentCrossMultiplier(index: Int) {
-        repository.replaceCurrentCrossMultiplier(index = index)
-    }
-
-    suspend fun deleteHistoryItem(index: Int) {
-        repository.deleteHistoryItem(index = index)
+    suspend fun deleteCrossMultiplier(index: Int) {
+        historyRepository.deleteCrossMultiplier(index = index)
     }
 
     suspend fun deleteHistory() {
-        repository.deleteHistory()
+        historyRepository.deleteHistory()
     }
 
-    suspend fun addInput(index: Int, value: String, position: Pair<Int, Int>) {
-        repository.addToInput(index = index, value = value, position = position)
-    }
-
-    suspend fun removeInput(index: Int, position: Pair<Int, Int>) {
-        repository.removeFromInput(index = index, position = position)
-    }
-
-    suspend fun clearInput(index: Int, position: Pair<Int, Int>) {
-        repository.clearInput(index = index, position = position)
-    }
-
-    suspend fun changeUnknownPosition(index: Int, position: Pair<Int, Int>) {
-        repository.changeUnknownPosition(index = index, position = position)
-    }
-
-    private fun onAllPastCrossMultipliersChanged(allPastCrossMultipliers: List<CrossMultiplier>) {
-        _allPastCrossMultipliers.update { allPastCrossMultipliers.map { it.toViewData() } }
+    private fun onPastCrossMultipliersChanged(allPastCrossMultipliers: List<CrossMultiplier>) {
+        _pastCrossMultipliers.update { allPastCrossMultipliers.map { it.toViewData() } }
     }
 }

@@ -1,17 +1,22 @@
-package io.schiar.ruleofthree.model.datasource.room
+package io.schiar.ruleofthree
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import io.schiar.ruleofthree.model.datasource.database.CrossMultiplierEntity
+import io.schiar.ruleofthree.model.datasource.database.CurrentCrossMultiplierDAO
+import io.schiar.ruleofthree.model.datasource.database.CurrentCrossMultiplierEntity
+import io.schiar.ruleofthree.model.datasource.database.PastCrossMultipliersDAO
 
 @Database(
-    entities = [CrossMultiplierEntity::class],
+    entities = [CurrentCrossMultiplierEntity::class, CrossMultiplierEntity::class],
     version = 1,
     exportSchema = false
 )
 abstract class RuleOfThreeDatabase : RoomDatabase() {
-    abstract fun crossMultiplierDAO(): CrossMultiplierDAO
+    abstract fun pastCrossMultipliersDAO(): PastCrossMultipliersDAO
+    abstract fun currentCrossMultiplierDAO(): CurrentCrossMultiplierDAO
 
     companion object {
         @Volatile
