@@ -7,10 +7,10 @@ import org.junit.Test
 
 class PastCrossMultipliersDataSourceTest {
     private val crossMultipliers = listOf(
-        CrossMultiplier(a = "1", b = "2.3", c = "45.3"),
-        CrossMultiplier(a = "3", b = "32.3", c = "4.6"),
-        CrossMultiplier(a = "94.5", b = "28.4", c = "57"),
-        CrossMultiplier(a = "98", b = "23", c = "4"),
+        CrossMultiplier(valueAt00 = 1, valueAt01 = 2.3, valueAt10 = 45.3),
+        CrossMultiplier(valueAt00 = 3, valueAt01 = 32.3, valueAt10 = 4.6),
+        CrossMultiplier(valueAt00 = 94.5, valueAt01 = 28.4, valueAt10 = 57),
+        CrossMultiplier(valueAt00 = 98, valueAt01 = 23, valueAt10 = 4),
     )
 
     private val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(

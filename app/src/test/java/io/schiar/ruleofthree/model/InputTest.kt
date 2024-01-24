@@ -144,20 +144,20 @@ class InputTest {
     @Test
     fun `Check Validity Of Empty Input`() {
         // When
-        val actualResult = emptyInput.toDoubleOrNull()
+        val actualResult = emptyInput.toNumberOrNull()
 
         // Then
         Assert.assertNull(actualResult)
     }
 
     @Test
-    fun `Double valid Value`() {
+    fun `Number valid Value`() {
         // Given
         val input = Input(value = "1.3")
         val expectedDouble = 1.3
 
         // When
-        val actualDouble = input.toDoubleOrNull()
+        val actualDouble = input.toNumberOrNull()
 
         // Then
         Assert.assertEquals(expectedDouble, actualDouble)

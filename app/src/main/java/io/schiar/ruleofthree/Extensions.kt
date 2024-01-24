@@ -11,3 +11,7 @@ operator fun <T> Array<Array<T>>.set(position: Pair<Int, Int>, value: T) {
     val (i, j) = position
     this[i][j] = value
 }
+
+fun Number?.stringify(): String {
+    return (this ?: "").toString()
+}

@@ -4,191 +4,398 @@ import org.junit.Assert
 import org.junit.Test
 
 class CrossMultiplierTest {
+    private val emptyCrossMultiplier = CrossMultiplier()
+
     @Test
-    fun `Add Two Inputs on Position 0`() {
-        Assert.assertEquals(
-            CrossMultiplier(a = "12", b = "", ""),
-            CrossMultiplier()
-                .characterPushedAt(character = "1", position = Pair(0, 0))
-                .characterPushedAt(character = "2", position = Pair(0, 0))
-        )
+    fun `Inputs 1 and 2 Pushed at Position (0, 0)`() {
+        // Given
+        val expectedCrossMultiplier = CrossMultiplier(valueAt00 = 12)
+        val position = Pair(0, 0)
+
+        // When
+        val actualCrossMultiplier = CrossMultiplier()
+            .characterPushedAt(position = position, character = "1")
+            .characterPushedAt(position = position, character = "2")
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Two Inputs on Position 1`() {
-        Assert.assertEquals(
-            CrossMultiplier(a = "", b = "12", ""),
-            CrossMultiplier()
-                .characterPushedAt(character = "1", position = Pair(0, 1))
-                .characterPushedAt(character = "2", position = Pair(0, 1))
-        )
+    fun `Inputs 1 and 2 Pushed at Position (0, 1)`() {
+        // Given
+        val expectedCrossMultiplier = CrossMultiplier(valueAt01 = 12)
+        val position = Pair(0, 1)
+
+        // When
+        val actualCrossMultiplier = CrossMultiplier()
+            .characterPushedAt(position = position, character = "1")
+            .characterPushedAt(position = position, character = "2")
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Two Inputs on Position 2`() {
-        Assert.assertEquals(
-            CrossMultiplier(a = "", b = "", "12"),
-            CrossMultiplier()
-                .characterPushedAt(character = "1", position = Pair(1, 0))
-                .characterPushedAt(character = "2", position = Pair(1, 0))
-        )
+    fun `Inputs 1 and 2 Pushed at Position (1, 0)`() {
+        // Given
+        val expectedCrossMultiplier = CrossMultiplier(valueAt10 = 12)
+        val position = Pair(1, 0)
+
+        // When
+        val actualCrossMultiplier = CrossMultiplier()
+            .characterPushedAt(position = position, character = "1")
+            .characterPushedAt(position = position, character = "2")
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Input to All Positions`() {
-        Assert.assertEquals(
-            CrossMultiplier(a = "34.5", b = "532.3", "53.6"),
-            CrossMultiplier()
-                .characterPushedAt(character = "3", position = Pair(0, 0))
-                .characterPushedAt(character = "4", position = Pair(0, 0))
-                .characterPushedAt(character = ".", position = Pair(0, 0))
-                .characterPushedAt(character = "5", position = Pair(0, 0))
-                .characterPushedAt(character = "5", position = Pair(0, 1))
-                .characterPushedAt(character = "3", position = Pair(0, 1))
-                .characterPushedAt(character = "2", position = Pair(0, 1))
-                .characterPushedAt(character = ".", position = Pair(0, 1))
-                .characterPushedAt(character = "3", position = Pair(0, 1))
-                .characterPushedAt(character = "5", position = Pair(1, 0))
-                .characterPushedAt(character = "3", position = Pair(1, 0))
-                .characterPushedAt(character = ".", position = Pair(1, 0))
-                .characterPushedAt(character = "6", position = Pair(1, 0))
+    fun `Input of All Positions Pushed`() {
+        // Given
+        val expectedCrossMultiplier = CrossMultiplier(
+            valueAt00 = 34.5,
+            valueAt01 = 532.3,
+            valueAt10 = 53.6
         )
+
+        // When
+        val actualCrossMultiplier = CrossMultiplier()
+            .characterPushedAt(position = Pair(0, 0), character = "3")
+            .characterPushedAt(position = Pair(0, 0), character = "4")
+            .characterPushedAt(position = Pair(0, 0), character = ".")
+            .characterPushedAt(position = Pair(0, 0), character = "5")
+            .characterPushedAt(position = Pair(0, 1), character = "5")
+            .characterPushedAt(position = Pair(0, 1), character = "3")
+            .characterPushedAt(position = Pair(0, 1), character = "2")
+            .characterPushedAt(position = Pair(0, 1), character = ".")
+            .characterPushedAt(position = Pair(0, 1), character = "3")
+            .characterPushedAt(position = Pair(1, 0), character = "5")
+            .characterPushedAt(position = Pair(1, 0), character = "3")
+            .characterPushedAt(position = Pair(1, 0), character = ".")
+            .characterPushedAt(position = Pair(1, 0), character = "6")
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Input and Remove Input on Position 0`() {
-        Assert.assertEquals(
-            CrossMultiplier(a = "", b = "", ""),
-            CrossMultiplier()
-                .characterPushedAt(character = "3", position = Pair(0, 0))
-                .characterPushedAt(character = "4", position = Pair(0, 0))
-                .characterPushedAt(character = ".", position = Pair(0, 0))
-                .characterPushedAt(character = "5", position = Pair(0, 0))
-                .characterPoppedAt(position = Pair(0, 0))
-                .characterPoppedAt(position = Pair(0, 0))
-                .characterPoppedAt(position = Pair(0, 0))
-                .characterPoppedAt(position = Pair(0, 0))
-        )
+    fun `Characters Pushed and Popped at Position on Position (0, 0)`() {
+        // Given
+        val expectedCrossMultiplier = emptyCrossMultiplier
+
+        // When
+        val actualCrossMultiplier = emptyCrossMultiplier
+            .characterPushedAt(position = Pair(0, 0), character = "3")
+            .characterPushedAt(position = Pair(0, 0), character = "4")
+            .characterPushedAt(position = Pair(0, 0), character = ".")
+            .characterPushedAt(position = Pair(0, 0), character = "5")
+            .characterPoppedAt(position = Pair(0, 0))
+            .characterPoppedAt(position = Pair(0, 0))
+            .characterPoppedAt(position = Pair(0, 0))
+            .characterPoppedAt(position = Pair(0, 0))
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Input to All Positions And Then Remove All`() {
-        Assert.assertEquals(
-            CrossMultiplier(a = "", b = "", ""),
-            CrossMultiplier()
-                .characterPushedAt(character = "3", position = Pair(0, 0))
-                .characterPushedAt(character = "4", position = Pair(0, 0))
-                .characterPushedAt(character = ".", position = Pair(0, 0))
-                .characterPushedAt(character = "5", position = Pair(0, 0))
-                .characterPushedAt(character = "5", position = Pair(0, 1))
-                .characterPushedAt(character = "3", position = Pair(0, 1))
-                .characterPushedAt(character = "2", position = Pair(0, 1))
-                .characterPushedAt(character = ".", position = Pair(0, 1))
-                .characterPushedAt(character = "3", position = Pair(0, 1))
-                .characterPushedAt(character = "5", position = Pair(1, 0))
-                .characterPushedAt(character = "3", position = Pair(1, 0))
-                .characterPushedAt(character = ".", position = Pair(1, 0))
-                .characterPushedAt(character = "6", position = Pair(1, 0))
-                .characterPoppedAt(position = Pair(0, 0))
-                .characterPoppedAt(position = Pair(0, 0))
-                .characterPoppedAt(position = Pair(0, 0))
-                .characterPoppedAt(position = Pair(0, 0))
-                .characterPoppedAt(position = Pair(0, 1))
-                .characterPoppedAt(position = Pair(0, 1))
-                .characterPoppedAt(position = Pair(0, 1))
-                .characterPoppedAt(position = Pair(0, 1))
-                .characterPoppedAt(position = Pair(0, 1))
-                .characterPoppedAt(position = Pair(1, 0))
-                .characterPoppedAt(position = Pair(1, 0))
-                .characterPoppedAt(position = Pair(1, 0))
-                .characterPoppedAt(position = Pair(1, 0))
-        )
+    fun `Characters Pushed at All Positions and Then All Popped`() {
+        // Given
+        val expectedCrossMultiplier = emptyCrossMultiplier
+
+        // When
+        val actualCrossMultiplier = emptyCrossMultiplier
+            .characterPushedAt(position = Pair(0, 0), character = "3")
+            .characterPushedAt(position = Pair(0, 0), character = "4")
+            .characterPushedAt(position = Pair(0, 0), character = ".")
+            .characterPushedAt(position = Pair(0, 0), character = "5")
+            .characterPushedAt(position = Pair(0, 1), character = "5")
+            .characterPushedAt(position = Pair(0, 1), character = "3")
+            .characterPushedAt(position = Pair(0, 1), character = "2")
+            .characterPushedAt(position = Pair(0, 1), character = ".")
+            .characterPushedAt(position = Pair(0, 1), character = "3")
+            .characterPushedAt(position = Pair(1, 0), character = "5")
+            .characterPushedAt(position = Pair(1, 0), character = "3")
+            .characterPushedAt(position = Pair(1, 0), character = ".")
+            .characterPushedAt(position = Pair(1, 0), character = "6")
+            .characterPoppedAt(position = Pair(0, 0))
+            .characterPoppedAt(position = Pair(0, 0))
+            .characterPoppedAt(position = Pair(0, 0))
+            .characterPoppedAt(position = Pair(0, 0))
+            .characterPoppedAt(position = Pair(0, 1))
+            .characterPoppedAt(position = Pair(0, 1))
+            .characterPoppedAt(position = Pair(0, 1))
+            .characterPoppedAt(position = Pair(0, 1))
+            .characterPoppedAt(position = Pair(0, 1))
+            .characterPoppedAt(position = Pair(1, 0))
+            .characterPoppedAt(position = Pair(1, 0))
+            .characterPoppedAt(position = Pair(1, 0))
+            .characterPoppedAt(position = Pair(1, 0))
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Input and Clear on Position 0`() {
-        Assert.assertEquals(
-            CrossMultiplier(),
-            CrossMultiplier()
-                .characterPushedAt(character = "1", position = Pair(0, 0)).inputClearedAt(position = Pair(0, 0))
-        )
+    fun `Character Pushed and Cleared on Position (0, 0)`() {
+        // Given
+        val expectedCrossMultiplier = emptyCrossMultiplier
+
+        // When
+        val actualCrossMultiplier = emptyCrossMultiplier
+            .characterPushedAt(character = "1", position = Pair(0, 0))
+            .inputClearedAt(position = Pair(0, 0))
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Input and Clear on Position 1`() {
-        Assert.assertEquals(
-            CrossMultiplier(),
-            CrossMultiplier()
-                .characterPushedAt(character = "1", position = Pair(0, 1))
-                .inputClearedAt(position = Pair(0, 1))
-        )
+    fun `Character Pushed and Cleared on Position (0, 1)`() {
+        // Given
+        val expectedCrossMultiplier = emptyCrossMultiplier
+
+        // When
+        val actualCrossMultiplier = emptyCrossMultiplier
+            .characterPushedAt(character = "1", position = Pair(0, 1))
+            .inputClearedAt(position = Pair(0, 1))
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Input and Clear on Position 2`() {
-        Assert.assertEquals(
-            CrossMultiplier(),
-            CrossMultiplier()
-                .characterPushedAt(character = "1", position = Pair(1, 0))
-                .inputClearedAt(position = Pair(1, 0))
-        )
+    fun `Character Pushed and Cleared on Position (1, 0)`() {
+        // Given
+        val expectedCrossMultiplier = emptyCrossMultiplier
+
+        // When
+        val actualCrossMultiplier = emptyCrossMultiplier
+            .characterPushedAt(character = "1", position = Pair(1, 0))
+            .inputClearedAt(position = Pair(1, 0))
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Add Inputs and Clear All`() {
-        Assert.assertEquals(
-            CrossMultiplier(),
-            CrossMultiplier()
-                .characterPushedAt(character = "1", position = Pair(1, 0))
-                .characterPushedAt(character = "2", position = Pair(0, 1))
-                .characterPushedAt(character = "3", position = Pair(0, 0))
-                .allInputsCleared()
-        )
+    fun `Characters Pushed and Then All Inputs Cleared`() {
+        // Given
+        val expectedCrossMultiplier = emptyCrossMultiplier
+
+        // When
+        val actualCrossMultiplier = emptyCrossMultiplier
+            .characterPushedAt(character = "1", position = Pair(1, 0))
+            .characterPushedAt(character = "2", position = Pair(0, 1))
+            .characterPushedAt(character = "3", position = Pair(0, 0))
+            .allInputsCleared()
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
-    fun `Calculate Result`() {
-        val a = 12.3
-        val b = 45
-        val c = 4.56
-        Assert.assertEquals(c * b / a,
-            CrossMultiplier(
-                a = a.toString(),
-                b = b.toString(),
-                c = c.toString(),
-            ).resultCalculated()
-            .result()
-        )
+    fun `Result Calculated`() {
+        // Given
+        val inputAt00 = 12.3
+        val inputAt01 = 45
+        val inputAt10 = 4.56
+        val expectedResult = inputAt10 * inputAt01 / inputAt00
+
+        // When
+        val actualResult = CrossMultiplier(
+            valueAt00 = inputAt00,
+            valueAt01 = inputAt01,
+            valueAt10 = inputAt10,
+        ).resultCalculated().unknownValue
+
+        // Then
+        Assert.assertEquals(expectedResult, actualResult)
     }
 
     @Test
     fun `Calculate Result With Zero Division`() {
-        Assert.assertEquals(
-            null,
-            CrossMultiplier(a = "0", b = "1.3", c = "23.4").resultCalculated().result()
-        )
-    }
+        // Given
+        val inputAt00 = 0
+        val inputAt01 = 1.3
+        val inputAt10 = 23.4
 
-    @Test
-    fun `Calculate Result With Input Invalid`() {
-        Assert.assertEquals(
-            null,
-            CrossMultiplier(a = "ere34", b = "e324", c = "jghn").resultCalculated().result()
-        )
+        // When
+        val actualResult = CrossMultiplier(
+            valueAt00 = inputAt00,
+            valueAt01 = inputAt01,
+            valueAt10 = inputAt10,
+        ).resultCalculated().unknownValue
+
+        // Then
+        Assert.assertNull(actualResult)
     }
 
     @Test
     fun `Change The Unknown Position`() {
-        Assert.assertEquals(
-            CrossMultiplier(
-                a = "2.46",
-                b = "",
-                c = "23.4",
-                unknownPosition = Pair(0, 1)
-            ).resultCalculated(),
-            CrossMultiplier(a = "2.46", b = "83.4", c = "23.4")
-                .unknownPositionChangedTo(position = Pair(0, 1))
-                .resultCalculated()
+        // Given
+         val expectedCrossMultiplier = CrossMultiplier(
+             valueAt00 = 2.46,
+             valueAt10 = 4,
+             valueAt11 = 23.4,
+             unknownPosition = Pair(0, 1)
         )
+
+        // When
+        val actualCrossMultiplier = CrossMultiplier(
+            valueAt00 = 2.46,
+            valueAt01 = 32,
+            valueAt10 = 4,
+            valueAt11 = 23.4
+        ).unknownPositionChangedTo(position = Pair(0, 1))
+
+        // Then
+        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+    }
+
+    @Test
+    fun `To String With Unknown Position At (0, 0)`() {
+        // Given
+        val crossMultiplier = CrossMultiplier(
+            valueAt01 = 7,
+            valueAt10 = 3,
+            valueAt11 = 6,
+            unknownPosition =  Pair(0, 0)
+        )
+        val expectedString = "\n" +
+                "? 7\n" +
+                "3 6\n"
+
+        // When
+        val actualString = crossMultiplier.toString()
+
+        // Then
+        Assert.assertEquals(expectedString, actualString)
+    }
+
+    @Test
+    fun `To String With Unknown Position At (0, 1)`() {
+        // Given
+        val crossMultiplier = CrossMultiplier(
+            valueAt00 = 4,
+            valueAt10 = 6,
+            valueAt11 = 8,
+            unknownPosition =  Pair(0, 1)
+        )
+        val expectedString = "\n" +
+                "4 ?\n" +
+                "6 8\n"
+
+        // When
+        val actualString = crossMultiplier.toString()
+
+        // Then
+        Assert.assertEquals(expectedString, actualString)
+    }
+
+    @Test
+    fun `To String With Unknown Position At (1, 0)`() {
+        // Given
+        val crossMultiplier = CrossMultiplier(
+            valueAt00 = 6,
+            valueAt01 = 1,
+            valueAt11 = 9,
+            unknownPosition =  Pair(1, 0)
+        )
+        val expectedString = "\n" +
+                "6 1\n" +
+                "? 9\n"
+
+        // When
+        val actualString = crossMultiplier.toString()
+
+        // Then
+        Assert.assertEquals(expectedString, actualString)
+    }
+
+    @Test
+    fun `To String With Unknown Position At (1, 1)`() {
+        // Given
+        val crossMultiplier = CrossMultiplier(
+            valueAt00 = 2,
+            valueAt01 = 5,
+            valueAt10 = 7
+        )
+        val expectedString = "\n" +
+                "2 5\n" +
+                "7 ?\n"
+
+        // When
+        val actualString = crossMultiplier.toString()
+
+        // Then
+        Assert.assertEquals(expectedString, actualString)
+    }
+
+    @Test
+    fun `To String Full With Unknown Position At (0, 1)`() {
+        // Given
+        val crossMultiplier = CrossMultiplier(
+            valueAt00 = 4,
+            valueAt01 = 6,
+            valueAt10 = 7,
+            valueAt11 = 8,
+            unknownPosition =  Pair(1, 0)
+        )
+        val expectedString = "\n" +
+                "4 6\n" +
+                "7 8\n"
+
+        // When
+        val actualString = crossMultiplier.toString()
+
+        // Then
+        Assert.assertEquals(expectedString, actualString)
+    }
+
+    @Test
+    fun `Equals Symmetry`() {
+        // Given
+        val crossMultiplierA = CrossMultiplier(
+            valueAt00 = 1,
+            valueAt01 = 2.354,
+            valueAt10 = 5,
+            valueAt11 = 45.3
+        )
+
+        val crossMultiplierB = CrossMultiplier(
+            valueAt00 = 1,
+            valueAt01 = 2.354,
+            valueAt10 = 5,
+            valueAt11 = 45.3
+        )
+
+        // Then
+        Assert.assertTrue(
+            crossMultiplierA == crossMultiplierB && crossMultiplierA == crossMultiplierB
+        )
+    }
+
+    @Test
+    fun `HashCode Symmetry`() {
+        // Given
+        val crossMultiplierA = CrossMultiplier(
+            valueAt00 = 1,
+            valueAt01 = 2.354,
+            valueAt10 = 5,
+            valueAt11 = 45.3
+        )
+
+        val crossMultiplierB = CrossMultiplier(
+            valueAt00 = 1,
+            valueAt01 = 2.354,
+            valueAt10 = 5,
+            valueAt11 = 45.3
+        )
+
+        // Then
+        Assert.assertTrue(crossMultiplierA.hashCode() == crossMultiplierB.hashCode())
     }
 }

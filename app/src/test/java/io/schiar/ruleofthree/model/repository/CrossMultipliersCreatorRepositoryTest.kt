@@ -1,6 +1,7 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -9,9 +10,9 @@ import org.junit.Test
 
 class CrossMultipliersCreatorRepositoryTest {
     private val crossMultiplier = CrossMultiplier(
-        a = "6",
-        b = "2.3",
-        c = "45.3",
+        valueAt00 = 6,
+        valueAt01 = 45.3,
+        valueAt10 = 2.3,
         unknownPosition = Pair(1, 1)
     ).resultCalculated()
 
@@ -68,7 +69,7 @@ class CrossMultipliersCreatorRepositoryTest {
         val expectedCurrentCrossMultiplier = crossMultiplier.characterPushedAt(
             character = characterToPushToInput,
             position = positionToAppendValueToInput
-        )
+        ).resultCalculated()
         var actualCurrentCrossMultiplier: CrossMultiplier? = null
 
         // When
@@ -92,7 +93,7 @@ class CrossMultipliersCreatorRepositoryTest {
         val positionToPopCharacterFromInput = Pair(0, 1)
         val expectedCurrentCrossMultiplier = crossMultiplier.characterPoppedAt(
             position = positionToPopCharacterFromInput
-        )
+        ).resultCalculated()
         var actualCurrentCrossMultiplier: CrossMultiplier? = null
 
         // When
@@ -115,7 +116,7 @@ class CrossMultipliersCreatorRepositoryTest {
         val newUnknownPosition = Pair(0, 1)
         val expectedCurrentCrossMultiplier = crossMultiplier.unknownPositionChangedTo(
             position = newUnknownPosition
-        )
+        ).resultCalculated()
         var actualCurrentCrossMultiplier: CrossMultiplier? = null
 
         // When

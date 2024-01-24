@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
@@ -38,25 +39,29 @@ fun CrossMultipliersCreatorScreen(
     val crossMultiplier by crossMultipliersCreatorViewModel.crossMultiplier.collectAsState()
     val iconSize = 30.dp
 
-    fun addValueToInputAt(value: String, position: Pair<Int, Int>) {
-        coroutineScope.launch { crossMultipliersCreatorViewModel.pushCharacterToInputAt(character = value, position = position) }
+    fun addValueToInputAt(value: String, position: Pair<Int, Int>) = coroutineScope.launch {
+        crossMultipliersCreatorViewModel.pushCharacterToInputAt(
+            character = value, position = position
+        )
     }
 
-    fun backspaceInputAt(position: Pair<Int, Int>) {
-        coroutineScope.launch { crossMultipliersCreatorViewModel.popCharacterOfInputAt(position = position) }
+    fun backspaceInputAt(position: Pair<Int, Int>) = coroutineScope.launch {
+        crossMultipliersCreatorViewModel.popCharacterOfInputAt(position = position)
     }
 
-    fun clearInputOn(position: Pair<Int, Int>) {
-        coroutineScope.launch { crossMultipliersCreatorViewModel.clearInputOn(position = position) }
+    fun clearInputOn(position: Pair<Int, Int>) = coroutineScope.launch {
+        crossMultipliersCreatorViewModel.clearInputOn(position = position)
     }
 
-    fun changeUnknownPosition(position: Pair<Int, Int>) {
-        coroutineScope.launch { crossMultipliersCreatorViewModel.changeTheUnknownPositionTo(position = position) }
+    fun changeUnknownPosition(position: Pair<Int, Int>) = coroutineScope.launch {
+        crossMultipliersCreatorViewModel.changeTheUnknownPositionTo(position = position)
     }
 
     fun handleSubmitClicked() { onSubmitClicked() }
 
-    fun clearAllInputs() { coroutineScope.launch { crossMultipliersCreatorViewModel.clearAllInputs() } }
+    fun clearAllInputs() = coroutineScope.launch {
+        crossMultipliersCreatorViewModel.clearAllInputs()
+    }
 
     Row {
         Column(modifier = Modifier.weight(1f)) {
@@ -103,7 +108,11 @@ fun CrossMultiplicationScreenEmptyPreview() {
 @Composable
 fun CurrentCrossMultiplierScreenWithNumbersPreview() {
     val dataSource = CurrentCrossMultiplierDataSource(
-        CrossMultiplier(a = "10", b = "345", c = "15.3").resultCalculated()
+        CrossMultiplier(
+            valueAt00 = 10,
+            valueAt01 = 345,
+            valueAt10 = 15.3
+        ).resultCalculated()
     )
     val repository = CrossMultipliersCreatorRepository(
         currentCrossMultiplierDataSourceable = dataSource
@@ -117,7 +126,9 @@ fun CurrentCrossMultiplierScreenWithNumbersPreview() {
 @Composable
 fun CurrentCrossMultiplierScreenWithNumbersAndHistoryPreview() {
     val dataSource = CurrentCrossMultiplierDataSource(
-        currentCrossMultiplier = CrossMultiplier(a = "10", b = "35", c = "15.3").resultCalculated(),
+        currentCrossMultiplier = CrossMultiplier(
+            valueAt00 = 10, valueAt01 = 35, valueAt10 = 15.3
+        ).resultCalculated(),
     )
     val repository = CrossMultipliersCreatorRepository(
         currentCrossMultiplierDataSourceable = dataSource

@@ -4,15 +4,28 @@ import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.datasource.database.CrossMultiplierEntity
 import io.schiar.ruleofthree.model.datasource.database.CurrentCrossMultiplierEntity
+import io.schiar.ruleofthree.stringify
 
 fun CrossMultiplierEntity.toCrossMultiplier(): CrossMultiplier {
     val pairStringList = unknownPosition.split(" ")
     return CrossMultiplier(
         id = id,
-        values = arrayOf(
-            arrayOf(Input(value = a), Input(value = b)),
-            arrayOf(Input(value = c), Input(value = d))
-        ),
+        valueAt00 = a,
+        valueAt01 = b,
+        valueAt10 = c,
+        valueAt11 = d,
+        unknownPosition = Pair(pairStringList[0].toInt(), pairStringList[1].toInt())
+    )
+}
+
+fun CurrentCrossMultiplierEntity.toCrossMultiplier(): CrossMultiplier {
+    val pairStringList = unknownPosition.split(" ")
+    return CrossMultiplier(
+        id = id,
+        valueAt00 = a,
+        valueAt01 = b,
+        valueAt10 = c,
+        valueAt11 = d,
         unknownPosition = Pair(pairStringList[0].toInt(), pairStringList[1].toInt())
     )
 }
@@ -33,10 +46,10 @@ fun CrossMultiplierEntity.setID(id: Long): CrossMultiplierEntity {
 fun CrossMultiplier.toCrossMultiplierEntity(): CrossMultiplierEntity {
     return CrossMultiplierEntity(
         id = id,
-        a = values[0][0].value,
-        b = values[0][1].value,
-        c = values[1][0].value,
-        d = values[1][1].value,
+        a = valueAt00,
+        b = valueAt01,
+        c = valueAt10,
+        d = valueAt11,
         unknownPosition = "${unknownPosition.first} ${unknownPosition.second}"
     )
 }
@@ -44,23 +57,11 @@ fun CrossMultiplier.toCrossMultiplierEntity(): CrossMultiplierEntity {
 fun CrossMultiplier.toCurrentCrossMultiplierEntity(): CurrentCrossMultiplierEntity {
     return CurrentCrossMultiplierEntity(
         id = id,
-        a = values[0][0].value,
-        b = values[0][1].value,
-        c = values[1][0].value,
-        d = values[1][1].value,
+        a = valueAt00,
+        b = valueAt01,
+        c = valueAt10,
+        d = valueAt11,
         unknownPosition = "${unknownPosition.first} ${unknownPosition.second}"
-    )
-}
-
-fun CurrentCrossMultiplierEntity.toCrossMultiplier(): CrossMultiplier {
-    val pairStringList = unknownPosition.split(" ")
-    return CrossMultiplier(
-        id = id,
-        values = arrayOf(
-            arrayOf(Input(value = a), Input(value = b)),
-            arrayOf(Input(value = c), Input(value = d))
-        ),
-        unknownPosition = Pair(pairStringList[0].toInt(), pairStringList[1].toInt())
     )
 }
 

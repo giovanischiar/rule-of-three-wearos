@@ -3,104 +3,163 @@ package io.schiar.ruleofthree.model
 import io.schiar.ruleofthree.get
 import io.schiar.ruleofthree.not
 import io.schiar.ruleofthree.set
+import io.schiar.ruleofthree.stringify
 
 data class CrossMultiplier(
     val id: Long = 0,
-    val values: Array<Array<Input>> = arrayOf(
-        arrayOf(Input(), Input()),
-        arrayOf(Input(), Input())
-    ),
+    val valueAt00: String = "",
+    val valueAt01: String = "",
+    val valueAt10: String = "",
+    val valueAt11: String = "",
     val unknownPosition: Pair<Int, Int> = Pair(1, 1)
 ) {
-    constructor() : this (
-        values = arrayOf(
-            arrayOf(Input(), Input()),
-            arrayOf(Input(), Input())
-        ),
+    constructor(): this(
+        id = 0,
+        valueAt00 = "",
+        valueAt01 = "",
+        valueAt10 = "",
+        valueAt11 = "",
         unknownPosition = Pair(1, 1)
     )
 
     constructor(
-        a: String = "",
-        b: String = "",
-        c: String = "",
+        id: Long = 0,
+        valueAt00: Number? = null,
+        valueAt01: Number? = null,
+        valueAt10: Number? = null,
+        valueAt11: Number? = null,
         unknownPosition: Pair<Int, Int> = Pair(1, 1)
-    ): this(
-        values = arrayOf(
-            arrayOf(Input(value = a), Input(value = b)),
-            arrayOf(Input(value = c), Input())
-        ),
+    ) : this(
+        id = id,
+        valueAt00 = valueAt00.stringify(),
+        valueAt01 = valueAt01.stringify(),
+        valueAt10 = valueAt10.stringify(),
+        valueAt11 = valueAt11.stringify(),
         unknownPosition = unknownPosition
     )
 
-    fun isTheResultValid(): Boolean {
-        return values[unknownPosition].toDoubleOrNull() != null
+    private val inputsMatrix = arrayOf(
+        arrayOf(Input(value = valueAt00), Input(valueAt01)),
+        arrayOf(Input(value = valueAt10), Input(valueAt11))
+    )
+
+    val unknownValue: Number? get() {
+        return inputsMatrix[unknownPosition].toNumberOrNull()
     }
 
-    fun a(): Input { return values[aPosition()] }
+    private constructor(
+        id: Long,
+        inputsMatrix: Array<Array<Input>>,
+        unknownPosition: Pair<Int, Int>
+    ) : this(
+        id = id,
+        valueAt00 = inputsMatrix[0][0].value,
+        valueAt01 = inputsMatrix[0][1].value,
+        valueAt10 = inputsMatrix[1][0].value,
+        valueAt11 = inputsMatrix[1][1].value,
+        unknownPosition = unknownPosition
+    )
 
-    fun b(): Input { return values[bPosition()] }
+    private val differentColumnAndRowToUnknownInput: Input get() {
+        val (i, j) = unknownPosition
+        val position = Pair(!i, !j)
+        return inputsMatrix[position]
+    }
 
-    fun c(): Input { return values[cPosition()] }
+    private val differentRowSameColumnToUnknownInput: Input get() {
+        val (i, j) = unknownPosition
+        val position = Pair(!i, j)
+        return inputsMatrix[position]
+    }
 
-    fun result(): Double? { return values[unknownPosition].toDoubleOrNull() }
+    private val sameRowDifferentColumnToUnknownInput: Input get() {
+        val (i, j) = unknownPosition
+        val position = Pair(i, !j)
+        return inputsMatrix[position]
+    }
 
-    fun resultCalculated(): CrossMultiplier {
-        if (!values.isValid(unknownPosition = unknownPosition)) return this
-        val newValues = copyValues()
-        newValues[unknownPosition] = (c() * b()) / a()
-        return CrossMultiplier(id = id, values = newValues, unknownPosition = unknownPosition)
+    private fun inputsMatrixCloned(): Array<Array<Input>> {
+        val clonedInputsMatrix = Array(2) { arrayOf(Input(), Input()) }
+        clonedInputsMatrix[0][0] = inputsMatrix[0][0]
+        clonedInputsMatrix[0][1] = inputsMatrix[0][1]
+        clonedInputsMatrix[1][0] = inputsMatrix[1][0]
+        clonedInputsMatrix[1][1] = inputsMatrix[1][1]
+        return clonedInputsMatrix
     }
 
     fun characterPushedAt(position: Pair<Int, Int>, character: String): CrossMultiplier {
-        val updatedValues = copyValues()
+        val updatedValues = inputsMatrixCloned()
         updatedValues[position] = updatedValues[position].characterPushed(character = character)
-        return CrossMultiplier(id = id, values = updatedValues, unknownPosition = unknownPosition)
+        return CrossMultiplier(id = id, inputsMatrix = updatedValues, unknownPosition = unknownPosition)
     }
 
     fun characterPoppedAt(position: Pair<Int, Int>): CrossMultiplier {
-        val updatedValues = copyValues()
+        val updatedValues = inputsMatrixCloned()
         updatedValues[position] = updatedValues[position].characterPopped()
-        return CrossMultiplier(id = id, values = updatedValues, unknownPosition = unknownPosition)
-    }
-
-    fun inputClearedAt(position: Pair<Int, Int>): CrossMultiplier {
-        val updatedValues : Array<Array<Input>> = copyValues()
-        updatedValues[position] = updatedValues[position].cleared()
-        return CrossMultiplier(id = id, values = updatedValues, unknownPosition = unknownPosition)
+        return CrossMultiplier(id = id, inputsMatrix = updatedValues, unknownPosition = unknownPosition)
     }
 
     fun unknownPositionChangedTo(position: Pair<Int, Int>): CrossMultiplier {
-        val newValues = copyValues()
-        newValues[position] = Input()
+        val updatedInputsMatrix = inputsMatrixCloned()
+        updatedInputsMatrix[position] = Input()
         return CrossMultiplier(
             id = id,
-            values = newValues,
+            inputsMatrix = updatedInputsMatrix,
             unknownPosition = position
-        ).resultCalculated()
+        )
+    }
+
+    fun inputClearedAt(position: Pair<Int, Int>): CrossMultiplier {
+        val updatedInputsMatrix : Array<Array<Input>> = inputsMatrixCloned()
+        updatedInputsMatrix[position] = inputsMatrix[position].cleared()
+        return CrossMultiplier(
+            id = id,
+            inputsMatrix = updatedInputsMatrix,
+            unknownPosition = unknownPosition
+        )
     }
 
     fun allInputsCleared(): CrossMultiplier {
-        return CrossMultiplier(id = id, unknownPosition = unknownPosition)
+        return CrossMultiplier(
+            id = id,
+            valueAt00 = "",
+            valueAt01 = "",
+            valueAt10 = "",
+            valueAt11 = "",
+            unknownPosition = unknownPosition
+        )
     }
 
-    private fun aPosition(): Pair<Int, Int> { val (i, j) = unknownPosition; return Pair(!i, !j) }
+    fun isTheResultValid(): Boolean {
+        return inputsMatrix[unknownPosition].toNumberOrNull() != null
+    }
 
-    private fun bPosition(): Pair<Int, Int> { val (i, j) = unknownPosition; return Pair(!i, j) }
-
-    private fun cPosition(): Pair<Int, Int> { val (i, j) = unknownPosition; return Pair(i, !j) }
-
-    private fun copyValues(): Array<Array<Input>> {
-        val clonedValues = Array(2) { arrayOf(Input(), Input()) }
-        clonedValues[aPosition()] = values[aPosition()]
-        clonedValues[bPosition()] = values[bPosition()]
-        clonedValues[cPosition()] = values[cPosition()]
-        return clonedValues
+    fun resultCalculated(): CrossMultiplier {
+        if (!inputsMatrix.isValid(unknownPosition = unknownPosition)) return this
+        val updatedInputsMatrix = inputsMatrixCloned()
+        updatedInputsMatrix[unknownPosition] =
+            (sameRowDifferentColumnToUnknownInput * differentRowSameColumnToUnknownInput) /
+                    differentColumnAndRowToUnknownInput
+        return CrossMultiplier(
+            id = id,
+            inputsMatrix = updatedInputsMatrix,
+            unknownPosition = unknownPosition
+        )
     }
 
     override fun toString(): String {
         var maxLength = -1
-        val data = listOf(a().value, b().value, c().value, (result() ?: "?").toString())
+        val dataMatrix = inputsMatrix.mapIndexed { i, valuesRow ->
+            valuesRow.mapIndexed { j, input: Input ->
+                if (Pair(i, j) == unknownPosition) {
+                    if (input.toNumberOrNull() == null) "?" else input.value
+                } else {
+                    input.value
+                }
+            }
+        }
+
+        val data = listOf(dataMatrix[0][0], dataMatrix[0][1], dataMatrix[1][0], dataMatrix[1][1])
         for (datum in data) { if (datum.length > maxLength) { maxLength = datum.length } }
         val adjustedData = data.map {
             val builder = StringBuilder(it)
@@ -109,8 +168,8 @@ data class CrossMultiplier(
             builder.toString()
         }
 
-        return "\n${adjustedData[0]}\t${adjustedData[1]}\n" +
-                "${adjustedData[2]}\t${adjustedData[3]}\n"
+        return "\n${adjustedData[0]} ${adjustedData[1]}\n" +
+                "${adjustedData[2]} ${adjustedData[3]}\n"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -119,12 +178,12 @@ data class CrossMultiplier(
 
         other as CrossMultiplier
 
-        if (!values.contentDeepEquals(other.values)) return false
+        if (!inputsMatrix.contentDeepEquals(other.inputsMatrix)) return false
         return unknownPosition == other.unknownPosition
     }
 
     override fun hashCode(): Int {
-        var result = values.contentDeepHashCode()
+        var result = inputsMatrix.contentDeepHashCode()
         result = 31 * result + unknownPosition.hashCode()
         return result
     }

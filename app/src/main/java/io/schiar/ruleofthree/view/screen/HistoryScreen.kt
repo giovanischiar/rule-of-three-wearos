@@ -36,6 +36,7 @@ import androidx.wear.compose.foundation.rememberActiveFocusRequester
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
@@ -60,34 +61,38 @@ fun HistoryScreen(
 
     if (allPastCrossMultipliers.isEmpty()) { onBackPressed() }
 
-    fun deleteHistoryItem(index: Int) {
-        coroutineScope.launch { historyViewModel.deleteCrossMultiplier(index = index) }
+    fun deleteHistoryItem(index: Int) = coroutineScope.launch {
+         historyViewModel.deleteCrossMultiplier(index = index)
     }
 
-    fun deleteHistory() {
-        coroutineScope.launch { historyViewModel.deleteHistory() }
+    fun deleteHistory() = coroutineScope.launch {
+         historyViewModel.deleteHistory()
     }
 
-    fun addInput(index: Int, value: String, position: Pair<Int, Int>) {
-        coroutineScope.launch {
-            crossMultiplierViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(index = index, character = value, position = position) }
+    fun addInput(index: Int, value: String, position: Pair<Int, Int>) = coroutineScope.launch {
+        crossMultiplierViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
+            index = index, character = value, position = position
+        )
     }
 
     fun removeInput(index: Int, position: Pair<Int, Int>) {
         coroutineScope.launch {
-            crossMultiplierViewModel.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(index = index, position = position)
+            crossMultiplierViewModel.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
+                index = index, position = position
+            )
         }
     }
 
-    fun clearInput(index: Int, position: Pair<Int, Int>) {
-        coroutineScope.launch {
-            crossMultiplierViewModel.clearInputOnPositionOfTheCrossMultiplierAt(index = index, position = position) }
+    fun clearInput(index: Int, position: Pair<Int, Int>) = coroutineScope.launch {
+        crossMultiplierViewModel.clearInputOnPositionOfTheCrossMultiplierAt(
+            index = index, position = position
+        )
     }
 
-    fun changeUnknownPosition(index: Int, position: Pair<Int, Int>) {
-        coroutineScope.launch {
-            crossMultiplierViewModel.changeTheUnknownPositionOfTheCrossMultiplierAt(index = index, position = position)
-        }
+    fun changeUnknownPosition(index: Int, position: Pair<Int, Int>) = coroutineScope.launch {
+        crossMultiplierViewModel.changeTheUnknownPositionOfTheCrossMultiplierAt(
+            index = index, position = position
+        )
     }
 
     Row {
@@ -174,13 +179,17 @@ fun HistoryScreen(
 @Composable
 fun HistoryScreenPreview() {
     val dataSource = PastCrossMultipliersDataSource(
-        crossMultipliers = mutableListOf(
-            CrossMultiplier(a = "", b = "", c = "").resultCalculated(),
-            CrossMultiplier(a = "8342234", b = "324423", c = "45456").resultCalculated(),
-            CrossMultiplier(a = "4", b = "40", c = "400").resultCalculated(),
-            CrossMultiplier(a = "42", b = "440", c = "5").resultCalculated(),
-            CrossMultiplier(a = "3", b = "10", c = "78").resultCalculated(),
-            CrossMultiplier(a = "5", b = "135", c = "7").resultCalculated()
+        crossMultipliers = listOf(
+            CrossMultiplier(valueAt00 = 8342234, valueAt01 = 324423, valueAt10 = 45456)
+                .resultCalculated(),
+            CrossMultiplier(valueAt00 = 4, valueAt01 = 40, valueAt10 = 400)
+                .resultCalculated(),
+            CrossMultiplier(valueAt00 = 42, valueAt01 = 440, valueAt10 = 5)
+                .resultCalculated(),
+            CrossMultiplier(valueAt00 = 3, valueAt01 = 10, valueAt10 = 78)
+                .resultCalculated(),
+            CrossMultiplier(valueAt00 = 5, valueAt01 = 135, valueAt10 = 7)
+                .resultCalculated()
         )
     )
     val repository = MainRepository(pastCrossMultipliersDataSourceable = dataSource)

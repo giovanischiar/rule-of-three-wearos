@@ -1,8 +1,9 @@
 package io.schiar.ruleofthree.model
 
+import io.schiar.ruleofthree.stringify
+
 data class Input(val value: String = "") {
-    constructor(value: Double): this(value = value.toString())
-    constructor(value: Int): this(value = value.toString())
+    constructor(value: Number?): this(value = value.stringify())
 
     fun characterPushed(character: String): Input {
         val valueBuilder = StringBuilder(value)
@@ -34,10 +35,6 @@ data class Input(val value: String = "") {
         return Input(value = valueBuilder.toString())
     }
 
-    fun toDoubleOrNull(): Double? {
-        return value.toDoubleOrNull()
-    }
-
     override fun toString(): String { return value }
 
     operator fun times(other: Input): Input {
@@ -51,5 +48,13 @@ data class Input(val value: String = "") {
         val otherDoubleValue = other.value.toDoubleOrNull() ?: return this
         if (otherDoubleValue == 0.0) return this
         return Input(value = (thisDoubleValue / otherDoubleValue))
+    }
+
+    fun toNumberOrNull(): Number? {
+        return if (value.contains(char = '.')) {
+             value.toDoubleOrNull()
+        } else {
+            value.toIntOrNull()
+        }
     }
 }

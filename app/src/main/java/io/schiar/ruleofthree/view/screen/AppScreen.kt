@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
@@ -40,8 +41,8 @@ fun AppScreen(
     val coroutineScope = rememberCoroutineScope()
     val isThereHistory by appViewModel.isThereHistory.collectAsState()
 
-    fun addCurrentCrossMultiplierToPastCrossMultipliers() {
-        coroutineScope.launch { appViewModel.addCurrentCrossMultiplierToPastCrossMultipliers() }
+    fun addCurrentCrossMultiplierToPastCrossMultipliers() = coroutineScope.launch {
+         appViewModel.addCurrentCrossMultiplierToPastCrossMultipliers()
     }
 
     NavHost(
@@ -79,18 +80,26 @@ fun AppScreen(
 fun AppScreenPreview() {
     val dataSource = PastCrossMultipliersDataSource(
         crossMultipliers = listOf(
-            CrossMultiplier(a = "8342234", b = "324423", c = "45456").resultCalculated(),
-            CrossMultiplier(a = "4", b = "40", c = "400").resultCalculated(),
-            CrossMultiplier(a = "42", b = "440", c = "5").resultCalculated(),
-            CrossMultiplier(a = "3", b = "10", c = "78").resultCalculated(),
-            CrossMultiplier(a = "5", b = "135", c = "7").resultCalculated()
+            CrossMultiplier(valueAt00 = 8342234, valueAt01 = 324423, valueAt10 = 45456)
+                .resultCalculated(),
+            CrossMultiplier(valueAt00 = 4, valueAt01 = 40, valueAt10 = 400)
+                .resultCalculated(),
+            CrossMultiplier(valueAt00 = 42, valueAt01 = 440, valueAt10 = 5)
+                .resultCalculated(),
+            CrossMultiplier(valueAt00 = 3, valueAt01 = 10, valueAt10 = 78)
+                .resultCalculated(),
+            CrossMultiplier(valueAt00 = 5, valueAt01 = 135, valueAt10 = 7)
+                .resultCalculated()
         )
     )
     val repository = MainRepository(pastCrossMultipliersDataSourceable = dataSource)
     val currentCrossMultipliersRepository = CrossMultipliersCreatorRepository(
         currentCrossMultiplierDataSourceable = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplier = CrossMultiplier(a = "10", b = "345", c = "15.3")
-                .resultCalculated(),
+            currentCrossMultiplier = CrossMultiplier(
+                valueAt00 = 10,
+                valueAt01 = 345,
+                valueAt10 = 15.3
+            ).resultCalculated(),
         )
     )
     val appViewModel = AppViewModel(appRepository = repository)
