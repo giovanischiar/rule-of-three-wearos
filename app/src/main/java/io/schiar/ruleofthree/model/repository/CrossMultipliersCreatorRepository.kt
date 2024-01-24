@@ -20,7 +20,7 @@ class CrossMultipliersCreatorRepository(
         currentCrossMultipliersCallback = callback
     }
 
-    private suspend fun currentCrossMultiplier(): CrossMultiplier {
+    private suspend fun retrieveCurrentCrossMultiplierFromDataSource(): CrossMultiplier {
         return currentCrossMultiplierDataSourceable.retrieveCurrentCrossMultiplier()
     }
 
@@ -33,29 +33,32 @@ class CrossMultipliersCreatorRepository(
     }
 
     suspend fun pushCharacterToInputAt(position: Pair<Int, Int>, character: String) {
-        val crossMultiplierUpdated = currentCrossMultiplier()
+        val crossMultiplierUpdated = retrieveCurrentCrossMultiplierFromDataSource()
             .characterPushedAt(position = position, character = character)
         updateCurrentCrossMultiplier(crossMultiplierUpdated = crossMultiplierUpdated)
     }
 
     suspend fun popCharacterOfInputAt(position: Pair<Int, Int>) {
-        val crossMultiplierUpdated = currentCrossMultiplier().characterPoppedAt(position = position)
+        val crossMultiplierUpdated = retrieveCurrentCrossMultiplierFromDataSource()
+            .characterPoppedAt(position = position)
         updateCurrentCrossMultiplier(crossMultiplierUpdated = crossMultiplierUpdated)
     }
 
     suspend fun changeTheUnknownPositionTo(position: Pair<Int, Int>) {
-        val crossMultiplierUpdated = currentCrossMultiplier()
+        val crossMultiplierUpdated = retrieveCurrentCrossMultiplierFromDataSource()
             .unknownPositionChangedTo(position = position)
         updateCurrentCrossMultiplier(crossMultiplierUpdated = crossMultiplierUpdated)
     }
 
     suspend fun clearInputOn(position: Pair<Int, Int>) {
-        val crossMultiplierUpdated = currentCrossMultiplier().inputClearedAt(position = position)
+        val crossMultiplierUpdated = retrieveCurrentCrossMultiplierFromDataSource()
+            .inputClearedAt(position = position)
         updateCurrentCrossMultiplier(crossMultiplierUpdated = crossMultiplierUpdated)
     }
 
     suspend fun clearAllInputs() {
-        val crossMultiplierUpdated = currentCrossMultiplier().allInputsCleared()
+        val crossMultiplierUpdated = retrieveCurrentCrossMultiplierFromDataSource()
+            .allInputsCleared()
         updateCurrentCrossMultiplier(crossMultiplierUpdated = crossMultiplierUpdated)
     }
 }
