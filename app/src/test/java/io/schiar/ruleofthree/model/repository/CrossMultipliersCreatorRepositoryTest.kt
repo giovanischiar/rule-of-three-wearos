@@ -1,10 +1,10 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 
@@ -40,8 +40,8 @@ class CrossMultipliersCreatorRepositoryTest {
         crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        Assert.assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
+        assertNotNull(actualCurrentCrossMultiplier)
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
     @Test
@@ -57,8 +57,8 @@ class CrossMultipliersCreatorRepositoryTest {
         crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        Assert.assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
+        assertNotNull(actualCurrentCrossMultiplier)
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
     @Test
@@ -83,8 +83,8 @@ class CrossMultipliersCreatorRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        Assert.assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        assertNotNull(actualCurrentCrossMultiplier)
+        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
     }
 
     @Test
@@ -106,8 +106,8 @@ class CrossMultipliersCreatorRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        Assert.assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        assertNotNull(actualCurrentCrossMultiplier)
+        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
     }
 
     @Test
@@ -129,8 +129,8 @@ class CrossMultipliersCreatorRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        Assert.assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        assertNotNull(actualCurrentCrossMultiplier)
+        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
     }
 
     @Test
@@ -152,8 +152,8 @@ class CrossMultipliersCreatorRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        Assert.assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        assertNotNull(actualCurrentCrossMultiplier)
+        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
     }
 
     @Test
@@ -170,7 +170,7 @@ class CrossMultipliersCreatorRepositoryTest {
         crossMultipliersCreatorRepository.clearAllInputs()
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        Assert.assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        assertNotNull(actualCurrentCrossMultiplier)
+        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
     }
 }

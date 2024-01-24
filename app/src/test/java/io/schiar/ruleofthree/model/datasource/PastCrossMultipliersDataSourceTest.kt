@@ -2,7 +2,7 @@ package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class PastCrossMultipliersDataSourceTest {
@@ -34,7 +34,7 @@ class PastCrossMultipliersDataSourceTest {
         val actualCrossMultipliers = runBlocking { dataSource.retrievePastCrossMultipliers()  }
 
         // Then
-        Assert.assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
+        assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
     }
 
     @Test
@@ -48,7 +48,7 @@ class PastCrossMultipliersDataSourceTest {
         }
 
         // Then
-        Assert.assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
+        assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
     }
 
     @Test
@@ -63,7 +63,7 @@ class PastCrossMultipliersDataSourceTest {
         }
 
         // Then
-        Assert.assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
+        assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
     }
 
     @Test
@@ -81,7 +81,7 @@ class PastCrossMultipliersDataSourceTest {
         }
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -100,7 +100,7 @@ class PastCrossMultipliersDataSourceTest {
         }
 
         // Then
-        Assert.assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
+        assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
     }
 
     @Test
@@ -118,6 +118,6 @@ class PastCrossMultipliersDataSourceTest {
         }
 
         // Then
-        Assert.assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
+        assertEquals(expectedCrossMultipliers, actualCrossMultipliers)
     }
 }

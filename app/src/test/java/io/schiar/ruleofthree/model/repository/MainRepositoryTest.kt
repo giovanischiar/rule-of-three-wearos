@@ -4,7 +4,8 @@ import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 class MainRepositoryTest {
@@ -46,10 +47,10 @@ class MainRepositoryTest {
         mainRepository.loadPastCrossMultipliers()
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultipliers)
-        Assert.assertNotNull(actualIsThereHistory)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
-        Assert.assertEquals(expectedIsThereHistory, actualIsThereHistory)
+        assertNotNull(actualPastCrossMultipliers)
+        assertNotNull(actualIsThereHistory)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        assertEquals(expectedIsThereHistory, actualIsThereHistory)
     }
 
     @Test
@@ -66,10 +67,10 @@ class MainRepositoryTest {
         mainRepository.loadPastCrossMultipliers()
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultipliers)
-        Assert.assertNotNull(actualIsThereHistory)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
-        Assert.assertEquals(expectedIsThereHistory, actualIsThereHistory)
+        assertNotNull(actualPastCrossMultipliers)
+        assertNotNull(actualIsThereHistory)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        assertEquals(expectedIsThereHistory, actualIsThereHistory)
     }
 
     @Test
@@ -83,8 +84,8 @@ class MainRepositoryTest {
         mainRepository.loadPastCrossMultipliers()
 
         // Then
-        Assert.assertNotNull(actualIsThereHistory)
-        Assert.assertEquals(expectedIsThereHistory, actualIsThereHistory)
+        assertNotNull(actualIsThereHistory)
+        assertEquals(expectedIsThereHistory, actualIsThereHistory)
     }
 
     @Test
@@ -99,8 +100,8 @@ class MainRepositoryTest {
         mainRepository.addCurrentCrossMultiplierToPastCrossMultipliers()
 
         // Then
-        Assert.assertNotNull(actualPastCurrentCrossMultipliers)
-        Assert.assertEquals(expectedPastCurrentCrossMultipliers, actualPastCurrentCrossMultipliers)
+        assertNotNull(actualPastCurrentCrossMultipliers)
+        assertEquals(expectedPastCurrentCrossMultipliers, actualPastCurrentCrossMultipliers)
     }
 
     // CrossMultiplierRepository
@@ -136,8 +137,8 @@ class MainRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultipliers)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        assertNotNull(actualPastCrossMultipliers)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -166,8 +167,8 @@ class MainRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultipliers)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        assertNotNull(actualPastCrossMultipliers)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -193,8 +194,8 @@ class MainRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultipliers)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        assertNotNull(actualPastCrossMultipliers)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -220,8 +221,8 @@ class MainRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultipliers)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        assertNotNull(actualPastCrossMultipliers)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     // HistoryRepository
@@ -237,8 +238,8 @@ class MainRepositoryTest {
         mainRepository.loadPastCrossMultipliers()
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultiplier)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultiplier)
+        assertNotNull(actualPastCrossMultiplier)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultiplier)
     }
 
     @Test
@@ -254,8 +255,8 @@ class MainRepositoryTest {
         mainRepository.deleteCrossMultiplier(index = indexToDeleteCrossMultiplier)
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultiplier)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultiplier)
+        assertNotNull(actualPastCrossMultiplier)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultiplier)
     }
 
     @Test
@@ -269,7 +270,7 @@ class MainRepositoryTest {
         mainRepository.deleteHistory()
 
         // Then
-        Assert.assertNotNull(actualPastCrossMultiplier)
-        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultiplier)
+        assertNotNull(actualPastCrossMultiplier)
+        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultiplier)
     }
 }

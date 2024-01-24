@@ -2,7 +2,7 @@ package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class CurrentCrossMultipliersDataSourceTest {
@@ -22,7 +22,7 @@ class CurrentCrossMultipliersDataSourceTest {
             .retrieveCurrentCrossMultiplier()
 
         // Then
-        Assert.assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
     @Test
@@ -41,6 +41,6 @@ class CurrentCrossMultipliersDataSourceTest {
         // Then
         val actualCurrentCrossMultiplier = currentCrossMultiplierDataSource
             .retrieveCurrentCrossMultiplier()
-        Assert.assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 }

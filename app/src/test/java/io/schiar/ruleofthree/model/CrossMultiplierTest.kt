@@ -1,6 +1,8 @@
 package io.schiar.ruleofthree.model
 
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class CrossMultiplierTest {
@@ -18,7 +20,7 @@ class CrossMultiplierTest {
             .characterPushedAt(position = position, character = "2")
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -33,7 +35,7 @@ class CrossMultiplierTest {
             .characterPushedAt(position = position, character = "2")
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -48,7 +50,7 @@ class CrossMultiplierTest {
             .characterPushedAt(position = position, character = "2")
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -77,7 +79,7 @@ class CrossMultiplierTest {
             .characterPushedAt(position = Pair(1, 0), character = "6")
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -97,7 +99,7 @@ class CrossMultiplierTest {
             .characterPoppedAt(position = Pair(0, 0))
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -135,7 +137,7 @@ class CrossMultiplierTest {
             .characterPoppedAt(position = Pair(1, 0))
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -149,7 +151,7 @@ class CrossMultiplierTest {
             .inputClearedAt(position = Pair(0, 0))
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -163,7 +165,7 @@ class CrossMultiplierTest {
             .inputClearedAt(position = Pair(0, 1))
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -177,7 +179,7 @@ class CrossMultiplierTest {
             .inputClearedAt(position = Pair(1, 0))
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -193,7 +195,7 @@ class CrossMultiplierTest {
             .allInputsCleared()
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -212,7 +214,7 @@ class CrossMultiplierTest {
         ).resultCalculated().unknownValue
 
         // Then
-        Assert.assertEquals(expectedResult, actualResult)
+        assertEquals(expectedResult, actualResult)
     }
 
     @Test
@@ -230,7 +232,7 @@ class CrossMultiplierTest {
         ).resultCalculated().unknownValue
 
         // Then
-        Assert.assertNull(actualResult)
+        assertNull(actualResult)
     }
 
     @Test
@@ -252,7 +254,7 @@ class CrossMultiplierTest {
         ).unknownPositionChangedTo(position = Pair(0, 1))
 
         // Then
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+        assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
     }
 
     @Test
@@ -272,7 +274,7 @@ class CrossMultiplierTest {
         val actualString = crossMultiplier.toString()
 
         // Then
-        Assert.assertEquals(expectedString, actualString)
+        assertEquals(expectedString, actualString)
     }
 
     @Test
@@ -292,7 +294,7 @@ class CrossMultiplierTest {
         val actualString = crossMultiplier.toString()
 
         // Then
-        Assert.assertEquals(expectedString, actualString)
+        assertEquals(expectedString, actualString)
     }
 
     @Test
@@ -312,7 +314,7 @@ class CrossMultiplierTest {
         val actualString = crossMultiplier.toString()
 
         // Then
-        Assert.assertEquals(expectedString, actualString)
+        assertEquals(expectedString, actualString)
     }
 
     @Test
@@ -331,7 +333,7 @@ class CrossMultiplierTest {
         val actualString = crossMultiplier.toString()
 
         // Then
-        Assert.assertEquals(expectedString, actualString)
+        assertEquals(expectedString, actualString)
     }
 
     @Test
@@ -352,7 +354,7 @@ class CrossMultiplierTest {
         val actualString = crossMultiplier.toString()
 
         // Then
-        Assert.assertEquals(expectedString, actualString)
+        assertEquals(expectedString, actualString)
     }
 
     @Test
@@ -373,7 +375,7 @@ class CrossMultiplierTest {
         )
 
         // Then
-        Assert.assertTrue(
+        assertTrue(
             crossMultiplierA == crossMultiplierB && crossMultiplierA == crossMultiplierB
         )
     }
@@ -396,6 +398,6 @@ class CrossMultiplierTest {
         )
 
         // Then
-        Assert.assertTrue(crossMultiplierA.hashCode() == crossMultiplierB.hashCode())
+        assertTrue(crossMultiplierA.hashCode() == crossMultiplierB.hashCode())
     }
 }

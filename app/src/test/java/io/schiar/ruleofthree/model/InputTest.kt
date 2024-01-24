@@ -1,6 +1,7 @@
 package io.schiar.ruleofthree.model
 
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class InputTest {
@@ -17,7 +18,7 @@ class InputTest {
             .characterPushed(character = "b")
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -31,7 +32,7 @@ class InputTest {
             .characterPushed(character = "1")
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -48,7 +49,7 @@ class InputTest {
             .characterPushed(character = "1")
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -63,7 +64,7 @@ class InputTest {
             .characterPushed(character = "3")
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -87,7 +88,7 @@ class InputTest {
             .characterPopped()
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -99,7 +100,7 @@ class InputTest {
         val actualInput = emptyInput.characterPopped().characterPopped()
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -114,7 +115,7 @@ class InputTest {
             .cleared()
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -126,7 +127,7 @@ class InputTest {
         val actualInput = emptyInput.cleared()
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -138,7 +139,7 @@ class InputTest {
         val actualInput = emptyInput.cleared().characterPopped()
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -147,7 +148,7 @@ class InputTest {
         val actualResult = emptyInput.toNumberOrNull()
 
         // Then
-        Assert.assertNull(actualResult)
+        assertNull(actualResult)
     }
 
     @Test
@@ -160,7 +161,7 @@ class InputTest {
         val actualDouble = input.toNumberOrNull()
 
         // Then
-        Assert.assertEquals(expectedDouble, actualDouble)
+        assertEquals(expectedDouble, actualDouble)
     }
 
     @Test
@@ -173,7 +174,7 @@ class InputTest {
         val actualString = input.toString()
 
         // Then
-        Assert.assertEquals(expectedString, actualString)
+        assertEquals(expectedString, actualString)
     }
 
     @Test
@@ -187,7 +188,7 @@ class InputTest {
         val actualInput = inputA * inputB
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -201,7 +202,7 @@ class InputTest {
         val actualInput = inputA / inputB
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 
     @Test
@@ -215,6 +216,6 @@ class InputTest {
         val actualInput = inputA / inputB
 
         // Then
-        Assert.assertEquals(expectedInput, actualInput)
+        assertEquals(expectedInput, actualInput)
     }
 }
