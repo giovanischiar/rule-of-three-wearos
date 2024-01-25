@@ -8,12 +8,12 @@ class CrossMultipliersCreatorRepository(
     private val currentCrossMultiplierDataSourceable: CurrentCrossMultiplierDataSourceable
         = CurrentCrossMultiplierDataSource()
 ) {
-    private var currentCrossMultipliersCallback = { _: CrossMultiplier -> }
+    private var currentCrossMultipliersCallback: ((CrossMultiplier) -> Unit)? = null
 
     suspend fun loadCurrentCrossMultiplier() {
         val currentCrossMultiplier = currentCrossMultiplierDataSourceable
             .retrieveCurrentCrossMultiplier()
-        currentCrossMultipliersCallback(currentCrossMultiplier)
+        currentCrossMultipliersCallback?.let { it(currentCrossMultiplier) }
     }
 
     fun subscribeForCurrentCrossMultipliers(callback: (crossMultiplier: CrossMultiplier) -> Unit) {
@@ -29,7 +29,7 @@ class CrossMultipliersCreatorRepository(
         currentCrossMultiplierDataSourceable.updateCurrentCrossMultiplier(
             crossMultiplierUpdated = crossMultiplierUpdatedResultCalculated
         )
-        currentCrossMultipliersCallback(crossMultiplierUpdatedResultCalculated)
+        currentCrossMultipliersCallback?.let { it(crossMultiplierUpdatedResultCalculated) }
     }
 
     suspend fun pushCharacterToInputAt(position: Pair<Int, Int>, character: String) {
