@@ -5,6 +5,7 @@ import io.schiar.ruleofthree.model.datasource.database.CurrentCrossMultiplierDAO
 import io.schiar.ruleofthree.model.datasource.util.CurrentCrossMultiplierLocalDAO
 import io.schiar.ruleofthree.model.datasource.util.toCrossMultiplier
 import io.schiar.ruleofthree.model.datasource.util.toCurrentCrossMultiplierEntity
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -13,19 +14,25 @@ import kotlinx.coroutines.withContext
 typealias LocalDAO = CurrentCrossMultiplierLocalDAO
 
 class CurrentCrossMultiplierDataSource(
-    private val currentCrossMultiplierDAO: CurrentCrossMultiplierDAO = LocalDAO()
+    private val currentCrossMultiplierDAO: CurrentCrossMultiplierDAO = LocalDAO(),
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): CurrentCrossMultiplierDataSourceable {
     private var currentCrossMultiplier: CrossMultiplier? = null
 
-    constructor(currentCrossMultiplier: CrossMultiplier) : this(
+    constructor(
+        currentCrossMultiplier: CrossMultiplier,
+        coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) : this(
         currentCrossMultiplierDAO = LocalDAO(
             currentCrossMultiplier = currentCrossMultiplier.toCurrentCrossMultiplierEntity()
-        )
+        ),
+
+        coroutineDispatcher = coroutineDispatcher
     )
 
     override suspend fun retrieveCurrentCrossMultiplier(): CrossMultiplier {
         if (currentCrossMultiplier == null) {
-            currentCrossMultiplier = withContext(Dispatchers.IO) {
+            currentCrossMultiplier = withContext(coroutineDispatcher) {
                 currentCrossMultiplierDAO.select()?.toCrossMultiplier()
             }
 
@@ -33,7 +40,7 @@ class CurrentCrossMultiplierDataSource(
                 val newCurrentCrossMultiplier = CrossMultiplier()
 
                 coroutineScope {
-                    launch(Dispatchers.IO) {
+                    launch(coroutineDispatcher) {
                         currentCrossMultiplierDAO.insertWithTimestamp(
                             newCurrentCrossMultiplier.toCurrentCrossMultiplierEntity()
                         )
@@ -47,7 +54,7 @@ class CurrentCrossMultiplierDataSource(
     override suspend fun updateCurrentCrossMultiplier(crossMultiplierUpdated: CrossMultiplier) {
         currentCrossMultiplier = crossMultiplierUpdated
         coroutineScope {
-            launch(Dispatchers.IO) {
+            launch(coroutineDispatcher) {
                 currentCrossMultiplierDAO.updateWithTimestamp(
                     crossMultiplierUpdated.toCurrentCrossMultiplierEntity()
                 )
