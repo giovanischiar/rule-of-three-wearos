@@ -1,10 +1,8 @@
 package io.schiar.ruleofthree.model.datasource.util
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.Input
 import io.schiar.ruleofthree.model.datasource.database.CrossMultiplierEntity
 import io.schiar.ruleofthree.model.datasource.database.CurrentCrossMultiplierEntity
-import io.schiar.ruleofthree.stringify
 
 fun CrossMultiplierEntity.toCrossMultiplier(): CrossMultiplier {
     val pairStringList = unknownPosition.split(" ")

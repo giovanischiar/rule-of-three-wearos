@@ -1,8 +1,8 @@
 package io.schiar.ruleofthree.model
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CrossMultiplierTest {

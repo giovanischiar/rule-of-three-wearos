@@ -30,6 +30,5 @@ class AppViewModel(private val appRepository: AppRepository = MainRepository()):
         viewModelScope.launch {
             appRepository.addCurrentCrossMultiplierToPastCrossMultipliers()
         }
-
     }
 }

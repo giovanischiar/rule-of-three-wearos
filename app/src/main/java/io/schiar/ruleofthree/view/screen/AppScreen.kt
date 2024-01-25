@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,7 +19,6 @@ import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import io.schiar.ruleofthree.viewmodel.PastCrossMultipliersViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 fun AppScreen(
