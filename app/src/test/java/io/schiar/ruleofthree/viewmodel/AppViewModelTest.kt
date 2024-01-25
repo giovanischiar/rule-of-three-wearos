@@ -18,7 +18,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class AppViewModelTest {
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -39,8 +38,8 @@ class AppViewModelTest {
         advanceUntilIdle()
 
         // Then
-        val actualPastCrossMultipliers = isThereHistoryEvents.last()
-        assertEquals(expectedIsThereHistory, actualPastCrossMultipliers)
+        val actualIsThereHistory = isThereHistoryEvents.last()
+        assertEquals(expectedIsThereHistory, actualIsThereHistory)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
