@@ -1,6 +1,7 @@
 package io.schiar.ruleofthree.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
@@ -8,46 +9,60 @@ import io.schiar.ruleofthree.viewmodel.util.toViewData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class CrossMultipliersCreatorViewModel(
     private val crossMultipliersCreatorRepository: CrossMultipliersCreatorRepository
         = CrossMultipliersCreatorRepository()
 ): ViewModel() {
-    private val _crossMultiplier = MutableStateFlow(CrossMultiplierViewData())
+    private val _crossMultiplier = MutableStateFlow(value = CrossMultiplierViewData())
     val crossMultiplier: StateFlow<CrossMultiplierViewData> = _crossMultiplier
 
-    private fun onCurrentCrossMultiplierChanged(crossMultiplier: CrossMultiplier) {
-        _crossMultiplier.update { crossMultiplier.toViewData() }
+    constructor(crossMultiplier: CrossMultiplierViewData): this() {
+        _crossMultiplier.update { crossMultiplier }
     }
 
     init {
         crossMultipliersCreatorRepository
             .subscribeForCurrentCrossMultipliers(::onCurrentCrossMultiplierChanged)
+        viewModelScope.launch {
+            crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
+        }
     }
 
-    suspend fun loadCurrentCrossMultipliers() {
-        crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
+    private fun onCurrentCrossMultiplierChanged(crossMultiplier: CrossMultiplier) {
+        _crossMultiplier.update { crossMultiplier.toViewData() }
     }
 
-    suspend fun pushCharacterToInputAt(position: Pair<Int, Int>, character: String) {
-        crossMultipliersCreatorRepository.pushCharacterToInputAt(
-            position = position, character = character
-        )
+    fun pushCharacterToInputAt(position: Pair<Int, Int>, character: String) {
+        viewModelScope.launch {
+            crossMultipliersCreatorRepository.pushCharacterToInputAt(
+                position = position, character = character
+            )
+        }
     }
 
-    suspend fun popCharacterOfInputAt(position: Pair<Int, Int>) {
-        crossMultipliersCreatorRepository.popCharacterOfInputAt(position = position)
+    fun popCharacterOfInputAt(position: Pair<Int, Int>) {
+        viewModelScope.launch {
+            crossMultipliersCreatorRepository.popCharacterOfInputAt(position = position)
+        }
     }
 
-    suspend fun changeTheUnknownPositionTo(position: Pair<Int, Int>) {
-        crossMultipliersCreatorRepository.changeTheUnknownPositionTo(position = position)
+    fun changeTheUnknownPositionTo(position: Pair<Int, Int>) {
+        viewModelScope.launch {
+            crossMultipliersCreatorRepository.changeTheUnknownPositionTo(position = position)
+        }
     }
 
-    suspend fun clearInputOn(position: Pair<Int, Int>) {
-       crossMultipliersCreatorRepository.clearInputOn(position = position)
+    fun clearInputOn(position: Pair<Int, Int>) {
+       viewModelScope.launch {
+           crossMultipliersCreatorRepository.clearInputOn(position = position)
+       }
     }
 
-    suspend fun clearAllInputs() {
-        crossMultipliersCreatorRepository.clearAllInputs()
+    fun clearAllInputs() {
+        viewModelScope.launch {
+            crossMultipliersCreatorRepository.clearAllInputs()
+        }
     }
 }

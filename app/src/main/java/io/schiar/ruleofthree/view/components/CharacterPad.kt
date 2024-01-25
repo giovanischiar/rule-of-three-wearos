@@ -22,10 +22,10 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 
 @Composable
-fun NumberPad(
+fun CharacterPad(
     displayValue: String = "",
-    onDigitPressed: (value: String) -> Unit = {},
-    onErasePressed: () -> Unit = {},
+    onCharacterPressed: (value: String) -> Unit = {},
+    onBackspacePressed: () -> Unit = {},
     onClearPressed: () -> Unit = {},
     onEnterPressed: () -> Unit = {}
 ) {
@@ -40,35 +40,35 @@ fun NumberPad(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Display(modifier = Modifier.weight(1f, fill = true), text = displayValue)
+            InputDisplay(modifier = Modifier.weight(1f, fill = true), text = displayValue)
         }
 
         Row {
-            NumberPadButton(name = "7") { onDigitPressed(it) }
-            NumberPadButton(name = "8") { onDigitPressed(it) }
-            NumberPadButton(name = "9") { onDigitPressed(it) }
+            CharacterButton(name = "7") { onCharacterPressed(it) }
+            CharacterButton(name = "8") { onCharacterPressed(it) }
+            CharacterButton(name = "9") { onCharacterPressed(it) }
         }
 
         Row {
-            NumberPadButton(name = "clear") { onClearPressed() }
+            CharacterButton(name = "clear") { onClearPressed() }
             Spacer(modifier = Modifier.width(5.dp))
-            NumberPadButton(name = "4") { onDigitPressed(it) }
-            NumberPadButton(name = "5") { onDigitPressed(it) }
-            NumberPadButton(name = "6") { onDigitPressed(it) }
+            CharacterButton(name = "4") { onCharacterPressed(it) }
+            CharacterButton(name = "5") { onCharacterPressed(it) }
+            CharacterButton(name = "6") { onCharacterPressed(it) }
             Spacer(modifier = Modifier.width(5.dp))
-            NumberPadButton(name = "enter") { onEnterPressed() }
+            CharacterButton(name = "enter") { onEnterPressed() }
         }
 
         Row {
-            NumberPadButton(name = "1") { onDigitPressed(it) }
-            NumberPadButton(name = "2") { onDigitPressed(it) }
-            NumberPadButton(name = "3") { onDigitPressed(it) }
+            CharacterButton(name = "1") { onCharacterPressed(it) }
+            CharacterButton(name = "2") { onCharacterPressed(it) }
+            CharacterButton(name = "3") { onCharacterPressed(it) }
         }
 
         Row {
-            NumberPadButton(name = "0") { onDigitPressed(it) }
-            NumberPadButton(name = ".") { onDigitPressed(it) }
-            NumberPadButton(name = "erase") { onErasePressed() }
+            CharacterButton(name = "0") { onCharacterPressed(it) }
+            CharacterButton(name = ".") { onCharacterPressed(it) }
+            CharacterButton(name = "backspace") { onBackspacePressed() }
         }
     }
 }
@@ -77,11 +77,11 @@ fun NumberPad(
 @Composable
 fun NumberPadPreview() {
     var displayValue by remember { mutableStateOf("") }
-    NumberPad(
+    CharacterPad(
         displayValue = displayValue,
-        onDigitPressed = { displayValue += it },
+        onCharacterPressed = { displayValue += it },
         onClearPressed = { displayValue = "" },
-        onErasePressed = { displayValue = displayValue.dropLast(n = 1) }
+        onBackspacePressed = { displayValue = displayValue.dropLast(n = 1) }
     )
 }
 
@@ -89,10 +89,10 @@ fun NumberPadPreview() {
 @Composable
 fun NumberPadFullPreview() {
     var displayValue by remember { mutableStateOf("29347623986593847239074") }
-    NumberPad(
+    CharacterPad(
         displayValue = displayValue,
-        onDigitPressed = { displayValue += it },
+        onCharacterPressed = { displayValue += it },
         onClearPressed = { displayValue = "" },
-        onErasePressed = { displayValue = displayValue.dropLast(n = 1) }
+        onBackspacePressed = { displayValue = displayValue.dropLast(n = 1) }
     )
 }

@@ -20,7 +20,7 @@ import io.schiar.ruleofthree.R
 import kotlinx.coroutines.launch
 
 @Composable
-fun Display(modifier: Modifier = Modifier, text: String = "") {
+fun InputDisplay(modifier: Modifier = Modifier, text: String = "") {
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     SideEffect { coroutineScope.launch { scrollState.scrollTo(value = scrollState.maxValue) } }
@@ -39,12 +39,12 @@ fun Display(modifier: Modifier = Modifier, text: String = "") {
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun DisplayPreview() {
-    Display(text = "0")
+fun InputDisplayPreview() {
+    InputDisplay(text = "0")
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun DisplayFullPreview() {
-    Display(text = "3947328047320")
+fun InputDisplayFullPreview() {
+    InputDisplay(text = "3947328047320")
 }

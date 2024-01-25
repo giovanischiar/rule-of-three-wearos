@@ -25,11 +25,11 @@ import io.schiar.ruleofthree.R
 fun InputView(
     displayValue: String = "",
     editable: Boolean = true,
-    onDigitPressed: (value: String) -> Unit = {},
-    onErasePressed: () -> Unit = {},
+    onCharacterPressed: (value: String) -> Unit = {},
+    onBackspacePressed: () -> Unit = {},
     onClearPressed: () -> Unit = {},
-    onEnterPressed: () -> Unit = {},
-    onLongPress: () -> Unit = {}
+    onLongPressed: () -> Unit = {},
+    onEnterPressed: () -> Unit = {}
 ) {
     var numericKeyboardShow by remember { mutableStateOf(value = false) }
 
@@ -44,10 +44,10 @@ fun InputView(
         onDismissRequest = { numericKeyboardShow = false }
     ) {
         Box {
-            NumberPad(
+            CharacterPad(
                 displayValue = displayValue,
-                onDigitPressed = onDigitPressed,
-                onErasePressed = onErasePressed,
+                onCharacterPressed = onCharacterPressed,
+                onBackspacePressed = onBackspacePressed,
                 onClearPressed = onClearPressed,
                 onEnterPressed = ::handleEnterPressed
             )
@@ -69,7 +69,7 @@ fun InputView(
     CrossMultiplierItemView(
         displayValue = displayValue,
         onClick = { numericKeyboardShow = true },
-        onLongPress = { onLongPress() },
+        onLongPress = onLongPressed,
         enabled = editable
     )
 }

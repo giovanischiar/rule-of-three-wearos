@@ -19,7 +19,7 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 
 @Composable
-fun NumberPadButton(
+fun CharacterButton(
     modifier: Modifier = Modifier,
     name: String = "",
     onClick: (value: String) -> Unit = {}
@@ -57,7 +57,7 @@ fun NumberPadButton(
                 )
             }
 
-            "erase" -> {
+            "backspace" -> {
                 Icon(
                     modifier = Modifier.padding(5.dp),
                     painter = painterResource(android.R.drawable.ic_input_delete),
@@ -79,24 +79,30 @@ fun NumberPadButton(
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumberPadButtonNumberPreview() {
-    NumberPadButton(name = "0")
+fun CharacterButtonDigitPreview() {
+    CharacterButton(name = "0")
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumberPadButtonClearPreview() {
-    NumberPadButton(name = "clear")
+fun CharacterButtonDecimalPointPreview() {
+    CharacterButton(name = ".")
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumberPadButtonErasePreview() {
-    NumberPadButton(name = "erase")
+fun CharacterButtonClearPreview() {
+    CharacterButton(name = "clear")
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumberPadButtonEnterPreview() {
-    NumberPadButton(name = "enter")
+fun CharacterButtonBackspacePreview() {
+    CharacterButton(name = "backspace")
+}
+
+@Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
+@Composable
+fun CharacterButtonEnterPreview() {
+    CharacterButton(name = "enter")
 }

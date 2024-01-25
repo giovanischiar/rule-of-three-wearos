@@ -10,47 +10,48 @@ fun CrossMultiplierView(
     modifier: Modifier = Modifier,
     crossMultiplier: CrossMultiplierViewData,
     editable: Boolean = true,
-    onValueAddedToInput: (value: String, position: Pair<Int, Int>) -> Unit = {_,_ ->},
-    onInputBackspaced: (position: Pair<Int, Int>) -> Unit = {},
-    onInputCleared: (position: Pair<Int, Int>) -> Unit = {},
-    onSubmitClicked: () -> Unit = {},
-    onInputLongClicked: (position: Pair<Int, Int>) -> Unit = {}
+    onCharacterPressedAt: (position: Pair<Int, Int>, character: String) -> Unit = {_,_ ->},
+    onBackspacePressedAt: (position: Pair<Int, Int>) -> Unit = {},
+    onClearPressedAt: (position: Pair<Int, Int>) -> Unit = {},
+    onLongPressedAt: (position: Pair<Int, Int>) -> Unit = {},
+    onSubmitPressed: () -> Unit = {}
 ) {
-    val (values, unknownPosition, result) = crossMultiplier
+    val unknownPosition = crossMultiplier.unknownPosition
+    val values = crossMultiplier.values
     val (i, j) = unknownPosition
     val layoutValues = Array<Array<@Composable () -> Unit>>(size = 2) { arrayOf({}, {}) }
-    layoutValues[i][j] = { ResultView(displayValue = result) }
+    layoutValues[i][j] = { ResultView(displayValue = crossMultiplier.result) }
     layoutValues[!i][j] = {
         InputView(
             displayValue = values[!i][j],
             editable = editable,
-            onDigitPressed = { value -> onValueAddedToInput(value, Pair(!i, j)) },
-            onErasePressed = { onInputBackspaced(Pair(!i, j)) },
-            onClearPressed = { onInputCleared(Pair(!i, j)) },
-            onEnterPressed = onSubmitClicked,
-            onLongPress = { onInputLongClicked(Pair(!i, j)) }
+            onCharacterPressed = { character -> onCharacterPressedAt(Pair(!i, j), character) },
+            onBackspacePressed = { onBackspacePressedAt(Pair(!i, j)) },
+            onClearPressed = { onClearPressedAt(Pair(!i, j)) },
+            onLongPressed = { onLongPressedAt(Pair(!i, j)) },
+            onEnterPressed = onSubmitPressed
         )
     }
     layoutValues[i][!j] = {
         InputView(
             displayValue = values[i][!j],
             editable = editable,
-            onDigitPressed = { value -> onValueAddedToInput(value, Pair(i, !j)) },
-            onErasePressed = { onInputBackspaced(Pair(i, !j)) },
-            onClearPressed = { onInputCleared(Pair(i, !j)) },
-            onEnterPressed = onSubmitClicked,
-            onLongPress = { onInputLongClicked(Pair(i, !j)) }
+            onCharacterPressed = { value -> onCharacterPressedAt(Pair(i, !j), value) },
+            onBackspacePressed = { onBackspacePressedAt(Pair(i, !j)) },
+            onClearPressed = { onClearPressedAt(Pair(i, !j)) },
+            onLongPressed = { onLongPressedAt(Pair(i, !j)) },
+            onEnterPressed = onSubmitPressed
         )
     }
     layoutValues[!i][!j] = {
         InputView(
             displayValue = values[!i][!j],
             editable = editable,
-            onDigitPressed = { value -> onValueAddedToInput(value, Pair(!i, !j)) },
-            onErasePressed = { onInputBackspaced(Pair(!i, !j)) },
-            onClearPressed = { onInputCleared(Pair(!i, !j)) },
-            onEnterPressed = onSubmitClicked,
-            onLongPress = { onInputLongClicked(Pair(!i, !j)) }
+            onCharacterPressed = { value -> onCharacterPressedAt(Pair(!i, !j), value) },
+            onBackspacePressed = { onBackspacePressedAt(Pair(!i, !j)) },
+            onClearPressed = { onClearPressedAt(Pair(!i, !j)) },
+            onLongPressed = { onLongPressedAt(Pair(!i, !j)) },
+            onEnterPressed = onSubmitPressed
         )
     }
 
