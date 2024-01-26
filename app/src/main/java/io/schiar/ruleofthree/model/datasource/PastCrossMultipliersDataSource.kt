@@ -78,9 +78,8 @@ class PastCrossMultipliersDataSource(
 
     override suspend fun deletePastCrossMultiplierAt(index: Int) {
         val mutablePastCrossMultipliers = retrievePastCrossMultipliers().toMutableList()
-        mutablePastCrossMultipliers.removeAt(index = index)
+        val crossMultiplierToBeDeleted = mutablePastCrossMultipliers.removeAt(index = index)
         pastCrossMultipliers = mutablePastCrossMultipliers
-        val crossMultiplierToBeDeleted = retrievePastCrossMultiplierAt(index = index) ?: return
         coroutineScope {
             launch(coroutineDispatcher) {
                 pastCrossMultipliersDAO.delete(
