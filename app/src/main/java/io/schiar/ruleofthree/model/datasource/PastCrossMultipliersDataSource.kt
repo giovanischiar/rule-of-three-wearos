@@ -59,6 +59,14 @@ class PastCrossMultipliersDataSource(
     }
 
     override suspend fun updatePastCrossMultiplier(crossMultiplierUpdated: CrossMultiplier) {
+        val mutablePastCrossMultipliers = retrievePastCrossMultipliers().toMutableList()
+        for (i in mutablePastCrossMultipliers.indices) {
+            if (mutablePastCrossMultipliers[i].id == crossMultiplierUpdated.id) {
+                mutablePastCrossMultipliers[i] = crossMultiplierUpdated
+                break
+            }
+        }
+        pastCrossMultipliers = mutablePastCrossMultipliers
         coroutineScope {
             launch(coroutineDispatcher) {
                 pastCrossMultipliersDAO.updateCrossMultiplierEntityTimestamped(
