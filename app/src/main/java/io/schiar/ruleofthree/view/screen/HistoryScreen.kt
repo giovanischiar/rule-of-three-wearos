@@ -38,16 +38,11 @@ import io.schiar.ruleofthree.view.components.CrossMultiplierView
 import io.schiar.ruleofthree.view.components.TouchableIcon
 import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
-import io.schiar.ruleofthree.viewmodel.PastCrossMultipliersViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalWearFoundationApi::class)
 @Composable
-fun HistoryScreen(
-    historyViewModel: HistoryViewModel,
-    crossMultiplierViewModel: PastCrossMultipliersViewModel,
-    onBackPressed: () -> Unit = {}
-) {
+fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
@@ -64,25 +59,25 @@ fun HistoryScreen(
     fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
         index: Int, value: String, position: Pair<Int, Int>
     ) {
-        crossMultiplierViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
+        historyViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
             index = index, character = value, position = position
         )
     }
 
     fun popCharacterOfInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
-        crossMultiplierViewModel.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
+        historyViewModel.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
             index = index, position = position
         )
     }
 
     fun clearInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
-        crossMultiplierViewModel.clearInputOnPositionOfTheCrossMultiplierAt(
+        historyViewModel.clearInputOnPositionOfTheCrossMultiplierAt(
             index = index, position = position
         )
     }
 
     fun changeTheUnknownPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
-        crossMultiplierViewModel.changeTheUnknownPositionOfTheCrossMultiplierAt(
+        historyViewModel.changeTheUnknownPositionOfTheCrossMultiplierAt(
             index = index, position = position
         )
     }
@@ -205,7 +200,6 @@ fun HistoryScreenPreview() {
                     unknownPosition = Pair(1, 1)
                 ),
             )
-        ),
-        crossMultiplierViewModel = PastCrossMultipliersViewModel()
+        )
     )
 }

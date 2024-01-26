@@ -18,7 +18,6 @@ import io.schiar.ruleofthree.view.screen.AppScreen
 import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
-import io.schiar.ruleofthree.viewmodel.PastCrossMultipliersViewModel
 import io.schiar.ruleofthree.viewmodel.util.ViewModelFactory
 
 class MainActivity : ComponentActivity() {
@@ -48,8 +47,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppScreen(
                 appViewModel = viewModelProvider[AppViewModel::class.java],
-                crossMultiplierViewModel =
-                    viewModelProvider[PastCrossMultipliersViewModel::class.java],
                 crossMultipliersCreatorViewModel =
                     viewModelProvider[CrossMultipliersCreatorViewModel::class.java],
                 historyViewModel = viewModelProvider[HistoryViewModel::class.java]
@@ -86,9 +83,6 @@ fun AppScreenPreview() {
         )
     )
     val appViewModel = AppViewModel(appRepository = repository)
-    val crossMultiplierViewModel = PastCrossMultipliersViewModel(
-        pastCrossMultipliersRepository = repository
-    )
     val createNewCrossMultiplierViewModel = CrossMultipliersCreatorViewModel(
         crossMultipliersCreatorRepository = currentCrossMultipliersRepository
     )
@@ -96,7 +90,6 @@ fun AppScreenPreview() {
     LaunchedEffect(Unit) { repository.loadPastCrossMultipliers() }
     AppScreen(
         appViewModel = appViewModel,
-        crossMultiplierViewModel = crossMultiplierViewModel,
         crossMultipliersCreatorViewModel = createNewCrossMultiplierViewModel,
         historyViewModel = historyViewModel
     )

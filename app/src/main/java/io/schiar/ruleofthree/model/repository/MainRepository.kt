@@ -11,7 +11,7 @@ class MainRepository(
         = PastCrossMultipliersDataSource(),
     private val currentCrossMultiplierDataSourceable: CurrentCrossMultiplierDataSourceable
         = CurrentCrossMultiplierDataSource()
-): AppRepository, PastCrossMultipliersRepository, HistoryRepository {
+): AppRepository, HistoryRepository {
     // AppRepository
 
     private var isThereHistoryCallback: ((Boolean) -> Unit)? = null
@@ -38,10 +38,18 @@ class MainRepository(
         }
     }
 
-    // PastCrossMultipliersRepository
+    // HistoryRepository
 
-    private suspend fun crossMultiplierAt(index: Int): CrossMultiplier? {
+    private var pastCrossMultipliersCallback: ((List<CrossMultiplier>) -> Unit)? = null
+
+    private suspend fun retrievePastCrossMultiplierFromDataSourceAt(
+        index: Int
+    ): CrossMultiplier? {
         return pastCrossMultipliersDataSourceable.retrievePastCrossMultiplierAt(index = index)
+    }
+
+    private suspend fun retrievePastCrossMultipliersFromDataSource(): List<CrossMultiplier> {
+        return pastCrossMultipliersDataSourceable.retrievePastCrossMultipliers()
     }
 
     private suspend fun updatePastCrossMultiplierAt(crossMultiplierUpdated: CrossMultiplier) {
@@ -53,10 +61,17 @@ class MainRepository(
         }
     }
 
+    override fun subscribeForPastCrossMultipliers(
+        callback: (allPastCrossMultipliers: List<CrossMultiplier>) -> Unit
+    ) {
+        pastCrossMultipliersCallback = callback
+    }
+
     override suspend fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
         index: Int, character: String, position: Pair<Int, Int>
     ) {
-        val crossMultiplierUpdated = (crossMultiplierAt(index = index) ?: return)
+        val crossMultiplierUpdated =
+            (retrievePastCrossMultiplierFromDataSourceAt(index = index) ?: return)
             .characterPushedAt(position = position, character = character)
         updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
     }
@@ -64,7 +79,8 @@ class MainRepository(
     override suspend fun popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
         index: Int, position: Pair<Int, Int>
     ) {
-        val crossMultiplierUpdated = (crossMultiplierAt(index = index) ?: return)
+        val crossMultiplierUpdated =
+            (retrievePastCrossMultiplierFromDataSourceAt(index = index) ?: return)
             .characterPoppedAt(position = position)
         updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
     }
@@ -72,7 +88,8 @@ class MainRepository(
     override suspend fun changeTheUnknownPositionOfTheCrossMultiplierAt(
         index: Int, position: Pair<Int, Int>
     ) {
-        val crossMultiplierUpdated = (crossMultiplierAt(index = index) ?: return)
+        val crossMultiplierUpdated =
+            (retrievePastCrossMultiplierFromDataSourceAt(index = index) ?: return)
             .unknownPositionChangedTo(position = position)
         updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
     }
@@ -80,27 +97,15 @@ class MainRepository(
     override suspend fun clearInputOnPositionOfTheCrossMultiplierAt(
         index: Int, position: Pair<Int, Int>
     ) {
-        val crossMultiplierUpdated = (crossMultiplierAt(index = index) ?: return)
+        val crossMultiplierUpdated =
+            (retrievePastCrossMultiplierFromDataSourceAt(index = index) ?: return)
             .inputClearedAt(position = position)
         updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
     }
 
-    // HistoryRepository
-    private var pastCrossMultipliersCallback: ((List<CrossMultiplier>) -> Unit)? = null
-
-    private suspend fun pastCrossMultipliers(): List<CrossMultiplier> {
-        return pastCrossMultipliersDataSourceable.retrievePastCrossMultipliers()
-    }
-
-    override fun subscribeForPastCrossMultipliers(
-        callback: (allPastCrossMultipliers: List<CrossMultiplier>) -> Unit
-    ) {
-        pastCrossMultipliersCallback = callback
-    }
-
     override suspend fun deleteCrossMultiplier(index: Int) {
         pastCrossMultipliersDataSourceable.deletePastCrossMultiplierAt(index = index)
-        val pastCrossMultipliers = pastCrossMultipliers()
+        val pastCrossMultipliers = retrievePastCrossMultipliersFromDataSource()
         pastCrossMultipliersCallback?.let { it(pastCrossMultipliers) }
         isThereHistoryCallback?.let { it(pastCrossMultipliers.isNotEmpty())}
     }

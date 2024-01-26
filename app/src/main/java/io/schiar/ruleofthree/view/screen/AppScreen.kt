@@ -18,12 +18,10 @@ import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
-import io.schiar.ruleofthree.viewmodel.PastCrossMultipliersViewModel
 
 @Composable
 fun AppScreen(
     appViewModel: AppViewModel,
-    crossMultiplierViewModel: PastCrossMultipliersViewModel,
     crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel,
     historyViewModel: HistoryViewModel,
     navController: NavHostController = rememberNavController()
@@ -57,7 +55,6 @@ fun AppScreen(
         ) {
             HistoryScreen(
                 historyViewModel = historyViewModel,
-                crossMultiplierViewModel = crossMultiplierViewModel,
                 onBackPressed = navController::navigateUp
             )
         }
@@ -69,7 +66,6 @@ fun AppScreen(
 fun AppScreenPreview() {
     AppScreen(
         appViewModel = AppViewModel(isThereHistory = true),
-        crossMultiplierViewModel = PastCrossMultipliersViewModel(),
         crossMultipliersCreatorViewModel = CrossMultipliersCreatorViewModel(),
         historyViewModel = HistoryViewModel()
     )

@@ -7,7 +7,6 @@ import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
-import io.schiar.ruleofthree.viewmodel.PastCrossMultipliersViewModel
 
 class ViewModelFactory(
     private val mainRepository: MainRepository,
@@ -16,9 +15,6 @@ class ViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when (modelClass) {
             AppViewModel::class.java -> AppViewModel(appRepository = mainRepository)
-            PastCrossMultipliersViewModel::class.java -> PastCrossMultipliersViewModel(
-                pastCrossMultipliersRepository = mainRepository
-            )
             CrossMultipliersCreatorViewModel::class.java -> CrossMultipliersCreatorViewModel(
                 crossMultipliersCreatorRepository = crossMultipliersCreatorRepository
             )

@@ -7,6 +7,7 @@ import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.util.toViewData
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -24,10 +25,45 @@ class HistoryViewModel(
 
     init {
         historyRepository.subscribeForPastCrossMultipliers(::onPastCrossMultipliersChanged)
+        viewModelScope.launch { historyRepository.loadPastCrossMultipliers() }
     }
 
     private fun onPastCrossMultipliersChanged(allPastCrossMultipliers: List<CrossMultiplier>) {
         _pastCrossMultipliers.update { allPastCrossMultipliers.map { it.toViewData() } }
+    }
+
+    fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
+        index: Int, character: String, position: Pair<Int, Int>
+    ) {
+        viewModelScope.launch {
+            historyRepository.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
+                index = index, character = character, position = position
+            )
+        }
+    }
+
+    fun popCharacterOfInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
+        viewModelScope.launch {
+            historyRepository.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
+                index = index, position = position
+            )
+        }
+    }
+
+    fun clearInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
+        viewModelScope.launch {
+            historyRepository.clearInputOnPositionOfTheCrossMultiplierAt(
+                index = index, position = position
+            )
+        }
+    }
+
+    fun changeTheUnknownPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
+        viewModelScope.launch {
+            historyRepository.changeTheUnknownPositionOfTheCrossMultiplierAt(
+                index = index, position = position
+            )
+        }
     }
 
     fun deleteCrossMultiplierAt(index: Int) {
