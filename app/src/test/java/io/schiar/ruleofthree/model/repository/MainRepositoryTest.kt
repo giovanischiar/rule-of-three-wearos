@@ -202,12 +202,12 @@ class MainRepositoryTest {
     fun `Clear Input`() = runBlocking {
         // Given
         val indexToClearInput = 2
-        val positionToAppendValueToInput = Pair(0, 1)
+        val positionToClearInput = Pair(0, 1)
         val mutableCrossMultipliers = crossMultipliers.toMutableList()
         val crossMultiplierToAddInput = mutableCrossMultipliers.removeAt(
             index = indexToClearInput
         )
-        crossMultiplierToAddInput.inputClearedAt(position = positionToAppendValueToInput)
+        crossMultiplierToAddInput.inputClearedAt(position = positionToClearInput)
         mutableCrossMultipliers.add(index = indexToClearInput, crossMultiplierToAddInput)
         val expectedPastCrossMultipliers = mutableCrossMultipliers.reversed()
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
@@ -217,7 +217,7 @@ class MainRepositoryTest {
 
         mainRepository.clearInputOnPositionOfTheCrossMultiplierAt(
             index = indexToClearInput,
-            position = positionToAppendValueToInput
+            position = positionToClearInput
         )
 
         // Then
