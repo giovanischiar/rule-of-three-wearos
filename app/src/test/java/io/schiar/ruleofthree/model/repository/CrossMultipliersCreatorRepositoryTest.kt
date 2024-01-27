@@ -139,7 +139,7 @@ class CrossMultipliersCreatorRepositoryTest {
         val positionToClearInput = Pair(0, 1)
         val expectedCurrentCrossMultiplier = crossMultiplier.inputClearedAt(
             position = positionToClearInput
-        )
+        ).resultCalculated()
         var actualCurrentCrossMultiplier: CrossMultiplier? = null
 
         // When

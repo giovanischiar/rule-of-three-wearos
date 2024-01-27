@@ -239,18 +239,15 @@ class CrossMultiplierTest {
     fun `Change The Unknown Position`() {
         // Given
          val expectedCrossMultiplier = CrossMultiplier(
-             valueAt00 = 2.46,
-             valueAt10 = 4,
-             valueAt11 = 23.4,
+             valueAt00 = "2.46", valueAt01 = "",
+             valueAt10 = "4", valueAt11 = "",
              unknownPosition = Pair(0, 1)
         )
 
         // When
         val actualCrossMultiplier = CrossMultiplier(
-            valueAt00 = 2.46,
-            valueAt01 = 32,
-            valueAt10 = 4,
-            valueAt11 = 23.4
+            valueAt00 = "2.46", valueAt01 = "32",
+            valueAt10 = "4", valueAt11 = "23.4",
         ).unknownPositionChangedTo(position = Pair(0, 1))
 
         // Then

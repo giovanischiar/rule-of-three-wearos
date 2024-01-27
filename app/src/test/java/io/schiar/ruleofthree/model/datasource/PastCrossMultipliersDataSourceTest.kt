@@ -40,7 +40,7 @@ class PastCrossMultipliersDataSourceTest {
     @Test
     fun `Retrieve Past Cross Multipliers`() {
         // Given
-        val expectedCrossMultipliers = crossMultipliers.reversed()
+        val expectedCrossMultipliers = crossMultipliers
 
         // When
         val actualCrossMultipliers = runBlocking {
@@ -55,7 +55,7 @@ class PastCrossMultipliersDataSourceTest {
     fun `Retrieve Cross Multiplier at Index 2`() {
         // Given
         val indexToRetrieve = 2
-        val expectedCrossMultipliers = crossMultipliers.reversed()[indexToRetrieve]
+        val expectedCrossMultipliers = crossMultipliers[indexToRetrieve]
 
         // When
         val actualCrossMultipliers = runBlocking {
@@ -70,7 +70,7 @@ class PastCrossMultipliersDataSourceTest {
     fun `Update Cross Multiplier at Index 2`() {
         // Given
         val indexToUpdate = 2
-        val expectedCrossMultiplier = crossMultipliers.reversed()[indexToUpdate]
+        val expectedCrossMultiplier = crossMultipliers[indexToUpdate]
 
         // When
         runBlocking {
@@ -88,7 +88,7 @@ class PastCrossMultipliersDataSourceTest {
     fun `Delete Cross Multiplier at Index 2`() {
         // Given
         val indexToDelete = 2
-        val expectedCrossMultipliers = crossMultipliers.reversed().toMutableList()
+        val expectedCrossMultipliers = crossMultipliers.toMutableList()
         expectedCrossMultipliers.removeAt(index = indexToDelete)
 
         // When

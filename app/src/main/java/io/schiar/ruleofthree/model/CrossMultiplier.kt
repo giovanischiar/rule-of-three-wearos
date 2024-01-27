@@ -101,6 +101,7 @@ data class CrossMultiplier(
 
     fun unknownPositionChangedTo(position: Pair<Int, Int>): CrossMultiplier {
         val updatedInputsMatrix = inputsMatrixCloned()
+        updatedInputsMatrix[unknownPosition] = Input()
         updatedInputsMatrix[position] = Input()
         return CrossMultiplier(
             id = id,
@@ -135,7 +136,9 @@ data class CrossMultiplier(
     }
 
     fun resultCalculated(): CrossMultiplier {
-        if (!inputsMatrix.isValid(unknownPosition = unknownPosition)) return this
+        if (!inputsMatrix.isValid(unknownPosition = unknownPosition)) return this.inputClearedAt(
+            position = unknownPosition
+        )
         val updatedInputsMatrix = inputsMatrixCloned()
         updatedInputsMatrix[unknownPosition] =
             (sameRowDifferentColumnToUnknownInput * differentRowSameColumnToUnknownInput) /

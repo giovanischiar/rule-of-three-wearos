@@ -25,7 +25,7 @@ class PastCrossMultipliersDataSource(
         pastCrossMultipliersDAO = PastCrossMultipliersLocalDAO(
             pastCrossMultipliers = crossMultipliers.map { crossMultiplier ->
                 crossMultiplier.toCrossMultiplierEntity()
-            }
+            }.reversed()
         ),
         coroutineDispatcher = coroutineDispatcher
     )
