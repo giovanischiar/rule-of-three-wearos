@@ -47,7 +47,7 @@ class MainRepositoryTest {
         val expectedPastCrossMultipliers = listOf(
             CrossMultiplier(
                 valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
             ),
             CrossMultiplier(
                 valueAt00 = 94.5, valueAt01 = 28.4,
@@ -82,7 +82,7 @@ class MainRepositoryTest {
         val crossMultipliers = listOf(
             CrossMultiplier(
                 valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
             )
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
@@ -106,7 +106,7 @@ class MainRepositoryTest {
         // Given
         val currentCrossMultiplier = CrossMultiplier(
             valueAt00 = 1,    valueAt01 = 2.3,
-            valueAt10 = 45.3, valueAt11 = (45.3 * 2.3)/1,
+            valueAt10 = 45.3, valueAt11 = (45.3*2.3)/1,
             unknownPosition = Pair(1, 1)
         )
         val crossMultipliersCreatorDataSource = CurrentCrossMultiplierDataSource(
@@ -146,7 +146,7 @@ class MainRepositoryTest {
             ),
             CrossMultiplier(
                 valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
             ),
         )
 
@@ -168,7 +168,7 @@ class MainRepositoryTest {
         var actualIsThereIsTherePastCrossMultipliers: Boolean? = null
         val currentCrossMultiplier = CrossMultiplier(
             valueAt00 = 1,    valueAt01 = 2.3,
-            valueAt10 = 45.3, valueAt11 = (45.3 * 2.3)/1,
+            valueAt10 = 45.3, valueAt11 = (45.3*2.3)/1,
             unknownPosition = Pair(1, 1)
         )
         val crossMultipliersCreatorDataSource = CurrentCrossMultiplierDataSource(
@@ -252,7 +252,7 @@ class MainRepositoryTest {
             crossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
-                    valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                    valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
                 ),
                 CrossMultiplier(
                     valueAt00 = 94.5, valueAt01 = 28.4,
@@ -271,7 +271,7 @@ class MainRepositoryTest {
         val expectedPastCrossMultipliers = listOf(
             CrossMultiplier(
                 valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
             ),
             CrossMultiplier(
                 valueAt00 = 94.5, valueAt01 = 28.4,
@@ -408,7 +408,7 @@ class MainRepositoryTest {
         val crossMultipliers = listOf(
             CrossMultiplier(
                 valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
             )
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
@@ -435,7 +435,7 @@ class MainRepositoryTest {
         val crossMultipliers = listOf(
             CrossMultiplier(
                 valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
             )
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
@@ -462,7 +462,7 @@ class MainRepositoryTest {
         val crossMultipliers = listOf(
             CrossMultiplier(
                 valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
             )
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
@@ -489,7 +489,7 @@ class MainRepositoryTest {
         val crossMultipliers = listOf(
             CrossMultiplier(
                 valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
+                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
             )
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
