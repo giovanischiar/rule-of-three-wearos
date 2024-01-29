@@ -96,4 +96,220 @@ class HistoryViewModelTest {
         val actualPastCrossMultipliers = pastCrossMultipliersEvents.last()
         Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `Push Character 8 to Input on position (0, 0) of the CrossMultiplier at Index 3`() = runTest {
+        // Given
+        val expectedPastCrossMultipliers = listOf(
+            CrossMultiplierViewData(
+                valueAt00 = "67",              valueAt01 = "3.65",
+                valueAt10 = "${(67*45/3.65)}", valueAt11 = "45",
+                unknownPosition = Pair(1, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "${(90.6*63.59)/12.57}", valueAt01 = "${63.59}",
+                valueAt10 = "90.6",                  valueAt11 = "12.57",
+                unknownPosition = Pair(0, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "16",  valueAt01 = "${(16*9)/8.3}",
+                valueAt10 = "8.3", valueAt11 = "9",
+                unknownPosition = Pair(0, 1)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "168", valueAt01 = "35.6",
+                valueAt10 = "8.3", valueAt11 = "${(8.3*35.6)/168}",
+                unknownPosition = Pair(1, 1)
+            )
+        )
+
+        // When
+        historyViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
+            index = 3, position = Pair(0, 0), character = "8"
+        )
+        historyViewModel.pastCrossMultipliers
+            .onEach { pastCrossMultipliersEvents.add(it) }
+            .launchIn(CoroutineScope(dispatcher))
+        advanceUntilIdle()
+
+        // Then
+        val actualPastCrossCrossMultipliers = pastCrossMultipliersEvents.last()
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossCrossMultipliers)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `Pop Character of Input on position (1, 1) of the CrossMultiplier at Index 0`() = runTest {
+        // Given
+        val expectedPastCrossMultipliers = listOf(
+            CrossMultiplierViewData(
+                valueAt00 = "67",             valueAt01 = "3.65",
+                valueAt10 = "${(67*4/3.65)}", valueAt11 = "4",
+                unknownPosition = Pair(1, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "${(90.6*63.59)/12.57}", valueAt01 = "${63.59}",
+                valueAt10 = "90.6",                  valueAt11 = "12.57",
+                unknownPosition = Pair(0, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "16",  valueAt01 = "${(16*9)/8.3}",
+                valueAt10 = "8.3", valueAt11 = "9",
+                unknownPosition = Pair(0, 1)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "16",  valueAt01 = "35.6",
+                valueAt10 = "8.3", valueAt11 = "${(8.3*35.6)/16}",
+                unknownPosition = Pair(1, 1)
+            )
+        )
+
+        // When
+        historyViewModel.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
+            index = 0, position = Pair(1, 1)
+        )
+        historyViewModel.pastCrossMultipliers
+            .onEach { pastCrossMultipliersEvents.add(it) }
+            .launchIn(CoroutineScope(dispatcher))
+        advanceUntilIdle()
+
+        // Then
+        val actualPastCrossCrossMultipliers = pastCrossMultipliersEvents.last()
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossCrossMultipliers)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `Change The Unknown Position to Position (0, 0) of the Cross Multiplier at Index 2`() = runTest {
+        // Given
+        val expectedPastCrossMultipliers = listOf(
+            CrossMultiplierViewData(
+                valueAt00 = "67",              valueAt01 = "3.65",
+                valueAt10 = "${(67*45/3.65)}", valueAt11 = "45",
+                unknownPosition = Pair(1, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "${(90.6*63.59)/12.57}", valueAt01 = "${63.59}",
+                valueAt10 = "90.6",                  valueAt11 = "12.57",
+                unknownPosition = Pair(0, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "",    valueAt01 = "",
+                valueAt10 = "8.3", valueAt11 = "9",
+                unknownPosition = Pair(0, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "16",  valueAt01 = "35.6",
+                valueAt10 = "8.3", valueAt11 = "${(8.3*35.6)/16}",
+                unknownPosition = Pair(1, 1)
+            )
+        )
+
+        // When
+        historyViewModel.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
+            index = 2, position = Pair(0, 0)
+        )
+        historyViewModel.pastCrossMultipliers
+            .onEach { pastCrossMultipliersEvents.add(it) }
+            .launchIn(CoroutineScope(dispatcher))
+        advanceUntilIdle()
+
+        // Then
+        val actualPastCrossCrossMultipliers = pastCrossMultipliersEvents.last()
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossCrossMultipliers)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `Clear Input On Position (1, 0) of the Cross Multiplier at Index 1`() = runTest {
+        // Given
+        val expectedPastCrossMultipliers = listOf(
+            CrossMultiplierViewData(
+                valueAt00 = "67",              valueAt01 = "3.65",
+                valueAt10 = "${(67*45/3.65)}", valueAt11 = "45",
+                unknownPosition = Pair(1, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "", valueAt01 = "${63.59}",
+                valueAt10 = "", valueAt11 = "12.57",
+                unknownPosition = Pair(0, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "16",  valueAt01 = "${(16*9)/8.3}",
+                valueAt10 = "8.3", valueAt11 = "9",
+                unknownPosition = Pair(0, 1)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "16",  valueAt01 = "35.6",
+                valueAt10 = "8.3", valueAt11 = "${(8.3*35.6)/16}",
+                unknownPosition = Pair(1, 1)
+            )
+        )
+
+        // When
+        historyViewModel.clearInputOnPositionOfTheCrossMultiplierAt(
+            index = 1, position = Pair(1, 0)
+        )
+        historyViewModel.pastCrossMultipliers
+            .onEach { pastCrossMultipliersEvents.add(it) }
+            .launchIn(CoroutineScope(dispatcher))
+        advanceUntilIdle()
+
+        // Then
+        val actualPastCrossCrossMultipliers = pastCrossMultipliersEvents.last()
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossCrossMultipliers)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `Delete Cross Multiplier at Index 2`() = runTest {
+        // Given
+        val expectedPastCrossMultipliers = listOf(
+            CrossMultiplierViewData(
+                valueAt00 = "67",              valueAt01 = "3.65",
+                valueAt10 = "${(67*45/3.65)}", valueAt11 = "45",
+                unknownPosition = Pair(1, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "${(90.6*63.59)/12.57}", valueAt01 = "63.59",
+                valueAt10 = "90.6",                  valueAt11 = "12.57",
+                unknownPosition = Pair(0, 0)
+            ),
+            CrossMultiplierViewData(
+                valueAt00 = "16",  valueAt01 = "35.6",
+                valueAt10 = "8.3", valueAt11 = "${(8.3*35.6)/16}",
+                unknownPosition = Pair(1, 1)
+            )
+        )
+
+        // When
+        historyViewModel.deleteCrossMultiplierAt(index = 2)
+        historyViewModel.pastCrossMultipliers
+            .onEach { pastCrossMultipliersEvents.add(it) }
+            .launchIn(CoroutineScope(dispatcher))
+        advanceUntilIdle()
+
+        // Then
+        val actualPastCrossCrossMultipliers = pastCrossMultipliersEvents.last()
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossCrossMultipliers)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `Delete History`() = runTest {
+        // Given
+        val expectedPastCrossMultipliers = emptyList<CrossMultiplierViewData>()
+
+        // When
+        historyViewModel.deleteHistory()
+        historyViewModel.pastCrossMultipliers
+            .onEach { pastCrossMultipliersEvents.add(it) }
+            .launchIn(CoroutineScope(dispatcher))
+        advanceUntilIdle()
+
+        // Then
+        val actualPastCrossCrossMultipliers = pastCrossMultipliersEvents.last()
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossCrossMultipliers)
+    }
 }
