@@ -34,35 +34,27 @@ class CrossMultipliersCreatorViewModel(
         _crossMultiplier.update { crossMultiplier.toViewData() }
     }
 
-    fun pushCharacterToInputAt(position: Pair<Int, Int>, character: String) {
-        viewModelScope.launch {
-            crossMultipliersCreatorRepository.pushCharacterToInputAt(
-                position = position, character = character
-            )
-        }
+    fun pushCharacterToInputAt(
+        position: Pair<Int, Int>, character: String
+    ) = viewModelScope.launch {
+        crossMultipliersCreatorRepository.pushCharacterToInputAt(
+            position = position, character = character
+        )
     }
 
-    fun popCharacterOfInputAt(position: Pair<Int, Int>) {
-        viewModelScope.launch {
-            crossMultipliersCreatorRepository.popCharacterOfInputAt(position = position)
-        }
+    fun popCharacterOfInputAt(position: Pair<Int, Int>) = viewModelScope.launch {
+        crossMultipliersCreatorRepository.popCharacterOfInputAt(position = position)
     }
 
-    fun changeTheUnknownPositionTo(position: Pair<Int, Int>) {
-        viewModelScope.launch {
-            crossMultipliersCreatorRepository.changeTheUnknownPositionTo(position = position)
-        }
+    fun changeTheUnknownPositionTo(position: Pair<Int, Int>) = viewModelScope.launch {
+        crossMultipliersCreatorRepository.changeTheUnknownPositionTo(position = position)
     }
 
-    fun clearInputOn(position: Pair<Int, Int>) {
-       viewModelScope.launch {
-           crossMultipliersCreatorRepository.clearInputOn(position = position)
-       }
+    fun clearInputOn(position: Pair<Int, Int>) = viewModelScope.launch {
+        crossMultipliersCreatorRepository.clearInputOn(position = position)
     }
 
-    fun clearAllInputs() {
-        viewModelScope.launch {
-            crossMultipliersCreatorRepository.clearAllInputs()
-        }
+    fun clearAllInputs() = viewModelScope.launch {
+        crossMultipliersCreatorRepository.clearAllInputs()
     }
 }

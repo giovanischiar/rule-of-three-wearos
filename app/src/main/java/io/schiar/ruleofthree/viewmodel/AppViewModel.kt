@@ -26,9 +26,7 @@ class AppViewModel(private val appRepository: AppRepository = MainRepository()):
         _isThereHistory.update { value }
     }
 
-    fun addCurrentCrossMultiplierToPastCrossMultipliers() {
-        viewModelScope.launch {
-            appRepository.addCurrentCrossMultiplierToPastCrossMultipliers()
-        }
+    fun addCurrentCrossMultiplierToPastCrossMultipliers() = viewModelScope.launch {
+        appRepository.addCurrentCrossMultiplierToPastCrossMultipliers()
     }
 }

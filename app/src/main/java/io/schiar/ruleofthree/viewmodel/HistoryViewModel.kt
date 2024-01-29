@@ -33,49 +33,41 @@ class HistoryViewModel(
 
     fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
         index: Int, position: Pair<Int, Int>, character: String
-    ) {
-        viewModelScope.launch {
-            historyRepository.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-                index = index, position = position, character = character
-            )
-        }
+    ) = viewModelScope.launch {
+        historyRepository.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
+            index = index, position = position, character = character
+        )
     }
 
-    fun popCharacterOfInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
-        viewModelScope.launch {
-            historyRepository.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
-                index = index, position = position
-            )
-        }
+    fun popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
+        index: Int, position: Pair<Int, Int>
+    ) = viewModelScope.launch {
+        historyRepository.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
+            index = index, position = position
+        )
     }
 
     fun changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
         index: Int, position: Pair<Int, Int>
-    ) {
-        viewModelScope.launch {
-            historyRepository.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
-                index = index, position = position
-            )
-        }
+    ) = viewModelScope.launch {
+        historyRepository.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
+            index = index, position = position
+        )
     }
 
-    fun clearInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
-        viewModelScope.launch {
-            historyRepository.clearInputOnPositionOfTheCrossMultiplierAt(
-                index = index, position = position
-            )
-        }
+    fun clearInputOnPositionOfTheCrossMultiplierAt(
+        index: Int, position: Pair<Int, Int>
+    ) = viewModelScope.launch {
+        historyRepository.clearInputOnPositionOfTheCrossMultiplierAt(
+            index = index, position = position
+        )
     }
 
-    fun deleteCrossMultiplierAt(index: Int) {
-        viewModelScope.launch {
-            historyRepository.deleteCrossMultiplier(index = index)
-        }
+    fun deleteCrossMultiplierAt(index: Int) = viewModelScope.launch {
+        historyRepository.deleteCrossMultiplier(index = index)
     }
 
-    fun deleteHistory() {
-        viewModelScope.launch {
-            historyRepository.deleteHistory()
-        }
+    fun deleteHistory() = viewModelScope.launch {
+        historyRepository.deleteHistory()
     }
 }
