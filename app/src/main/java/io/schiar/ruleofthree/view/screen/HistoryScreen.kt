@@ -36,7 +36,7 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
 import io.schiar.ruleofthree.view.components.TouchableIcon
-import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
+import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import kotlinx.coroutines.launch
 

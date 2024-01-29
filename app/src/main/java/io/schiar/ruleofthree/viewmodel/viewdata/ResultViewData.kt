@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.viewdata
+package io.schiar.ruleofthree.viewmodel.viewdata
 
 import io.schiar.ruleofthree.view.toFormattedString
 

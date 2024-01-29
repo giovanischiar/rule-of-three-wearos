@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.viewdata
+package io.schiar.ruleofthree.viewmodel.viewdata
 
 import io.schiar.ruleofthree.get
 import io.schiar.ruleofthree.not

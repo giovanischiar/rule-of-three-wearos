@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.dialog.Dialog
 import androidx.wear.tooling.preview.devices.WearDevices
-import io.schiar.ruleofthree.view.viewdata.ResultViewData
+import io.schiar.ruleofthree.viewmodel.viewdata.ResultViewData
 
 @Composable
 fun ResultView(displayValue: ResultViewData = ResultViewData(result = "", _result = 0.0)) {

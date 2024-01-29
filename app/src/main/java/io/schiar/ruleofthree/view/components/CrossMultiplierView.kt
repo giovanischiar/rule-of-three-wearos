@@ -3,7 +3,7 @@ package io.schiar.ruleofthree.view.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.schiar.ruleofthree.not
-import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
+import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 
 @Composable
 fun CrossMultiplierView(

@@ -29,7 +29,7 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
-import io.schiar.ruleofthree.view.viewdata.ResultViewData
+import io.schiar.ruleofthree.viewmodel.viewdata.ResultViewData
 
 @Composable
 fun ResultDialogView(result: ResultViewData, onClosePressed: () -> Unit = {}) {

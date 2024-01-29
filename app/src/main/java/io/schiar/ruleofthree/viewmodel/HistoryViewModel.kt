@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.model.repository.MainRepository
-import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
+import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

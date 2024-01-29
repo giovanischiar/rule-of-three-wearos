@@ -1,7 +1,7 @@
 package io.schiar.ruleofthree.viewmodel.util
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
+import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 
 fun CrossMultiplier.toViewData(): CrossMultiplierViewData {
     return CrossMultiplierViewData(
