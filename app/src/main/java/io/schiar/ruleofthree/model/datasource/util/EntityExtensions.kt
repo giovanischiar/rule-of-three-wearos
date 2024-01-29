@@ -8,10 +8,10 @@ fun CrossMultiplierEntity.toCrossMultiplier(): CrossMultiplier {
     val pairStringList = unknownPosition.split(" ")
     return CrossMultiplier(
         id = id,
-        valueAt00 = a,
-        valueAt01 = b,
-        valueAt10 = c,
-        valueAt11 = d,
+        valueAt00 = valueAt00,
+        valueAt01 = valueAt01,
+        valueAt10 = valueAt10,
+        valueAt11 = valueAt11,
         unknownPosition = Pair(pairStringList[0].toInt(), pairStringList[1].toInt())
     )
 }
@@ -20,10 +20,10 @@ fun CurrentCrossMultiplierEntity.toCrossMultiplier(): CrossMultiplier {
     val pairStringList = unknownPosition.split(" ")
     return CrossMultiplier(
         id = id,
-        valueAt00 = a,
-        valueAt01 = b,
-        valueAt10 = c,
-        valueAt11 = d,
+        valueAt00 = valueAt00,
+        valueAt01 = valueAt01,
+        valueAt10 = valueAt10,
+        valueAt11 = valueAt11,
         unknownPosition = Pair(pairStringList[0].toInt(), pairStringList[1].toInt())
     )
 }
@@ -31,10 +31,10 @@ fun CurrentCrossMultiplierEntity.toCrossMultiplier(): CrossMultiplier {
 fun CrossMultiplierEntity.setID(id: Long): CrossMultiplierEntity {
     return CrossMultiplierEntity(
         id = id,
-        a = a,
-        b = b,
-        c = c,
-        d = d,
+        valueAt00 = valueAt00,
+        valueAt01 = valueAt01,
+        valueAt10 = valueAt10,
+        valueAt11 = valueAt11,
         unknownPosition = unknownPosition,
         createdAt = createdAt,
         modifiedAt = modifiedAt
@@ -44,10 +44,10 @@ fun CrossMultiplierEntity.setID(id: Long): CrossMultiplierEntity {
 fun CrossMultiplier.toCrossMultiplierEntity(): CrossMultiplierEntity {
     return CrossMultiplierEntity(
         id = id,
-        a = valueAt00,
-        b = valueAt01,
-        c = valueAt10,
-        d = valueAt11,
+        valueAt00 = valueAt00,
+        valueAt01 = valueAt01,
+        valueAt10 = valueAt10,
+        valueAt11 = valueAt11,
         unknownPosition = "${unknownPosition.first} ${unknownPosition.second}"
     )
 }
@@ -55,10 +55,10 @@ fun CrossMultiplier.toCrossMultiplierEntity(): CrossMultiplierEntity {
 fun CrossMultiplier.toCurrentCrossMultiplierEntity(): CurrentCrossMultiplierEntity {
     return CurrentCrossMultiplierEntity(
         id = id,
-        a = valueAt00,
-        b = valueAt01,
-        c = valueAt10,
-        d = valueAt11,
+        valueAt00 = valueAt00,
+        valueAt01 = valueAt01,
+        valueAt10 = valueAt10,
+        valueAt11 = valueAt11,
         unknownPosition = "${unknownPosition.first} ${unknownPosition.second}"
     )
 }
@@ -72,10 +72,10 @@ fun CrossMultiplierEntity.timestamped(
 ): CrossMultiplierEntity {
    return CrossMultiplierEntity(
        id = id,
-       a = a,
-       b = b,
-       c = c,
-       d = d,
+       valueAt00 = valueAt00,
+       valueAt01 = valueAt01,
+       valueAt10 = valueAt10,
+       valueAt11 = valueAt11,
        unknownPosition = unknownPosition,
        createdAt = if (createdAt != -1L) createdAt else this.createdAt,
        modifiedAt = if (modifiedAt != -1L) createdAt else this.createdAt

@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 data class CurrentCrossMultiplierEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Long = 1,
-    val a: String,
-    val b: String,
-    val c: String,
-    val d: String,
+    val valueAt00: String,
+    val valueAt01: String,
+    val valueAt10: String,
+    val valueAt11: String,
     val unknownPosition: String,
     var createdAt: Long = 0,
     var modifiedAt: Long = 0
