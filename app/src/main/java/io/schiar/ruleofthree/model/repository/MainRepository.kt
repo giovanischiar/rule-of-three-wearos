@@ -68,7 +68,7 @@ class MainRepository(
     }
 
     override suspend fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-        index: Int, character: String, position: Pair<Int, Int>
+        index: Int, position: Pair<Int, Int>, character: String
     ) {
         val crossMultiplierUpdated =
             (retrievePastCrossMultiplierFromDataSourceAt(index = index) ?: return)
@@ -85,7 +85,7 @@ class MainRepository(
         updatePastCrossMultiplierAt(crossMultiplierUpdated = crossMultiplierUpdated)
     }
 
-    override suspend fun changeTheUnknownPositionOfTheCrossMultiplierAt(
+    override suspend fun changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
         index: Int, position: Pair<Int, Int>
     ) {
         val crossMultiplierUpdated =

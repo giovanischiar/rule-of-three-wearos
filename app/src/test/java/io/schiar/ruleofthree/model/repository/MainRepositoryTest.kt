@@ -239,8 +239,8 @@ class MainRepositoryTest {
         // When
         mainRepository.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
             index = 2,
-            character = "5",
-            position = Pair(1, 0)
+            position = Pair(1, 0),
+            character = "5"
         )
 
         // Then
@@ -334,7 +334,7 @@ class MainRepositoryTest {
         mainRepository.subscribeForPastCrossMultipliers(callback)
 
         // When
-        mainRepository.changeTheUnknownPositionOfTheCrossMultiplierAt(
+        mainRepository.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
             index = 1,
             position = Pair(0, 1)
         )

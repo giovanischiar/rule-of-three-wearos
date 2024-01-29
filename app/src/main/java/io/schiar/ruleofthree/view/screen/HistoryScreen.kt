@@ -57,10 +57,10 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
     }
 
     fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-        index: Int, value: String, position: Pair<Int, Int>
+        index: Int, position: Pair<Int, Int>, character: String
     ) {
         historyViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-            index = index, character = value, position = position
+            index = index, position = position, character = character
         )
     }
 
@@ -76,8 +76,10 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
         )
     }
 
-    fun changeTheUnknownPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
-        historyViewModel.changeTheUnknownPositionOfTheCrossMultiplierAt(
+    fun changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
+        index: Int, position: Pair<Int, Int>
+    ) {
+        historyViewModel.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
             index = index, position = position
         )
     }
@@ -121,9 +123,9 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
                                 .onSizeChanged { crossMultiplierHeight = it.height }
                                 .aspectRatio(1f),
                             crossMultiplier = allPastCrossMultipliers[index],
-                            onCharacterPressedAt = { position: Pair<Int, Int>, value: String ->
+                            onCharacterPressedAt = { position: Pair<Int, Int>, character: String ->
                                 pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-                                    index = index, value = value, position = position
+                                    index = index, position = position, character = character
                                 )
                             },
                             onBackspacePressedAt = { position: Pair<Int, Int> ->
@@ -137,7 +139,7 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
                                 )
                             },
                             onLongPressedAt = { position: Pair<Int, Int> ->
-                                changeTheUnknownPositionOfTheCrossMultiplierAt(
+                                changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
                                     index = index, position = position
                                 )
                             },

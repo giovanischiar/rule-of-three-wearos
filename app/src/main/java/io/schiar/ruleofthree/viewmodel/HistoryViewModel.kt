@@ -7,7 +7,6 @@ import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.view.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.util.toViewData
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -33,11 +32,11 @@ class HistoryViewModel(
     }
 
     fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-        index: Int, character: String, position: Pair<Int, Int>
+        index: Int, position: Pair<Int, Int>, character: String
     ) {
         viewModelScope.launch {
             historyRepository.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-                index = index, character = character, position = position
+                index = index, position = position, character = character
             )
         }
     }
@@ -50,17 +49,19 @@ class HistoryViewModel(
         }
     }
 
-    fun clearInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
+    fun changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
+        index: Int, position: Pair<Int, Int>
+    ) {
         viewModelScope.launch {
-            historyRepository.clearInputOnPositionOfTheCrossMultiplierAt(
+            historyRepository.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
                 index = index, position = position
             )
         }
     }
 
-    fun changeTheUnknownPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
+    fun clearInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
         viewModelScope.launch {
-            historyRepository.changeTheUnknownPositionOfTheCrossMultiplierAt(
+            historyRepository.clearInputOnPositionOfTheCrossMultiplierAt(
                 index = index, position = position
             )
         }
