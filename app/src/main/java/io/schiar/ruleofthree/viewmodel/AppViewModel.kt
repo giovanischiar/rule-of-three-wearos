@@ -10,20 +10,20 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AppViewModel(private val appRepository: AppRepository = MainRepository()): ViewModel() {
-    private val _isThereHistory = MutableStateFlow(value = false)
-    val isThereHistory: StateFlow<Boolean> = _isThereHistory
+    private val _areTherePastCrossMultipliers = MutableStateFlow(value = false)
+    val areTherePastCrossMultipliers: StateFlow<Boolean> = _areTherePastCrossMultipliers
 
-    constructor(isThereHistory: Boolean): this() { _isThereHistory.update { isThereHistory } }
+    constructor(areTherePastCrossMultipliers: Boolean): this() { _areTherePastCrossMultipliers.update { areTherePastCrossMultipliers } }
 
     init {
-        appRepository.subscribeForIsTherePastCrossMultipliers(::onIsTherePastCrossMultiplier)
+        appRepository.subscribeForAreTherePastCrossMultipliers(::onIsTherePastCrossMultiplier)
         viewModelScope.launch {
             appRepository.loadPastCrossMultipliers()
         }
     }
 
     private fun onIsTherePastCrossMultiplier(value: Boolean) {
-        _isThereHistory.update { value }
+        _areTherePastCrossMultipliers.update { value }
     }
 
     fun addCurrentCrossMultiplierToPastCrossMultipliers() = viewModelScope.launch {

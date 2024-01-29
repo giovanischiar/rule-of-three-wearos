@@ -14,16 +14,16 @@ class MainRepository(
 ): AppRepository, HistoryRepository {
     // AppRepository
 
-    private var isThereHistoryCallback: ((Boolean) -> Unit)? = null
+    private var areTherePastCrossMultipliersCallback: ((Boolean) -> Unit)? = null
 
     override suspend fun loadPastCrossMultipliers() {
         val pastCrossMultipliers = pastCrossMultipliersDataSourceable.retrievePastCrossMultipliers()
         pastCrossMultipliersCallback?.let { it(pastCrossMultipliers) }
-        isThereHistoryCallback?.let { it(pastCrossMultipliers.isNotEmpty()) }
+        areTherePastCrossMultipliersCallback?.let { it(pastCrossMultipliers.isNotEmpty()) }
     }
 
-    override fun subscribeForIsTherePastCrossMultipliers(callback: (value: Boolean) -> Unit) {
-        isThereHistoryCallback = callback
+    override fun subscribeForAreTherePastCrossMultipliers(callback: (value: Boolean) -> Unit) {
+        areTherePastCrossMultipliersCallback = callback
     }
 
     override suspend fun addCurrentCrossMultiplierToPastCrossMultipliers() {
@@ -107,13 +107,13 @@ class MainRepository(
         pastCrossMultipliersDataSourceable.deletePastCrossMultiplierAt(index = index)
         val pastCrossMultipliers = retrievePastCrossMultipliersFromDataSource()
         pastCrossMultipliersCallback?.let { it(pastCrossMultipliers) }
-        isThereHistoryCallback?.let { it(pastCrossMultipliers.isNotEmpty())}
+        areTherePastCrossMultipliersCallback?.let { it(pastCrossMultipliers.isNotEmpty())}
     }
 
     override suspend fun deleteHistory() {
         pastCrossMultipliersDataSourceable.deletePastCrossMultipliers()
         val pastCurrentMultipliers = emptyList<CrossMultiplier>()
         pastCrossMultipliersCallback?.let { it(pastCurrentMultipliers) }
-        isThereHistoryCallback?.let { it(false) }
+        areTherePastCrossMultipliersCallback?.let { it(false) }
     }
 }

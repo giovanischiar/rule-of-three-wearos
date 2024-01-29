@@ -24,7 +24,7 @@ import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 @Composable
 fun CrossMultipliersCreatorScreen(
     crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel,
-    isThereHistory: Boolean = false,
+    areTherePastCrossMultipliers: Boolean = false,
     onSubmitClicked: () -> Unit = {},
     onNavigationToHistory: () -> Unit = {},
 ) {
@@ -59,7 +59,7 @@ fun CrossMultipliersCreatorScreen(
             iconDrawableID = R.drawable.baseline_history_24,
             contentDescription = "history",
             colorID = R.color.hashColor,
-            visible = isThereHistory
+            visible = areTherePastCrossMultipliers
         )
     }
 }
@@ -83,7 +83,7 @@ fun CurrentCrossMultiplierScreenWithNumbersPreview() {
                 unknownPosition = Pair(0, 1)
             )
         ),
-        isThereHistory = false
+        areTherePastCrossMultipliers = false
     )
 }
 
@@ -97,6 +97,6 @@ fun CurrentCrossMultiplierScreenWithNumbersAndHistoryPreview() {
                 valueAt10 = "62", valueAt11 = "${(160 * 62)/45}"
             )
         ),
-        isThereHistory = true
+        areTherePastCrossMultipliers = true
     )
 }

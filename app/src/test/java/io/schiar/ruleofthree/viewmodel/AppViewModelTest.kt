@@ -26,20 +26,20 @@ class AppViewModelTest {
     @Test
     fun `Create Is There History in the Constructor`() = runTest {
         // Given
-        val expectedIsThereHistory = true
-        val appViewModel = AppViewModel(isThereHistory = expectedIsThereHistory)
-        val isThereHistoryEvents = mutableListOf<Boolean>()
+        val expectedAreTherePastCrossMultipliers = true
+        val appViewModel = AppViewModel(areTherePastCrossMultipliers = expectedAreTherePastCrossMultipliers)
+        val areTherePastCrossMultipliersEvents = mutableListOf<Boolean>()
         val dispatcher = UnconfinedTestDispatcher(testScheduler)
-        appViewModel.isThereHistory
-            .onEach { isThereHistoryEvents.add(it) }
+        appViewModel.areTherePastCrossMultipliers
+            .onEach { areTherePastCrossMultipliersEvents.add(it) }
             .launchIn(CoroutineScope(dispatcher))
 
         // When
         advanceUntilIdle()
 
         // Then
-        val actualIsThereHistory = isThereHistoryEvents.last()
-        assertEquals(expectedIsThereHistory, actualIsThereHistory)
+        val actualAreTherePastCrossMultipliers = areTherePastCrossMultipliersEvents.last()
+        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
