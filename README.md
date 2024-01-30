@@ -52,5 +52,11 @@
 ### Package `io.schiar.ruleofthree`
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/io-schiar-ruleofthree-structure-diagram.dark.svg">
-  <img alt="Package io.schiar.ruleofthree Diagram" src="./readme-res/diagrams/dark/io-schiar-ruleofthree-structure-diagram.light.svg">
+  <img alt="Package io.schiar.ruleofthree Diagram" src="./readme-res/diagrams/io-schiar-ruleofthree-structure-diagram.light.svg">
+</picture>
+
+### Package `view` with `viewmodel`
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/view-viewmodel-diagram.dark.svg">
+  <img alt="Package view with viewmodel Diagram" src="./readme-res/diagrams/view-viewmodel-diagram.light.svg">
 </picture>
