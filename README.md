@@ -14,6 +14,8 @@
   - [Seeing the History](#seeing-the-history)
 - [Technologies](#technologies)
 - [Challenges](#challenges)
+- [Diagrams](#diagrams)
+  -[Package `io.schiar.ruleofthree`](#package-ioschiarruleofthree)
 
 ## Use Cases
 
@@ -29,7 +31,7 @@
 ### Seeing the Result Diaglog
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screenshot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
 |:-:|:-:|
-|<img src="readme-res/screenshots/increasing-decreasing-decimals.gif" width="384" height="384">|When you click on the results you can see the number bigger on a dialog. You can increase the precision by clicking on the bottom icon. You can also decrease once you increase it by clicking on the upper icon|
+|<img src="readme-res/screenshots/increasing-decreasing-decimals.gif" width="384" height="384">|When you click on the results you can see the number bigger on a dialog. You can increase the precision by clicking on the bottom icon. You can also decrease once you increase it by clicking on the upper icon. If the options are not appearing that means the number is at its maximum precision|
 
 ### Seeing the History
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screenshot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
@@ -45,3 +47,10 @@
 
 ## Challenges
   - Not any particular challenge on creating this app. Although it's a very simple app, it was interesting to create a wearOS app;
+
+## Diagrams
+### Package `io.schiar.ruleofthree`
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/io-schiar-ruleofthree-structure-diagram.dark.svg">
+  <img alt="Package io.schiar.ruleofthree Diagram" src="./readme-res/diagrams/dark/io-schiar-ruleofthree-structure-diagram.light.svg">
+</picture>
