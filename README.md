@@ -21,6 +21,7 @@
   - [Package `viewmodel` with `viewmodel.viewdata`](#package-viewmodel-with-viewmodelviewdata)
   - [Package `viewmodel` with `model.repository`](#package-viewmodel-with-modelrepository)
   - [Package `model`](#package-model)
+  - [Package `model.repository` with `model.datasource` and `model.database`](#package-modelrepository-with-modeldatasource-and-modeldatabase`)
 
 ## Use Cases
 
@@ -54,6 +55,7 @@
   - Not any particular challenge on creating this app. Although it's a very simple app, it was interesting to create a wearOS app;
 
 ## Diagrams
+
 ### Package `io.schiar.ruleofthree`
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/io-schiar-ruleofthree-structure-diagram.dark.svg">
@@ -88,4 +90,10 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/model-diagram.dark.svg">
   <img alt="Package model" src="./readme-res/diagrams/model-diagram.light.svg">
+</picture>
+
+### Package `model.repository` with `model.datasource` and `model.database`
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-datasource-database-diagram.light.svg">
+  <img alt="Package repository with datasource and database" src="./readme-res/diagrams/repository-datasource-database-diagram.light.svg">
 </picture>
