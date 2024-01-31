@@ -15,7 +15,10 @@
 - [Technologies](#technologies)
 - [Challenges](#challenges)
 - [Diagrams](#diagrams)
-  -[Package `io.schiar.ruleofthree`](#package-ioschiarruleofthree)
+  - [Package `io.schiar.ruleofthree`](#package-ioschiarruleofthree)
+  - [Package `view` with `viewmodel`](#package-view-with-viewmodel)
+  - [Package `viewmodel.viewdata`](#package-viewmodelviewdata)
+  - [Package `viewmodel` with `viewmodel.viewdata`](#package-viewmodel-with-viewmodelviewdata)
 
 ## Use Cases
 
@@ -59,4 +62,16 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/view-viewmodel-diagram.dark.svg">
   <img alt="Package view with viewmodel Diagram" src="./readme-res/diagrams/view-viewmodel-diagram.light.svg">
+</picture>
+
+### Package `viewmodel.viewdata`
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewdata-diagram.dark.svg">
+  <img alt="Package viewdata Diagram" src="./readme-res/diagrams/viewdata-diagram.light.svg">
+</picture>
+
+### Package `viewmodel` with `viewmodel.viewdata`
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewmodel-viewdata-diagram.dark.svg">
+  <img alt="Package viewmodel with viewdata Diagram" src="./readme-res/diagrams/viewmodel-viewdata-diagram.light.svg">
 </picture>
