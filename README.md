@@ -21,7 +21,7 @@
   - [Package `viewmodel` with `viewmodel.viewdata`](#package-viewmodel-with-viewmodelviewdata)
   - [Package `viewmodel` with `model.repository`](#package-viewmodel-with-modelrepository)
   - [Package `model`](#package-model)
-  - [Package `model.repository` with `model.datasource` and `model.database`](#package-modelrepository-with-modeldatasource-and-modeldatabase`)
+  - [Package `model.repository` with `model.datasource` and `model.database`](#package-modelrepository-with-modeldatasource-and-modeldatabase)
 
 ## Use Cases
 
