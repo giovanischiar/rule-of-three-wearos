@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -19,6 +18,7 @@ import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import io.schiar.ruleofthree.viewmodel.util.ViewModelFactory
+import kotlinx.coroutines.Dispatchers
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,36 +57,50 @@ class MainActivity : ComponentActivity() {
     @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
     @Composable
     fun MainActivityPreview() {
-        val dataSource = PastCrossMultipliersDataSource(
+        val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
+            currentCrossMultiplier = CrossMultiplier(
+                valueAt00 = 10, valueAt01 = 345,
+                valueAt10 = 15.3
+            ).resultCalculated(),
+            coroutineDispatcher = Dispatchers.Main
+        )
+        val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
             crossMultipliers = listOf(
-                CrossMultiplier(valueAt00 = 8342234, valueAt01 = 324423, valueAt10 = 45456)
-                    .resultCalculated(),
-                CrossMultiplier(valueAt00 = 4, valueAt01 = 40, valueAt10 = 400)
-                    .resultCalculated(),
-                CrossMultiplier(valueAt00 = 42, valueAt01 = 440, valueAt10 = 5)
-                    .resultCalculated(),
-                CrossMultiplier(valueAt00 = 3, valueAt01 = 10, valueAt10 = 78)
-                    .resultCalculated(),
-                CrossMultiplier(valueAt00 = 5, valueAt01 = 135, valueAt10 = 7)
-                    .resultCalculated()
-            )
-        )
-        val repository = MainRepository(pastCrossMultipliersDataSourceable = dataSource)
-        val currentCrossMultipliersRepository = CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSourceable = CurrentCrossMultiplierDataSource(
-                currentCrossMultiplier = CrossMultiplier(
-                    valueAt00 = 10,
-                    valueAt01 = 345,
-                    valueAt10 = 15.3
+                CrossMultiplier(
+                    valueAt00 = 45, valueAt01 = 160,
+                                    valueAt11 = 200,
+                    unknownPosition = Pair(1, 0)
                 ).resultCalculated(),
-            )
+                CrossMultiplier(
+                                    valueAt01 = 34,
+                    valueAt10 = 72, valueAt11 = 14.5,
+                    unknownPosition = Pair(0, 0)
+                ).resultCalculated(),
+                CrossMultiplier(
+                    valueAt00 = 48,
+                    valueAt10 = 120, valueAt11 = 100,
+                    unknownPosition = Pair(0, 1)
+                ).resultCalculated(),
+                CrossMultiplier(
+                    valueAt00 = 1.4, valueAt01 = 92.45,
+                    valueAt10 = 5,
+                    unknownPosition = Pair(1, 1)
+                ).resultCalculated()
+            ),
+            coroutineDispatcher = Dispatchers.Main
         )
-        val appViewModel = AppViewModel(appRepository = repository)
+        val currentCrossMultipliersRepository = CrossMultipliersCreatorRepository(
+            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+        )
+        val mainRepository = MainRepository(
+            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+        )
+        val appViewModel = AppViewModel(appRepository = mainRepository)
         val createNewCrossMultiplierViewModel = CrossMultipliersCreatorViewModel(
             crossMultipliersCreatorRepository = currentCrossMultipliersRepository
         )
-        val historyViewModel = HistoryViewModel(historyRepository = repository)
-        LaunchedEffect(Unit) { repository.loadPastCrossMultipliers() }
+        val historyViewModel = HistoryViewModel(historyRepository = mainRepository)
         AppScreen(
             appViewModel = appViewModel,
             crossMultipliersCreatorViewModel = createNewCrossMultiplierViewModel,
