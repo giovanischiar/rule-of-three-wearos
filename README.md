@@ -9,7 +9,7 @@
 </p>
 
 - [Use Cases](#use-cases)
-  - [Calculating the 4th number](#calculating-the-4th-number)
+  - [Calculating the Result](#calculating-the-result)
   - [Seeing the Result](#seeing-the-result-diaglog)
   - [Seeing the History](#seeing-the-history)
 - [Technologies](#technologies)
@@ -26,19 +26,19 @@
 
 ## Use Cases
 
-### Calculating the 4th number
+### Calculating the Result
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screenshot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
 |:-:|:-:|
-|<img src="readme-res/screenshots/cross-multiplication-screen-empty-without-history.png" width="384" height="384">|This is how the app looks like when you open it. To add the numbers click on the squares|
+|<img src="readme-res/screenshots/cross-multiplication-screen-empty-without-history.png" width="384" height="384">|This is how the app looks like when you open it. To add the numbers click on the squares called inputs|
 |<img src="readme-res/screenshots/changing-the-unknown-position.gif" width="384" height="384">|You can change the unknown position anytime by long clicking on the input you want to change to the unknown|
 |<img src="readme-res/screenshots/inputting-numbers.gif" width="384" height="384">|When you click on the square the input number appear. You can input any number, backspace, or clear it and then click on the most right button to submit| 
 |<img src="readme-res/screenshots/erasing-all-inputs.gif" width="384" height="384">|When the numbers are being input you can start over by clicking on bottom icon to erase all inputs|
-|<img src="readme-res/screenshots/calculating-the-4th-number.gif" width="384" height="384">|Imagine you are cooking rice, and you saw on the nutritional table that to make 45g of raw rice is 160kcal, and you wonder how many calories would be if you cook 62g of rice. You can input "45" and "160" on the first and second square, and then you can input "62" on the third square. The Result will appear right where the "?" is|
+|<img src="readme-res/screenshots/calculating-the-result.gif" width="384" height="384">|Imagine you are cooking rice, you saw on the nutritional table that 45g of raw rice is 160kcal, and you wonder how many grams would be to get 200 calories of rice. You can input "45" and "160" on the first and second input, then you can change the unknown position by long pressing the input on the bottom left, and type "200" input "62" on the bottom right input. The result will appear right where the "?" is|
 
-### Seeing the Result Diaglog
+### Seeing the Result Dialog
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screenshot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
 |:-:|:-:|
-|<img src="readme-res/screenshots/increasing-decreasing-decimals.gif" width="384" height="384">|When you click on the results you can see the number bigger on a dialog. You can increase the precision by clicking on the bottom icon. You can also decrease once you increase it by clicking on the upper icon. If the options are not appearing that means the number is at its maximum precision|
+|<img src="readme-res/screenshots/seeing-the-result.gif" width="384" height="384">|When you click on the result you can see the number bigger on a dialog. You can increase the precision by clicking on the bottom icon. You can also decrease once you increase it by clicking on the upper icon. If the options are not appearing that means the number is at its maximum precision|
 
 ### Seeing the History
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screenshot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Description|
