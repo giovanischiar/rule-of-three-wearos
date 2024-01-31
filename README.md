@@ -94,6 +94,6 @@
 
 ### Package `model.repository` with `model.datasource` and `model.database`
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-datasource-database-diagram.light.svg">
-  <img alt="Package repository with datasource and database" src="./readme-res/diagrams/repository-datasource-database-diagram.light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-datasource-database-diagram.dark.svg">
+  <img alt="Package repository with data source and database" src="./readme-res/diagrams/repository-datasource-database-diagram.light.svg">
 </picture>
