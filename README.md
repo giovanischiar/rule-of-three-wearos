@@ -19,6 +19,7 @@
   - [Package `view` with `viewmodel`](#package-view-with-viewmodel)
   - [Package `viewmodel.viewdata`](#package-viewmodelviewdata)
   - [Package `viewmodel` with `viewmodel.viewdata`](#package-viewmodel-with-viewmodelviewdata)
+  - [Package `viewmodel` with `model.repository`](#package-viewmodel-with-modelrepository)
 
 ## Use Cases
 
@@ -74,4 +75,10 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewmodel-viewdata-diagram.dark.svg">
   <img alt="Package viewmodel with viewdata Diagram" src="./readme-res/diagrams/viewmodel-viewdata-diagram.light.svg">
+</picture>
+
+### Package `viewmodel` with `model.repository`
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewmodel-repository-diagram.dark.svg">
+  <img alt="Package viewmodel with viewdata Diagram" src="./readme-res/diagrams/viewmodel-repository-diagram.light.svg">
 </picture>
