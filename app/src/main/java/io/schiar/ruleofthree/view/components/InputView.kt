@@ -76,12 +76,12 @@ fun InputView(
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumberInputPreview() {
+fun InputPreview() {
     InputView(displayValue = "0")
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
-fun NumberInputFullPreview() {
+fun InputFullPreview() {
     InputView(displayValue = "238947923")
 }

@@ -11,7 +11,7 @@ data class CrossMultiplierViewData(
     val valueAt11: String = "",
     val unknownPosition: Pair<Int, Int> = Pair(1, 1)
 ) {
-    val values: Array<Array<String>> get()  = arrayOf(
+    val values: Array<Array<String>> get() = arrayOf(
         arrayOf(valueAt00, valueAt01),
         arrayOf(valueAt10, valueAt11)
     )

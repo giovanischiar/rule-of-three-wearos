@@ -46,11 +46,11 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
-    val allPastCrossMultipliers by historyViewModel.pastCrossMultipliers.collectAsState()
+    val pastCrossMultipliers by historyViewModel.pastCrossMultipliers.collectAsState()
 
     val iconSize = 30.dp
 
-    if (allPastCrossMultipliers.isEmpty()) { onBackPressed() }
+    if (pastCrossMultipliers.isEmpty()) { onBackPressed() }
 
     fun deleteCrossMultiplierAt(index: Int) {
          historyViewModel.deleteCrossMultiplierAt(index = index)
@@ -113,7 +113,7 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
                 )
             }
 
-            items(count = allPastCrossMultipliers.size) { index ->
+            items(count = pastCrossMultipliers.size) { index ->
                 var crossMultiplierHeight by remember { mutableIntStateOf(0) }
                 Column {
                     Row {
@@ -122,7 +122,7 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
                                 .weight(1f)
                                 .onSizeChanged { crossMultiplierHeight = it.height }
                                 .aspectRatio(1f),
-                            crossMultiplier = allPastCrossMultipliers[index],
+                            crossMultiplier = pastCrossMultipliers[index],
                             onCharacterPressedAt = { position: Pair<Int, Int>, character: String ->
                                 pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
                                     index = index, position = position, character = character
@@ -156,7 +156,7 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
                         )
                     }
 
-                    if (index < allPastCrossMultipliers.size - 1) {
+                    if (index < pastCrossMultipliers.size - 1) {
                         Divider(
                             modifier = Modifier.padding(
                                 start = 5.dp, end = iconSize + 5.dp, top = 15.dp, bottom = 15.dp
