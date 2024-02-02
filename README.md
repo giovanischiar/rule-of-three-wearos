@@ -5,7 +5,7 @@
 
 <p align="center">
   <strong>Calculate the famous rule of three in your wrist!</strong><br>
-  This tiny wearOS app lets you use the <a href="https://en.wikipedia.org/wiki/Cross-multiplication#Rule_of_three">rule of three</a> to calculate how the 4th number will be by inputing the prior 3 numbers
+  This tiny WearOS app allows you to use the <a href="https://en.wikipedia.org/wiki/Cross-multiplication#Rule_of_three">rule of three</a> to calculate the fourth number by inputting the prior three numbers.
 </p>
 
 - [Use Cases](#use-cases)
@@ -29,78 +29,92 @@
 ### Calculating the Result
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screenshot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
 |:-:|:-:|
-|<img src="readme-res/screenshots/cross-multiplication-screen-empty-without-history.png" width="384" height="384">|This is how the app looks like when you open it. To add the numbers click on the squares called inputs|
-|<img src="readme-res/screenshots/changing-the-unknown-position.gif" width="384" height="384">|You can change the unknown position anytime by long clicking on the input you want to change to the unknown|
-|<img src="readme-res/screenshots/inputting-numbers.gif" width="384" height="384">|When you click on the square the input number appear. You can input any number, backspace, or clear it and then click on the most right button to submit| 
-|<img src="readme-res/screenshots/erasing-all-inputs.gif" width="384" height="384">|When the numbers are being input you can start over by clicking on bottom icon to erase all inputs|
-|<img src="readme-res/screenshots/calculating-the-result.gif" width="384" height="384">|Imagine you are cooking rice. You saw on the nutritional table that 45g of raw rice is 160kcal, and you wonder how many grams would be to get 200 calories of rice. You can input "45" and "160" on the first and second input, then you can change the unknown position by long pressing the input on the bottom left, and type "200" input "62" on the bottom right input. The result will appear right where the "?" is|
+|<img src="readme-res/screenshots/cross-multiplication-screen-empty-without-history.png" width="384" height="384">|This is what the app looks like when you open it. To add the numbers, press on the squares called inputs.|
+|<img src="readme-res/screenshots/changing-the-unknown-position.gif" width="384" height="384">|You can change the unknown position anytime by long-pressing on the input you want to change to the unknown|
+|<img src="readme-res/screenshots/inputting-numbers.gif" width="384" height="384">|When you press on the square, the input number appears. You can input any number, use the backspace, or clear it, and then press on the rightmost button to submit.| 
+|<img src="readme-res/screenshots/erasing-all-inputs.gif" width="384" height="384">|When the numbers are being input, you can start over by pressing on the bottom icon to erase all inputs.|
+|<img src="readme-res/screenshots/calculating-the-result.gif" width="384" height="384">|Imagine you are cooking rice. You see on the nutritional table that 45g of raw rice is 160kcal, and you wonder how many grams would be needed to get 200 calories of rice. You can input "45" and "160" into the first and second inputs, then you can change the unknown position by long-pressing the input on the bottom left, and type "200" into the input on the bottom right. The result will appear right where the "?" is.|
 
 ### Seeing the Result Dialog
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screenshot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
 |:-:|:-:|
-|<img src="readme-res/screenshots/seeing-the-result.gif" width="384" height="384">|When you click on the result you can see the number bigger on a dialog. You can increase the precision by clicking on the bottom icon. You can also decrease once you increase it by clicking on the upper icon. If the options are not appearing that means the number is at its maximum precision|
+|<img src="readme-res/screenshots/seeing-the-result.gif" width="384" height="384">|When you click on the result, you can see the number enlarged in a dialog. You can increase the precision by clicking on the bottom icon. You can also decrease it once you've increased it by clicking on the upper icon. If the options are not appearing, that means the number is at its maximum precision.|
 
 ### Seeing the History
 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Screenshot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
 |:-:|:-:|
-|<img src="readme-res/screenshots/seeing-the-history.gif" width="384" height="384">|Once you've done at least one calculation, the history button will appear at the center right letting you to see all the calculations you've done. You can edit the inputs by pressing it just like the on the cross multiplication screen, delete the calculation by clicking on the right icon, go back to the cross multiplication screen by clicking on icon on the left, or delete all of them by clicking on the top icon|
+|<img src="readme-res/screenshots/seeing-the-history.gif" width="384" height="384">|Once you've done at least one calculation, the history button will appear at the center right, allowing you to see all the calculations you've done. You can edit the inputs by pressing it, just like on the cross multiplication screen. Delete the calculation by clicking on the right icon, go back to the cross multiplication screen by clicking on the icon on the left, or delete all of them by clicking on the top icon.|
 
 # Technologies
 |Technology|Purpose|
 |:-:|:-:|
-|<img src="https://3.bp.blogspot.com/-VVp3WvJvl84/X0Vu6EjYqDI/AAAAAAAAPjU/ZOMKiUlgfg8ok8DY8Hc-ocOvGdB0z86AgCLcBGAsYHQ/s1600/jetpack%2Bcompose%2Bicon_RGB.png" width="50" height="50"><br>[Jetpack Compose](https://developer.android.com/jetpack/compose)|Designing UI|
-|<img src="https://4.bp.blogspot.com/-NnAkV5vpYuw/XNMYF4RtLvI/AAAAAAAAI70/kdgLm3cnTO4FB4rUC0v9smscN3zHJPlLgCLcBGAs/s1600/Jetpack_logo%2B%25282%2529.png" width="50" height="50"><br>[Room](https://developer.android.com/jetpack/androidx/releases/room)|Persistence of History and Current Cross Multipliers|
-|<img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" width="50" height="50"><br>[IconCreator](https://github.com/giovanischiar/icon-creator)|My own library that generate the application icon|
+|<img src="https://3.bp.blogspot.com/-VVp3WvJvl84/X0Vu6EjYqDI/AAAAAAAAPjU/ZOMKiUlgfg8ok8DY8Hc-ocOvGdB0z86AgCLcBGAsYHQ/s1600/jetpack%2Bcompose%2Bicon_RGB.png" width="50" height="50"><br>[Jetpack Compose](https://developer.android.com/jetpack/compose)|UI design|
+|<img src="https://4.bp.blogspot.com/-NnAkV5vpYuw/XNMYF4RtLvI/AAAAAAAAI70/kdgLm3cnTO4FB4rUC0v9smscN3zHJPlLgCLcBGAs/s1600/Jetpack_logo%2B%25282%2529.png" width="50" height="50"><br>[Room](https://developer.android.com/jetpack/androidx/releases/room)|History and current cross multipliers persistance|
+|<img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" width="50" height="50"><br>[IconCreator](https://github.com/giovanischiar/icon-creator)|My own library that generates the application icon|
 
 ## Challenges
-  - Not any particular challenge on creating this app. Although it's a very simple app, it was interesting to create a wearOS app;
+  - There weren't any particular challenges in creating this app. Although it's a very simple app, it was interesting to create a WearOS app.
 
 ## Diagrams
 
 ### Package `io.schiar.ruleofthree`
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/io-schiar-ruleofthree-structure-diagram.dark.svg">
-  <img alt="Package io.schiar.ruleofthree Diagram" src="./readme-res/diagrams/io-schiar-ruleofthree-structure-diagram.light.svg">
-</picture>
+  This diagram shows all the packages the application has, along with their structures. Some packages are simplified, while others are more detailed.
 
-### Package `view` with `viewmodel`
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/view-viewmodel-diagram.dark.svg">
-  <img alt="Package view with viewmodel Diagram" src="./readme-res/diagrams/view-viewmodel-diagram.light.svg">
-</picture>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/io-schiar-ruleofthree-structure-diagram.dark.svg">
+    <img alt="Package io.schiar.ruleofthree Diagram" src="./readme-res/diagrams/io-schiar-ruleofthree-structure-diagram.light.svg">
+  </picture>
+
+### Package `view` and `viewmodel`
+  These diagrams illustrate the relationship between screens from `view` and `viewmodel` classes. The arrows from the View Models represent View Data objects (classes that hold all the necessary data for the view to display), primitives, or collections encapsulated by [State Flows](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/), which are classes that encapsulate data streams. Every update in the View Data triggers the State Flow to emit these new values to the `view`, and the view updates automatically. Typically, the methods called from screens in `view` to classes in `viewmodel` trigger these changes, as represented in the diagram below by arrows from the `view` screens to `viewmodel` classes.
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/view-viewmodel-diagram.dark.svg">
+    <img alt="Package view with viewmodel Diagram" src="./readme-res/diagrams/view-viewmodel-diagram.light.svg">
+  </picture>
 
 ### Package `viewmodel.viewdata`
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewdata-diagram.dark.svg">
-  <img alt="Package viewdata Diagram" src="./readme-res/diagrams/viewdata-diagram.light.svg">
-</picture>
+  View Datas are classes that hold all the data the `view` needs to present. They are composed of `model` classes and served by View Models to the `view`. This diagram represents all the associations among the classes in the `viewmodel.viewdata`.
 
-### Package `viewmodel` with `viewmodel.viewdata`
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewmodel-viewdata-diagram.dark.svg">
-  <img alt="Package viewmodel with viewdata Diagram" src="./readme-res/diagrams/viewmodel-viewdata-diagram.light.svg">
-</picture>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewdata-diagram.dark.svg">
+    <img alt="Package viewdata Diagram" src="./readme-res/diagrams/viewdata-diagram.light.svg">
+  </picture>
+
+### Package `viewmodel` and `viewmodel.viewdata`
+  View Models serve the `view` with objects made from `viewmodel.viewdata` classes, collections, or primitive objects encapsulated by State Flows. This diagram represents all the associations among the classes in `viewmodel` and `viewmodel.viewdata`.
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewmodel-viewdata-diagram.dark.svg">
+    <img alt="Package viewmodel with viewdata Diagram" src="./readme-res/diagrams/viewmodel-viewdata-diagram.light.svg">
+  </picture>
 
 ### Package `viewmodel` with `model.repository`
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewmodel-repository-diagram.dark.svg">
-  <img alt="Package viewmodel with repository Diagram" src="./readme-res/diagrams/viewmodel-repository-diagram.light.svg">
-</picture>
+  View Models also serve as a [façade](https://en.wikipedia.org/wiki/Facade_pattern), triggering methods in `model.repository` classes. This diagram shows that each View Model has its own interface to `MainRepository` and illustrates all methods each View Model calls, represented by arrows from View Models to Repositories. It also demonstrates that all interfaces are implemented by `MainRepository`.
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewmodel-repository-diagram.dark.svg">
+   <img alt="Package viewmodel with repository Diagram" src="./readme-res/diagrams/viewmodel-repository-diagram.light.svg">
+  </picture>
 
 ### Package `model`
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/model-diagram.dark.svg">
-  <img alt="Package model" src="./readme-res/diagrams/model-diagram.light.svg">
-</picture>
+  Model classes handle the logic of the application. This diagram represents all the associations among the classes in the 'model'.
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/model-diagram.dark.svg">
+    <img alt="Package model" src="./readme-res/diagrams/model-diagram.light.svg">
+  </picture>
 
 ### Package `model.repository` with `model.datasource` and `model.database`
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-datasource-database-diagram.dark.svg">
-  <img alt="Package repository with data source and database" src="./readme-res/diagrams/repository-datasource-database-diagram.light.svg">
-</picture>
+  Repository classes use the Data Source classes to perform the Creation, Retrieval, Update, and Deletion of the model objects. The Data Source classes use the database to persist these alterations. This diagram represents all the associations among the classes in `model.repository`, `model.datasource`, and `model.database`.
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-datasource-database-diagram.dark.svg">
+    <img alt="Package repository with data source and database" src="./readme-res/diagrams/repository-datasource-database-diagram.light.svg">
+  </picture>
 
 ## Tests
-I created tests that covers 100% of the `model` and `viewmodel` packages. You can click on the image below to see the full test report generated by Gradle:
-<a href="https://giovanischiar.github.io/rule-of-three-wearos-test-report/index.html">
-  <img alt="Package viewdata Diagram" src="./readme-res/test-report-preview.png">
-</a>
+  I created tests that cover 100% of the `model` and `viewmodel` packages. You can click on the image below to see the full test report generated by Gradle:
+  <a href="https://giovanischiar.github.io/rule-of-three-wearos-test-report/index.html">
+    <img alt="Package viewdata Diagram" src="./readme-res/test-report-preview.png">
+  </a>
