@@ -18,36 +18,36 @@ struct IconForeground: Foregroundable {
     var foreground: Foreground {
         Foreground(size: iconSize) {
             Div {
-                Hash(x: disposition, y: disposition)
+                Hash(x: 0, y: 0)
             }
             .position(x: -disposition, y: -disposition)
-            .dimension(width: squareSize, height: squareSize)
+            .dimensionAlt(width: squareSize, height: squareSize)
             .stroke(color:  -"squareStrokeColor")
             .stroke(width: strokeWidth)
             
             Div {
-                Hash(x: -disposition, y: disposition)
+                Hash(x: 0, y: 0)
             }
             .position(x: disposition, y: -disposition)
-            .dimension(width: squareSize, height: squareSize)
+            .dimensionAlt(width: squareSize, height: squareSize)
             .stroke(color:  -"squareStrokeColor")
             .stroke(width: strokeWidth)
 
             X(x: 0, y: 0)
 
             Div {
-                Hash(x: disposition, y: -disposition)
+                Hash(x: 0, y: 0)
             }
             .position(x: -disposition, y: disposition)
-            .dimension(width: squareSize, height: squareSize)
+            .dimensionAlt(width: squareSize, height: squareSize)
             .stroke(color:  -"squareStrokeColor")
             .stroke(width: strokeWidth)
 
             Div {
-                QuestionMark(x: -disposition, y: -disposition)
+                QuestionMark(x: 0, y: 0)
             }
             .position(x: disposition, y: disposition)
-            .dimension(width: squareSize, height: squareSize)
+            .dimensionAlt(width: squareSize, height: squareSize)
             .stroke(color:  -"squareStrokeColor")
             .stroke(width: strokeWidth)
         }
