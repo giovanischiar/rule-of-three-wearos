@@ -15,6 +15,7 @@
   - [Seeing the History](#seeing-the-history)
 - [Technologies](#technologies)
 - [Challenges](#challenges)
+- [Structure](#structure)
 - [Diagrams](#diagrams)
   - [Package `io.schiar.ruleofthree`](#package-ioschiarruleofthree)
   - [Package `view` with `viewmodel`](#package-view-with-viewmodel)
@@ -61,6 +62,9 @@
 
 ## Challenges
   - There weren't any particular challenges in creating this app. Although it's a very simple app, it was interesting to create a WearOS app.
+
+## Structure
+  Please check [my other project](https://github.com/giovanischiar/fridgnet?tab=readme-ov-file#structure) to learn more about the notation I used to create the diagrams in this project.
 
 ## Diagrams
 
