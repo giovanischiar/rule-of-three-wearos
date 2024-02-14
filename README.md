@@ -92,7 +92,7 @@
     <img alt="Package viewdata Diagram" src="./readme-res/diagrams/viewdata-diagram.light.svg">
   </picture>
 
-### Package `viewmodel` and `viewmodel.viewdata`
+### Package `viewmodel` with `viewmodel.viewdata`
   View Models serve the `view` with objects made from `viewmodel.viewdata` classes, collections, or primitive objects encapsulated by State Flows. This diagram represents all the associations among the classes in `viewmodel` and `viewmodel.viewdata`.
 
   <picture>
