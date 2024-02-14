@@ -26,8 +26,6 @@ fun AppScreen(
     historyViewModel: HistoryViewModel,
     navController: NavHostController = rememberNavController()
 ) {
-    val areTherePastCrossMultipliers by appViewModel.areTherePastCrossMultipliers.collectAsState()
-
     fun addCurrentCrossMultiplierToPastCrossMultipliers() {
          appViewModel.addCurrentCrossMultiplierToPastCrossMultipliers()
     }
@@ -39,7 +37,6 @@ fun AppScreen(
         composable("CrossMultipliersCreator") {
             CrossMultipliersCreatorScreen(
                 crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
-                areTherePastCrossMultipliers = areTherePastCrossMultipliers,
                 onSubmitClicked = ::addCurrentCrossMultiplierToPastCrossMultipliers,
                 onNavigationToHistory = { navController.navigate(route = "History") }
             )
@@ -65,7 +62,7 @@ fun AppScreen(
 @Composable
 fun AppScreenPreview() {
     AppScreen(
-        appViewModel = AppViewModel(areTherePastCrossMultipliers = true),
+        appViewModel = AppViewModel(),
         crossMultipliersCreatorViewModel = CrossMultipliersCreatorViewModel(),
         historyViewModel = HistoryViewModel()
     )

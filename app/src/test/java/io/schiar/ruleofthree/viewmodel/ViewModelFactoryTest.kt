@@ -1,8 +1,9 @@
 package io.schiar.ruleofthree.viewmodel
 
 import androidx.lifecycle.ViewModel
+import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
-import io.schiar.ruleofthree.model.repository.MainRepository
+import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.viewmodel.util.ViewModelFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
@@ -18,11 +19,10 @@ class ViewModelFactoryTest {
 
     @Test
     fun `Initialize AppViewModel`() {
-        val mainRepository = MainRepository()
-        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
         val viewModelFactory = ViewModelFactory(
-            mainRepository = mainRepository,
-            crossMultipliersCreatorRepository = crossMultipliersCreatorRepository
+            appRepository = AppRepository(),
+            historyRepository = HistoryRepository(),
+            crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
         )
 
         assertNotNull(viewModelFactory.create(AppViewModel::class.java))
@@ -30,11 +30,10 @@ class ViewModelFactoryTest {
 
     @Test
     fun `Initialize CrossMultipliersCreatorViewModel`() {
-        val mainRepository = MainRepository()
-        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
         val viewModelFactory = ViewModelFactory(
-            mainRepository = mainRepository,
-            crossMultipliersCreatorRepository = crossMultipliersCreatorRepository
+            appRepository = AppRepository(),
+            historyRepository = HistoryRepository(),
+            crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
         )
 
         assertNotNull(viewModelFactory.create(CrossMultipliersCreatorViewModel::class.java))
@@ -42,12 +41,12 @@ class ViewModelFactoryTest {
 
     @Test
     fun `Initialize HistoryViewModel`() {
-        val mainRepository = MainRepository()
-        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
         val viewModelFactory = ViewModelFactory(
-            mainRepository = mainRepository,
-            crossMultipliersCreatorRepository = crossMultipliersCreatorRepository
+            appRepository = AppRepository(),
+            historyRepository = HistoryRepository(),
+            crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
         )
+
         assertNotNull(viewModelFactory.create(HistoryViewModel::class.java))
     }
 
@@ -55,7 +54,8 @@ class ViewModelFactoryTest {
     fun `Initialize a Unknown ViewModel`() {
         // Given
         val viewModelFactory = ViewModelFactory(
-            mainRepository = MainRepository(),
+            appRepository = AppRepository(),
+            historyRepository = HistoryRepository(),
             crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
         )
         val unknownViewModel = object : ViewModel() {}

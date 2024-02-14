@@ -3,12 +3,14 @@ package io.schiar.ruleofthree.model.repository
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSourceable
+import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 
 class CrossMultipliersCreatorRepository(
     private val currentCrossMultiplierDataSourceable: CurrentCrossMultiplierDataSourceable
         = CurrentCrossMultiplierDataSource()
-) {
+): AreTherePastCrossMultipliersListener {
     private var currentCrossMultipliersCallback: ((CrossMultiplier) -> Unit)? = null
+    private var areTherePastCrossMultipliersCallback: ((Boolean) -> Unit)? = null
 
     suspend fun loadCurrentCrossMultiplier() {
         val currentCrossMultiplier = currentCrossMultiplierDataSourceable
@@ -18,6 +20,10 @@ class CrossMultipliersCreatorRepository(
 
     fun subscribeForCurrentCrossMultipliers(callback: (crossMultiplier: CrossMultiplier) -> Unit) {
         currentCrossMultipliersCallback = callback
+    }
+
+    fun subscribeForAreTherePastCrossMultipliers(callback: (value: Boolean) -> Unit) {
+        areTherePastCrossMultipliersCallback = callback
     }
 
     private suspend fun retrieveCurrentCrossMultiplierFromDataSource(): CrossMultiplier {
@@ -60,5 +66,9 @@ class CrossMultipliersCreatorRepository(
         val crossMultiplierUpdated = retrieveCurrentCrossMultiplierFromDataSource()
             .allInputsCleared()
         updateCurrentCrossMultiplier(crossMultiplierUpdated = crossMultiplierUpdated)
+    }
+
+    override fun onAreTherePastCrossMultipliersChangedTo(newAreTherePastCrossMultipliers: Boolean) {
+        areTherePastCrossMultipliersCallback?.let { it(newAreTherePastCrossMultipliers) }
     }
 }

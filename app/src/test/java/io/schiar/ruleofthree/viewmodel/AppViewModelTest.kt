@@ -3,7 +3,8 @@ package io.schiar.ruleofthree.viewmodel
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
-import io.schiar.ruleofthree.model.repository.MainRepository
+import io.schiar.ruleofthree.model.repository.AppRepository
+import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import kotlinx.coroutines.CoroutineScope
@@ -24,26 +25,6 @@ class AppViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `Create Is There History in the Constructor`() = runTest {
-        // Given
-        val expectedAreTherePastCrossMultipliers = true
-        val appViewModel = AppViewModel(areTherePastCrossMultipliers = expectedAreTherePastCrossMultipliers)
-        val areTherePastCrossMultipliersEvents = mutableListOf<Boolean>()
-        val dispatcher = UnconfinedTestDispatcher(testScheduler)
-        appViewModel.areTherePastCrossMultipliers
-            .onEach { areTherePastCrossMultipliersEvents.add(it) }
-            .launchIn(CoroutineScope(dispatcher))
-
-        // When
-        advanceUntilIdle()
-
-        // Then
-        val actualAreTherePastCrossMultipliers = areTherePastCrossMultipliersEvents.last()
-        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test
     fun `Add Current Cross Multiplier to Past Cross Multipliers`() = runTest {
         // Given
         val currentCurrentCrossMultiplier = CrossMultiplier(
@@ -60,12 +41,16 @@ class AppViewModelTest {
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
             coroutineDispatcher = dispatcher
         )
-        val mainRepository = MainRepository(
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource,
+        val historyRepository = HistoryRepository(
             pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource
         )
-        val appViewModel = AppViewModel(appRepository = mainRepository)
-        val historyViewModel = HistoryViewModel(historyRepository = mainRepository)
+        val appRepository = AppRepository(
+            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource,
+            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            pastCrossMultipliersListener = historyRepository
+        )
+        val appViewModel = AppViewModel(appRepository = appRepository)
+        val historyViewModel = HistoryViewModel(historyRepository = historyRepository)
         val pastCrossMultipliersStateFlowEvents = mutableListOf<List<CrossMultiplierViewData>>()
         historyViewModel.pastCrossMultipliers
             .onEach { pastCrossMultipliersStateFlowEvents.add(it) }

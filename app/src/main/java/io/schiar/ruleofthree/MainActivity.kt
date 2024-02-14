@@ -11,8 +11,9 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
-import io.schiar.ruleofthree.model.repository.MainRepository
+import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.view.screen.AppScreen
 import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
@@ -27,20 +28,28 @@ class MainActivity : ComponentActivity() {
         val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
             currentCrossMultiplierDAO = ruleOfThreeDatabase.currentCrossMultiplierDAO()
         )
-        val currentCrossMultiplierRepository = CrossMultipliersCreatorRepository(
+        val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
+            pastCrossMultipliersDAO = ruleOfThreeDatabase.pastCrossMultipliersDAO()
+        )
+        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
             currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
         )
-        val mainRepository = MainRepository(
-            pastCrossMultipliersDataSourceable = PastCrossMultipliersDataSource(
-                pastCrossMultipliersDAO = ruleOfThreeDatabase.pastCrossMultipliersDAO()
-            ),
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+        val historyRepository = HistoryRepository(
+            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
+        )
+        val appRepository = AppRepository(
+            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource,
+            pastCrossMultipliersListener = historyRepository,
+            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
         )
         val viewModelProvider = ViewModelProvider(
             this,
             ViewModelFactory(
-                mainRepository = mainRepository,
-                crossMultipliersCreatorRepository = currentCrossMultiplierRepository
+                appRepository = appRepository,
+                crossMultipliersCreatorRepository = crossMultipliersCreatorRepository,
+                historyRepository = historyRepository
             )
         )
 
@@ -89,18 +98,24 @@ class MainActivity : ComponentActivity() {
             ),
             coroutineDispatcher = Dispatchers.Main
         )
-        val currentCrossMultipliersRepository = CrossMultipliersCreatorRepository(
+        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
             currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
         )
-        val mainRepository = MainRepository(
+        val historyRepository = HistoryRepository(
             pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
         )
-        val appViewModel = AppViewModel(appRepository = mainRepository)
+        val appRepository = AppRepository(
+            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource,
+            pastCrossMultipliersListener = historyRepository,
+            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
+        )
+        val appViewModel = AppViewModel(appRepository = appRepository)
         val createNewCrossMultiplierViewModel = CrossMultipliersCreatorViewModel(
-            crossMultipliersCreatorRepository = currentCrossMultipliersRepository
+            crossMultipliersCreatorRepository = crossMultipliersCreatorRepository
         )
-        val historyViewModel = HistoryViewModel(historyRepository = mainRepository)
+        val historyViewModel = HistoryViewModel(historyRepository = historyRepository)
         AppScreen(
             appViewModel = appViewModel,
             crossMultipliersCreatorViewModel = createNewCrossMultiplierViewModel,

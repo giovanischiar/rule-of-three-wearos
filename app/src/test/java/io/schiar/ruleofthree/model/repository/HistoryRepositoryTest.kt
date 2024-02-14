@@ -1,44 +1,45 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Test
 
-class MainRepositoryTest {
-    private fun createMainRepository(
-        currentCrossMultiplier: CrossMultiplier = CrossMultiplier(),
-        pastCrossMultipliers: List<CrossMultiplier> = emptyList()
-    ): MainRepository {
+class HistoryRepositoryTest {
+    private fun createHistoryRepository(
+        pastCrossMultipliers: List<CrossMultiplier> = emptyList(),
+        onNewAreTherePastCrossMultipliers: (Boolean) -> Unit = {}
+    ): HistoryRepository {
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
             crossMultipliers = pastCrossMultipliers
         )
-        val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplier = currentCrossMultiplier
-        )
-        return MainRepository(
+        return HistoryRepository(
             pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+            areTherePastCrossMultipliersListener = object : AreTherePastCrossMultipliersListener {
+                override fun onAreTherePastCrossMultipliersChangedTo(
+                    newAreTherePastCrossMultipliers: Boolean
+                ) {
+                    onNewAreTherePastCrossMultipliers(newAreTherePastCrossMultipliers)
+                }
+            }
         )
     }
-
-    // AppRepository
 
     @Test
     fun `Load a Empty List of Past Cross Multipliers and Check if Past Cross Multiplier is Empty`() = runBlocking {
         // Given
         val expectedPastCrossMultipliers = emptyList<CrossMultiplier>()
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(pastCrossMultipliers = emptyList())
-        mainRepository.subscribeForPastCrossMultipliers { actualPastCrossMultipliers = it }
+        val appRepository = createHistoryRepository(pastCrossMultipliers = emptyList())
+        appRepository.subscribeForPastCrossMultipliers { actualPastCrossMultipliers = it }
 
         // When
-        mainRepository.loadPastCrossMultipliers()
+        appRepository.loadPastCrossMultipliers()
 
         // Then
-        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -46,15 +47,20 @@ class MainRepositoryTest {
         // Given
         val expectedAreTherePastCrossMultipliers = false
         var actualAreTherePastCrossMultipliers: Boolean? = null
-        val mainRepository = createMainRepository(pastCrossMultipliers = emptyList())
         val callback: (Boolean) -> Unit = { actualAreTherePastCrossMultipliers = it }
-        mainRepository.subscribeForAreTherePastCrossMultipliers(callback)
+        val historyRepository = createHistoryRepository(
+            pastCrossMultipliers = emptyList(),
+            onNewAreTherePastCrossMultipliers = callback
+        )
 
         // When
-        mainRepository.loadPastCrossMultipliers()
+        historyRepository.loadPastCrossMultipliers()
 
         // Then
-        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
+        Assert.assertEquals(
+            expectedAreTherePastCrossMultipliers,
+            actualAreTherePastCrossMultipliers
+        )
     }
 
     @Test
@@ -75,14 +81,16 @@ class MainRepositoryTest {
             ),
         )
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(pastCrossMultipliers = expectedPastCrossMultipliers)
-        mainRepository.subscribeForPastCrossMultipliers { actualPastCrossMultipliers = it }
+        val historyRepository = createHistoryRepository(
+            pastCrossMultipliers = expectedPastCrossMultipliers
+        )
+        historyRepository.subscribeForPastCrossMultipliers { actualPastCrossMultipliers = it }
 
         // When
-        mainRepository.loadPastCrossMultipliers()
+        historyRepository.loadPastCrossMultipliers()
 
         // Then
-        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -90,115 +98,26 @@ class MainRepositoryTest {
         // Given
         val expectedAreTherePastCrossMultipliers = true
         var actualAreTherePastCrossMultipliers: Boolean? = null
-        val mainRepository = createMainRepository(
+        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
+        val mainRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
                     valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
                 )
-            )
+            ),
+            onNewAreTherePastCrossMultipliers = callback
         )
-        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
-        mainRepository.subscribeForAreTherePastCrossMultipliers(callback)
 
         // When
         mainRepository.loadPastCrossMultipliers()
 
         // Then
-        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
-    }
-
-    @Test
-    fun `Add Current Cross Multiplier to Past Cross Multipliers and Check if the Past Cross Multipliers Contains the Current Cross Multiplier`() = runBlocking {
-        // Given
-        val expectedPastCurrentCrossMultipliers = listOf(
-            CrossMultiplier(
-                valueAt00 = 1,    valueAt01 = 2.3,
-                valueAt10 = 45.3, valueAt11 = (45.3*2.3)/1,
-                unknownPosition = Pair(1, 1)
-            ),
-            CrossMultiplier(
-                valueAt00 = 98, valueAt01 = 23,
-                valueAt10 = 4,  valueAt11 = (4*23)/98.0
-            ),
-            CrossMultiplier(
-                valueAt00 = 94.5, valueAt01 = 28.4,
-                valueAt10 = 57,   valueAt11 = (57*28.4)/94.5
-            ),
-            CrossMultiplier(
-                valueAt00 = 3,   valueAt01 = 32.3,
-                valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
-            ),
+        Assert.assertEquals(
+            expectedAreTherePastCrossMultipliers,
+            actualAreTherePastCrossMultipliers
         )
-        var actualPastCurrentCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(
-            currentCrossMultiplier = CrossMultiplier(
-                valueAt00 = 1,    valueAt01 = 2.3,
-                valueAt10 = 45.3, valueAt11 = (45.3*2.3)/1,
-                unknownPosition = Pair(1, 1)
-            ),
-            pastCrossMultipliers = listOf(
-                CrossMultiplier(
-                    valueAt00 = 98, valueAt01 = 23,
-                    valueAt10 = 4,  valueAt11 = (4*23)/98.0
-                ),
-                CrossMultiplier(
-                    valueAt00 = 94.5, valueAt01 = 28.4,
-                    valueAt10 = 57,   valueAt11 = (57*28.4)/94.5
-                ),
-                CrossMultiplier(
-                    valueAt00 = 3,   valueAt01 = 32.3,
-                    valueAt10 = 4.6, valueAt11 = (32.3 * 4.6)/3
-                ),
-            )
-        )
-        val callback: (List<CrossMultiplier>) -> Unit = { actualPastCurrentCrossMultipliers = it }
-        mainRepository.subscribeForPastCrossMultipliers(callback)
-
-        // When
-        mainRepository.addCurrentCrossMultiplierToPastCrossMultipliers()
-
-        // Then
-        assertEquals(expectedPastCurrentCrossMultipliers, actualPastCurrentCrossMultipliers)
     }
-
-    @Test
-    fun `Add Current Cross Multiplier to Past Cross Multipliers and Check if There Are Past Cross Multipliers`() = runBlocking {
-        // Given
-        val expectedAreTherePastCrossMultipliers = true
-        var actualAreTherePastCrossMultipliers: Boolean? = null
-        val mainRepository = createMainRepository(
-            currentCrossMultiplier = CrossMultiplier(
-                valueAt00 = 1,    valueAt01 = 2.3,
-                valueAt10 = 45.3, valueAt11 = (45.3*2.3)/1,
-                unknownPosition = Pair(1, 1)
-            ),
-            pastCrossMultipliers = listOf(
-                CrossMultiplier(
-                    valueAt00 = 98, valueAt01 = 23,
-                    valueAt10 = 4,  valueAt11 = (4*23)/98.0
-                ),
-                CrossMultiplier(
-                    valueAt00 = 94.5, valueAt01 = 28.4,
-                    valueAt10 = 57,   valueAt11 = (57*28.4)/94.5
-                ),
-                CrossMultiplier(
-                    valueAt00 = 3,   valueAt01 = 32.3,
-                    valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
-                ),
-            )
-        )
-        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
-        mainRepository.subscribeForAreTherePastCrossMultipliers(callback)
-
-        // When
-        mainRepository.addCurrentCrossMultiplierToPastCrossMultipliers()
-
-        // Then
-        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
-    }
-
-    // HistoryRepository
 
     @Test
     fun `Push Character 5 to Input on Position (1, 0) of the Cross Multiplier at index 2`() = runBlocking {
@@ -218,7 +137,7 @@ class MainRepositoryTest {
             )
         )
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(
+        val historyRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 98, valueAt01 = 23,
@@ -234,17 +153,17 @@ class MainRepositoryTest {
                 )
             )
         )
-        mainRepository.subscribeForPastCrossMultipliers { actualPastCrossMultipliers = it }
+        historyRepository.subscribeForPastCrossMultipliers { actualPastCrossMultipliers = it }
 
         // When
-        mainRepository.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
+        historyRepository.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
             index = 2,
             position = Pair(1, 0),
             character = "5"
         )
 
         // Then
-        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -265,7 +184,7 @@ class MainRepositoryTest {
             ),
         )
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(
+        val historyRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
@@ -282,16 +201,16 @@ class MainRepositoryTest {
             )
         )
         val callback: ((List<CrossMultiplier>) -> Unit) = { actualPastCrossMultipliers = it }
-        mainRepository.subscribeForPastCrossMultipliers(callback)
+        historyRepository.subscribeForPastCrossMultipliers(callback)
 
         // When
-        mainRepository.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
+        historyRepository.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
             index = 2,
             position = Pair(0, 1)
         )
 
         // Then
-        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -313,7 +232,7 @@ class MainRepositoryTest {
             ),
         )
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(
+        val historyRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
@@ -331,16 +250,16 @@ class MainRepositoryTest {
         )
 
         val callback: ((List<CrossMultiplier>) -> Unit) = { actualPastCrossMultipliers = it }
-        mainRepository.subscribeForPastCrossMultipliers(callback)
+        historyRepository.subscribeForPastCrossMultipliers(callback)
 
         // When
-        mainRepository.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
+        historyRepository.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
             index = 1,
             position = Pair(0, 1)
         )
 
         // Then
-        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -361,7 +280,7 @@ class MainRepositoryTest {
             ),
         )
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(
+        val historyRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
@@ -378,16 +297,16 @@ class MainRepositoryTest {
             )
         )
         val callback: ((List<CrossMultiplier>) -> Unit) = { actualPastCrossMultipliers = it }
-        mainRepository.subscribeForPastCrossMultipliers(callback)
+        historyRepository.subscribeForPastCrossMultipliers(callback)
 
         // When
-        mainRepository.clearInputOnPositionOfTheCrossMultiplierAt(
+        historyRepository.clearInputOnPositionOfTheCrossMultiplierAt(
             index = 0,
             position = Pair(0, 1)
         )
 
         // Then
-        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -395,7 +314,7 @@ class MainRepositoryTest {
         // Given
         val expectedPastCrossMultipliers = emptyList<CrossMultiplier>()
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(
+        val historyRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
@@ -404,13 +323,13 @@ class MainRepositoryTest {
             )
         )
         val callback: ((List<CrossMultiplier>) -> Unit) = { actualPastCrossMultipliers = it }
-        mainRepository.subscribeForPastCrossMultipliers(callback)
+        historyRepository.subscribeForPastCrossMultipliers(callback)
 
         // When
-        mainRepository.deleteCrossMultiplier(index = 0)
+        historyRepository.deleteCrossMultiplier(index = 0)
 
         // Then
-        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -418,22 +337,25 @@ class MainRepositoryTest {
         // Given
         val expectedAreTherePastCrossMultipliers = false
         var actualAreTherePastCrossMultipliers: Boolean? = null
-        val mainRepository = createMainRepository(
+        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
+        val historyRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
                     valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
                 )
-            )
+            ),
+            onNewAreTherePastCrossMultipliers = callback
         )
-        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
-        mainRepository.subscribeForAreTherePastCrossMultipliers(callback)
 
         // When
-        mainRepository.deleteCrossMultiplier(index = 0)
+        historyRepository.deleteCrossMultiplier(index = 0)
 
         // Then
-        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
+        Assert.assertEquals(
+            expectedAreTherePastCrossMultipliers,
+            actualAreTherePastCrossMultipliers
+        )
     }
 
     @Test
@@ -441,7 +363,7 @@ class MainRepositoryTest {
         // Given
         val expectedPastCrossMultipliers = emptyList<CrossMultiplier>()
         var actualPastCrossMultipliers: List<CrossMultiplier>? = null
-        val mainRepository = createMainRepository(
+        val historyRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
@@ -450,13 +372,13 @@ class MainRepositoryTest {
             )
         )
         val callback: ((List<CrossMultiplier>) -> Unit) = { actualPastCrossMultipliers = it }
-        mainRepository.subscribeForPastCrossMultipliers(callback)
+        historyRepository.subscribeForPastCrossMultipliers(callback)
 
         // When
-        mainRepository.deleteHistory()
+        historyRepository.deleteHistory()
 
         // Then
-        assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 
     @Test
@@ -464,21 +386,24 @@ class MainRepositoryTest {
         // Given
         val expectedAreTherePastCrossMultipliers = false
         var actualAreTherePastCrossMultipliers: Boolean? = null
-        val mainRepository = createMainRepository(
+        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
+        val historyRepository = createHistoryRepository(
             pastCrossMultipliers = listOf(
                 CrossMultiplier(
                     valueAt00 = 3,   valueAt01 = 32.3,
                     valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
                 )
-            )
+            ),
+            onNewAreTherePastCrossMultipliers = callback
         )
-        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
-        mainRepository.subscribeForAreTherePastCrossMultipliers(callback)
 
         // When
-        mainRepository.deleteHistory()
+        historyRepository.deleteHistory()
 
         // Then
-        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
+        Assert.assertEquals(
+            expectedAreTherePastCrossMultipliers,
+            actualAreTherePastCrossMultipliers
+        )
     }
 }

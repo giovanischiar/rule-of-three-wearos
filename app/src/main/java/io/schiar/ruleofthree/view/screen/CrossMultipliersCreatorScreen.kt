@@ -24,11 +24,13 @@ import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 @Composable
 fun CrossMultipliersCreatorScreen(
     crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel,
-    areTherePastCrossMultipliers: Boolean = false,
     onSubmitClicked: () -> Unit = {},
     onNavigationToHistory: () -> Unit = {},
 ) {
     val crossMultiplier by crossMultipliersCreatorViewModel.crossMultiplier.collectAsState()
+    val areTherePastCrossMultipliers by crossMultipliersCreatorViewModel
+        .areTherePastCrossMultipliers
+        .collectAsState()
     val iconSize = 30.dp
 
     Row {
@@ -81,9 +83,9 @@ fun CurrentCrossMultiplierScreenWithNumbersPreview() {
                 valueAt00 ="10", valueAt01= "345",
                                  valueAt11 ="15.3",
                 unknownPosition = Pair(0, 1)
-            )
-        ),
-        areTherePastCrossMultipliers = false
+            ),
+            areTherePastCrossMultipliers = false
+        )
     )
 }
 
@@ -95,8 +97,8 @@ fun CurrentCrossMultiplierScreenWithNumbersAndHistoryPreview() {
             crossMultiplier = CrossMultiplierViewData(
                 valueAt00 = "45", valueAt01 = "160",
                 valueAt10 = "62", valueAt11 = "${(160 * 62)/45}"
-            )
-        ),
-        areTherePastCrossMultipliers = true
+            ),
+            areTherePastCrossMultipliers = true
+        )
     )
 }

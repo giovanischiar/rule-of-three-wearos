@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.repository.HistoryRepository
-import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
-    private val historyRepository: HistoryRepository = MainRepository()
+    private val historyRepository: HistoryRepository = HistoryRepository()
 ): ViewModel() {
     private val _pastCrossMultipliers = MutableStateFlow(emptyList<CrossMultiplierViewData>())
     val pastCrossMultipliers: StateFlow<List<CrossMultiplierViewData>> = _pastCrossMultipliers

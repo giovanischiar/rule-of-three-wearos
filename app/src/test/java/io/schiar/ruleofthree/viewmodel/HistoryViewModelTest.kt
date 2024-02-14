@@ -3,7 +3,6 @@ package io.schiar.ruleofthree.viewmodel
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.repository.HistoryRepository
-import io.schiar.ruleofthree.model.repository.MainRepository
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -57,7 +56,7 @@ class HistoryViewModelTest {
             crossMultipliers = pastCrossMultipliers,
             coroutineDispatcher = dispatcher
         )
-        val historyRepository: HistoryRepository = MainRepository(
+        val historyRepository = HistoryRepository(
             pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource
         )
         historyViewModel = HistoryViewModel(

@@ -17,17 +17,30 @@ class CrossMultipliersCreatorViewModel(
 ): ViewModel() {
     private val _crossMultiplier = MutableStateFlow(value = CrossMultiplierViewData())
     val crossMultiplier: StateFlow<CrossMultiplierViewData> = _crossMultiplier
+    private val _areTherePastCrossMultipliers = MutableStateFlow(value = false)
+    val areTherePastCrossMultipliers: StateFlow<Boolean> = _areTherePastCrossMultipliers
 
-    constructor(crossMultiplier: CrossMultiplierViewData): this() {
+    constructor(
+        crossMultiplier: CrossMultiplierViewData,
+        areTherePastCrossMultipliers: Boolean = false
+    ): this() {
         _crossMultiplier.update { crossMultiplier }
+        _areTherePastCrossMultipliers.update { areTherePastCrossMultipliers }
     }
 
     init {
+        crossMultipliersCreatorRepository.subscribeForAreTherePastCrossMultipliers(
+            ::onIsTherePastCrossMultiplier
+        )
         crossMultipliersCreatorRepository
             .subscribeForCurrentCrossMultipliers(::onCurrentCrossMultiplierChanged)
         viewModelScope.launch {
             crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
         }
+    }
+
+    private fun onIsTherePastCrossMultiplier(value: Boolean) {
+        _areTherePastCrossMultipliers.update { value }
     }
 
     private fun onCurrentCrossMultiplierChanged(crossMultiplier: CrossMultiplier) {
