@@ -57,7 +57,7 @@ class HistoryViewModelTest {
             coroutineDispatcher = dispatcher
         )
         val historyRepository = HistoryRepository(
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource
         )
         historyViewModel = HistoryViewModel(
             historyRepository = historyRepository

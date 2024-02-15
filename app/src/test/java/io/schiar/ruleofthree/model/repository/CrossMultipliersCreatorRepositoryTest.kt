@@ -21,7 +21,7 @@ class CrossMultipliersCreatorRepositoryTest {
     @Before
     fun setUp() {
         crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSourceable = CurrentCrossMultiplierDataSource(
+            currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
                 currentCrossMultiplier = crossMultiplier
             )
         )

@@ -23,8 +23,8 @@ class AppRepositoryTest {
             currentCrossMultiplier = currentCrossMultiplier
         )
         return AppRepository(
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
             pastCrossMultipliersListener = object : PastCrossMultipliersListener {
                 override fun onPastCrossMultipliersChangedTo(
                     newPastCrossMultipliers: List<CrossMultiplier>

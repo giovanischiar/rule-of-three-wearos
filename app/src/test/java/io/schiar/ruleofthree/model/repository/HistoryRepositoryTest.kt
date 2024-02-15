@@ -16,7 +16,7 @@ class HistoryRepositoryTest {
             crossMultipliers = pastCrossMultipliers
         )
         return HistoryRepository(
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
             areTherePastCrossMultipliersListener = object : AreTherePastCrossMultipliersListener {
                 override fun onAreTherePastCrossMultipliersChangedTo(
                     newAreTherePastCrossMultipliers: Boolean

@@ -16,7 +16,7 @@ typealias LocalDAO = CurrentCrossMultiplierLocalDAO
 class CurrentCrossMultiplierDataSource(
     private val currentCrossMultiplierDAO: CurrentCrossMultiplierDAO = LocalDAO(),
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
-): CurrentCrossMultiplierDataSourceable {
+) {
     private var currentCrossMultiplier: CrossMultiplier? = null
 
     constructor(
@@ -30,7 +30,7 @@ class CurrentCrossMultiplierDataSource(
         coroutineDispatcher = coroutineDispatcher
     )
 
-    override suspend fun retrieveCurrentCrossMultiplier(): CrossMultiplier {
+    suspend fun retrieveCurrentCrossMultiplier(): CrossMultiplier {
         if (currentCrossMultiplier == null) {
             currentCrossMultiplier = withContext(coroutineDispatcher) {
                 currentCrossMultiplierDAO.select()?.toCrossMultiplier()
@@ -51,7 +51,7 @@ class CurrentCrossMultiplierDataSource(
         return currentCrossMultiplier ?: CrossMultiplier()
     }
 
-    override suspend fun updateCurrentCrossMultiplier(crossMultiplierUpdated: CrossMultiplier) {
+    suspend fun updateCurrentCrossMultiplier(crossMultiplierUpdated: CrossMultiplier) {
         currentCrossMultiplier = crossMultiplierUpdated
         coroutineScope {
             launch(coroutineDispatcher) {

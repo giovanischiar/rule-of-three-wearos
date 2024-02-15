@@ -40,7 +40,7 @@ class CrossMultiplicationCreatorViewModelTest {
             coroutineDispatcher = dispatcher
         )
         val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
         )
         crossMultipliersCreatorViewModel = CrossMultipliersCreatorViewModel(
             crossMultipliersCreatorRepository = crossMultipliersCreatorRepository

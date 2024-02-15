@@ -1,30 +1,28 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
-import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSourceable
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
-import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSourceable
 import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 import io.schiar.ruleofthree.model.repository.listener.PastCrossMultipliersListener
 
 class AppRepository(
-    private val pastCrossMultipliersDataSourceable: PastCrossMultipliersDataSourceable
+    private val pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
         = PastCrossMultipliersDataSource(),
-    private val currentCrossMultiplierDataSourceable: CurrentCrossMultiplierDataSourceable
+    private val currentCrossMultiplierDataSource: CurrentCrossMultiplierDataSource
         = CurrentCrossMultiplierDataSource(),
     private val pastCrossMultipliersListener: PastCrossMultipliersListener? = null,
     private val areTherePastCrossMultipliersListener: AreTherePastCrossMultipliersListener? = null
 ) {
     suspend fun addCurrentCrossMultiplierToPastCrossMultipliers() {
-        val crossMultiplierToBeCreated = currentCrossMultiplierDataSourceable
+        val crossMultiplierToBeCreated = currentCrossMultiplierDataSource
             .retrieveCurrentCrossMultiplier()
             .resultCalculated()
         if (crossMultiplierToBeCreated.isTheResultValid()) {
-            pastCrossMultipliersDataSourceable.createPastCrossMultiplier(
+            pastCrossMultipliersDataSource.createPastCrossMultiplier(
                 crossMultiplierToBeCreated = crossMultiplierToBeCreated
             )
             val pastCrossMultipliersUpdated =
-                pastCrossMultipliersDataSourceable.retrievePastCrossMultipliers()
+                pastCrossMultipliersDataSource.retrievePastCrossMultipliers()
             pastCrossMultipliersListener?.onPastCrossMultipliersChangedTo(
                 newPastCrossMultipliers = pastCrossMultipliersUpdated
             )

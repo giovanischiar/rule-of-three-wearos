@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 class PastCrossMultipliersDataSource(
     private val pastCrossMultipliersDAO: PastCrossMultipliersDAO = PastCrossMultipliersLocalDAO(),
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
-): PastCrossMultipliersDataSourceable {
+) {
     private var pastCrossMultipliers: List<CrossMultiplier>? = null
 
     constructor(
@@ -30,7 +30,7 @@ class PastCrossMultipliersDataSource(
         coroutineDispatcher = coroutineDispatcher
     )
 
-    override suspend fun createPastCrossMultiplier(crossMultiplierToBeCreated: CrossMultiplier) {
+    suspend fun createPastCrossMultiplier(crossMultiplierToBeCreated: CrossMultiplier) {
         val mutablePastCrossMultipliers = retrievePastCrossMultipliers().toMutableList()
         val crossMultiplierInserted = withContext(coroutineDispatcher) {
             pastCrossMultipliersDAO.insertTimestamped(
@@ -41,11 +41,11 @@ class PastCrossMultipliersDataSource(
         pastCrossMultipliers = mutablePastCrossMultipliers
     }
 
-    override suspend fun retrievePastCrossMultiplierAt(index: Int): CrossMultiplier? {
+    suspend fun retrievePastCrossMultiplierAt(index: Int): CrossMultiplier? {
         return retrievePastCrossMultipliers().getOrNull(index = index)
     }
 
-    override suspend fun retrievePastCrossMultipliers(): List<CrossMultiplier> {
+    suspend fun retrievePastCrossMultipliers(): List<CrossMultiplier> {
         if (pastCrossMultipliers == null) {
             val pastCrossMultipliersFromDataBase = withContext(coroutineDispatcher) {
                 pastCrossMultipliersDAO.selectFromPastCrossMultiplierOrderByCreatedAtDesc()
@@ -58,7 +58,7 @@ class PastCrossMultipliersDataSource(
         return pastCrossMultipliers ?: emptyList()
     }
 
-    override suspend fun updatePastCrossMultiplier(crossMultiplierUpdated: CrossMultiplier) {
+    suspend fun updatePastCrossMultiplier(crossMultiplierUpdated: CrossMultiplier) {
         val mutablePastCrossMultipliers = retrievePastCrossMultipliers().toMutableList()
         for (i in mutablePastCrossMultipliers.indices) {
             if (mutablePastCrossMultipliers[i].id == crossMultiplierUpdated.id) {
@@ -76,7 +76,7 @@ class PastCrossMultipliersDataSource(
         }
     }
 
-    override suspend fun deletePastCrossMultiplierAt(index: Int) {
+    suspend fun deletePastCrossMultiplierAt(index: Int) {
         val mutablePastCrossMultipliers = retrievePastCrossMultipliers().toMutableList()
         val crossMultiplierToBeDeleted = mutablePastCrossMultipliers.removeAt(index = index)
         pastCrossMultipliers = mutablePastCrossMultipliers
@@ -89,7 +89,7 @@ class PastCrossMultipliersDataSource(
         }
     }
 
-    override suspend fun deletePastCrossMultipliers() {
+    suspend fun deletePastCrossMultipliers() {
         pastCrossMultipliers = emptyList()
         coroutineScope {
             launch(coroutineDispatcher) {

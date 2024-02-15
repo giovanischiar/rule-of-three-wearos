@@ -42,11 +42,11 @@ class AppViewModelTest {
             coroutineDispatcher = dispatcher
         )
         val historyRepository = HistoryRepository(
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource
         )
         val appRepository = AppRepository(
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource,
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
             pastCrossMultipliersListener = historyRepository
         )
         val appViewModel = AppViewModel(appRepository = appRepository)

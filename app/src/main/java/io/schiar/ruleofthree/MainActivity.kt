@@ -32,15 +32,15 @@ class MainActivity : ComponentActivity() {
             pastCrossMultipliersDAO = ruleOfThreeDatabase.pastCrossMultipliersDAO()
         )
         val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
         )
         val historyRepository = HistoryRepository(
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
             areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
         )
         val appRepository = AppRepository(
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
             pastCrossMultipliersListener = historyRepository,
             areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
         )
@@ -99,15 +99,15 @@ class MainActivity : ComponentActivity() {
             coroutineDispatcher = Dispatchers.Main
         )
         val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
         )
         val historyRepository = HistoryRepository(
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
             areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
         )
         val appRepository = AppRepository(
-            pastCrossMultipliersDataSourceable = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSourceable = currentCrossMultiplierDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
             pastCrossMultipliersListener = historyRepository,
             areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
         )
