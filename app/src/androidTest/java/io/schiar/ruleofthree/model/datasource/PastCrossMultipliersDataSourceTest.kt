@@ -5,8 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.PastCrossMultipliersDataSource
-import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.requester.PastCrossMultipliersPersistentDAO
+import io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers.PastCrossMultipliersPersistentDAO
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals

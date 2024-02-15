@@ -1,8 +1,8 @@
-package io.schiar.ruleofthree.model.datasource.pastcrossmultipliers
+package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.requester.PastCrossMultipliersDAO
-import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.requester.PastCrossMultipliersMemoryDAO
+import io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers.PastCrossMultipliersDAO
+import io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers.PastCrossMultipliersMemoryDAO
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope

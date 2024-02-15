@@ -1,7 +1,6 @@
 package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.CurrentCrossMultiplierDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test

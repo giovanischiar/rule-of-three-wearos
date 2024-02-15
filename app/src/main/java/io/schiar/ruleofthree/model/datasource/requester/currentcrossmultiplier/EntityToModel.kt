@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester
+package io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier
 
 import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierEntity
 import io.schiar.ruleofthree.model.CrossMultiplier

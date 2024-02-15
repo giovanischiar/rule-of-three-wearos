@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.requester
+package io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers
 
 import io.schiar.ruleofthree.library.room.CrossMultiplierEntity
 import io.schiar.ruleofthree.model.CrossMultiplier

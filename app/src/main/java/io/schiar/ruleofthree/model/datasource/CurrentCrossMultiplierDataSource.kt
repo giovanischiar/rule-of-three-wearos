@@ -1,8 +1,8 @@
-package io.schiar.ruleofthree.model.datasource.currentcrossmultiplier
+package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester.CurrentCrossMultiplierDAO
-import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester.CurrentCrossMultiplierMemoryDAO
+import io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier.CurrentCrossMultiplierDAO
+import io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier.CurrentCrossMultiplierMemoryDAO
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope

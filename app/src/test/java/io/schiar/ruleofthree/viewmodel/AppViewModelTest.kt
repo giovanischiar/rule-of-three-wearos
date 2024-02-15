@@ -1,8 +1,8 @@
 package io.schiar.ruleofthree.viewmodel
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.CurrentCrossMultiplierDataSource
-import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.viewmodel.util.toViewData

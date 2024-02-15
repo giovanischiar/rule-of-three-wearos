@@ -10,10 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.CurrentCrossMultiplierDataSource
-import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester.CurrentCrossMultiplierPersistentDAO
-import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.PastCrossMultipliersDataSource
-import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.requester.PastCrossMultipliersPersistentDAO
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier.CurrentCrossMultiplierPersistentDAO
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers.PastCrossMultipliersPersistentDAO
 import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
