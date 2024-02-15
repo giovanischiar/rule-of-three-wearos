@@ -3,9 +3,10 @@ package io.schiar.ruleofthree.model.datasource
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import io.schiar.ruleofthree.RuleOfThreeDatabase
+import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.util.toCrossMultiplierEntity
+import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.requester.PastCrossMultipliersPersistentDAO
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -31,11 +32,11 @@ class PastCrossMultipliersDataSourceTest {
             klass = RuleOfThreeDatabase::class.java
         ).build()
         pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
-            pastCrossMultipliersDAO = database.pastCrossMultipliersDAO().apply {
+            pastCrossMultipliersDAO = PastCrossMultipliersPersistentDAO(
+                pastCrossMultipliersRoomDAO = database.pastCrossMultipliersDAO()
+            ).apply {
                 for (crossMultiplier in crossMultipliers) {
-                    insertTimestamped(
-                        crossMultiplierEntity = crossMultiplier.toCrossMultiplierEntity()
-                    )
+                    create(crossMultiplier = crossMultiplier)
                 }
             }
         )

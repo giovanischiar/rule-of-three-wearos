@@ -3,8 +3,9 @@ package io.schiar.ruleofthree.model.datasource
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import io.schiar.ruleofthree.RuleOfThreeDatabase
+import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.util.toCurrentCrossMultiplierEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.After

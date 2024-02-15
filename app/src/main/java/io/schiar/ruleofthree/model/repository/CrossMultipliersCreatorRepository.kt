@@ -1,7 +1,7 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 
 class CrossMultipliersCreatorRepository(

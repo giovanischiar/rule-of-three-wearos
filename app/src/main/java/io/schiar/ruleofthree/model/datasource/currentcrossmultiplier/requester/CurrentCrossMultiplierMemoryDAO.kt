@@ -1,9 +1,9 @@
-package io.schiar.ruleofthree.model.datasource.util
+package io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester
 
-import io.schiar.ruleofthree.model.datasource.database.CurrentCrossMultiplierDAO
-import io.schiar.ruleofthree.model.datasource.database.CurrentCrossMultiplierEntity
+import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierDAO
+import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierEntity
 
-class CurrentCrossMultiplierLocalDAO(
+class CurrentCrossMultiplierMemoryDAO(
     private var currentCrossMultiplier: CurrentCrossMultiplierEntity? = null
 ): CurrentCrossMultiplierDAO() {
     override fun insert(currentCrossMultiplierEntity: CurrentCrossMultiplierEntity): Long {

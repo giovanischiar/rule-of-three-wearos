@@ -1,17 +1,17 @@
-package io.schiar.ruleofthree.model.datasource
+package io.schiar.ruleofthree.model.datasource.currentcrossmultiplier
 
+import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierDAO
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.database.CurrentCrossMultiplierDAO
-import io.schiar.ruleofthree.model.datasource.util.CurrentCrossMultiplierLocalDAO
-import io.schiar.ruleofthree.model.datasource.util.toCrossMultiplier
-import io.schiar.ruleofthree.model.datasource.util.toCurrentCrossMultiplierEntity
+import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester.CurrentCrossMultiplierMemoryDAO
+import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester.toCrossMultiplier
+import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester.toCurrentCrossMultiplierEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-typealias LocalDAO = CurrentCrossMultiplierLocalDAO
+typealias LocalDAO = CurrentCrossMultiplierMemoryDAO
 
 class CurrentCrossMultiplierDataSource(
     private val currentCrossMultiplierDAO: CurrentCrossMultiplierDAO = LocalDAO(),

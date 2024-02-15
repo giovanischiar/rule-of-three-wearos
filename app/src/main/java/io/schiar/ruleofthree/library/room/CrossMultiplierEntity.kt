@@ -1,12 +1,12 @@
-package io.schiar.ruleofthree.model.datasource.database
+package io.schiar.ruleofthree.library.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "CurrentCrossMultiplier")
-data class CurrentCrossMultiplierEntity(
-    @PrimaryKey(autoGenerate = false)
-    val id: Long = 1,
+@Entity(tableName = "PastCrossMultipliers")
+data class CrossMultiplierEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
     val valueAt00: String,
     val valueAt01: String,
     val valueAt10: String,

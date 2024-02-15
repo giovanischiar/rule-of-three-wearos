@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.model.datasource.database
+package io.schiar.ruleofthree.library.room
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -150,6 +150,17 @@ data class CrossMultiplier(
         )
     }
 
+    fun withIDChangedTo(newID: Long): CrossMultiplier {
+        return CrossMultiplier(
+            id = newID,
+            valueAt00 = valueAt00,
+            valueAt01 = valueAt01,
+            valueAt10 = valueAt10,
+            valueAt11 = valueAt11,
+            unknownPosition = unknownPosition
+        )
+    }
+
     override fun toString(): String {
         var maxLength = -1
         val dataMatrix = inputsMatrix.mapIndexed { i, valuesRow ->
