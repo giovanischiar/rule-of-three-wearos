@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.CurrentCrossMultiplierDataSource
-import io.schiar.ruleofthree.model.datasource.util.toCurrentCrossMultiplierEntity
+import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester.CurrentCrossMultiplierPersistentDAO
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -27,10 +27,10 @@ class CurrentCrossMultipliersDataSourceTest {
             klass = RuleOfThreeDatabase::class.java
         ).build()
         currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplierDAO = database.currentCrossMultiplierDAO().apply {
-                insertWithTimestamp(
-                    currentCrossMultiplierEntity = crossMultiplier.toCurrentCrossMultiplierEntity()
-                )
+            currentCrossMultiplierDAO = CurrentCrossMultiplierPersistentDAO(
+                currentCrossMultiplierRoomDAO = database.currentCrossMultiplierDAO()
+            ).apply {
+                create(crossMultiplier)
             }
         )
     }

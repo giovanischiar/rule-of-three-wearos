@@ -8,10 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
 import androidx.wear.tooling.preview.devices.WearDevices
-import io.schiar.ruleofthree.library.room.PastCrossMultipliersRoomDAO
 import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.CurrentCrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.currentcrossmultiplier.requester.CurrentCrossMultiplierPersistentDAO
 import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.datasource.pastcrossmultipliers.requester.PastCrossMultipliersPersistentDAO
 import io.schiar.ruleofthree.model.repository.AppRepository
@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val ruleOfThreeDatabase = RuleOfThreeDatabase.getDatabase(context = applicationContext)
         val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplierDAO = ruleOfThreeDatabase.currentCrossMultiplierDAO()
+            currentCrossMultiplierDAO = CurrentCrossMultiplierPersistentDAO(
+                currentCrossMultiplierRoomDAO = ruleOfThreeDatabase.currentCrossMultiplierDAO()
+            )
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
             pastCrossMultipliersDAO = PastCrossMultipliersPersistentDAO(

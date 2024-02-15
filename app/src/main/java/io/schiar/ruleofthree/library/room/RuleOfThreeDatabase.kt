@@ -12,7 +12,7 @@ import androidx.room.RoomDatabase
 )
 abstract class RuleOfThreeDatabase : RoomDatabase() {
     abstract fun pastCrossMultipliersDAO(): PastCrossMultipliersRoomDAO
-    abstract fun currentCrossMultiplierDAO(): CurrentCrossMultiplierDAO
+    abstract fun currentCrossMultiplierDAO(): CurrentCrossMultiplierRoomDAO
 
     companion object {
         @Volatile
