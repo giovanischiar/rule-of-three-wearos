@@ -101,7 +101,7 @@
   </picture>
 
 ### Package `viewmodel` with `model.repository`
-  View Models also serve as a [façade](https://en.wikipedia.org/wiki/Facade_pattern), triggering methods in `model.repository` classes. This diagram shows that each View Model has its own interface to `MainRepository` and illustrates all methods each View Model calls, represented by arrows from View Models to Repositories. It also demonstrates that all interfaces are implemented by `MainRepository`.
+  View Models also serve as a [façade](https://en.wikipedia.org/wiki/Facade_pattern), triggering methods in `model.repository` classes. This diagram shows that each View Model has its own Repository Class and illustrates all methods each View Model calls, represented by arrows from View Models to Repositories.
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/viewmodel-repository-diagram.dark.svg">
@@ -117,7 +117,7 @@
   </picture>
 
 ### Package `model.repository` with `model.datasource` and `model.database`
-  Repository classes use the Data Source classes to perform the Creation, Retrieval, Update, and Deletion of the model objects. The Data Source classes use the database to persist these alterations. This diagram represents all the associations among the classes in `model.repository`, `model.datasource`, and `model.database`.
+  Repository classes use the Data Source classes to perform the Creation, Retrieval, Update, and Deletion of the model objects. The Data Source classes use the database to persist these alterations. This diagram represents all the associations among the classes in `model.repository`, `model.datasource`, and `model.database`. It also demonstrates their communications between each Repository through interfaces located at `model.repository.listener` package.
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-datasource-database-diagram.dark.svg">
