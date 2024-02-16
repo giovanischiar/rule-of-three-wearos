@@ -1,7 +1,7 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 import io.schiar.ruleofthree.model.repository.listener.PastCrossMultipliersListener
@@ -19,8 +19,8 @@ class AppRepositoryTest {
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
             crossMultipliers = pastCrossMultipliers
         )
-        val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplier = currentCrossMultiplier
+        val currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(
+            currentCrossMultiplierToInsert = currentCrossMultiplier
         )
         return AppRepository(
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
@@ -33,7 +33,7 @@ class AppRepositoryTest {
                 }
             },
             areTherePastCrossMultipliersListener = object : AreTherePastCrossMultipliersListener {
-                override fun onAreTherePastCrossMultipliersChangedTo(newAreTherePastCrossMultipliers: Boolean) {
+                override fun areTherePastCrossMultipliersChangedTo(newAreTherePastCrossMultipliers: Boolean) {
                     onNewAreTherePastCrossMultipliers(newAreTherePastCrossMultipliers)
                 }
             }

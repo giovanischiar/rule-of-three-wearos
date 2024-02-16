@@ -12,9 +12,7 @@ class HistoryRepository(
 ): PastCrossMultipliersListener {
     private var pastCrossMultipliersCallback: ((List<CrossMultiplier>) -> Unit)? = null
 
-    private suspend fun retrievePastCrossMultiplierFromDataSourceAt(
-        index: Int
-    ): CrossMultiplier? {
+    private suspend fun retrievePastCrossMultiplierFromDataSourceAt(index: Int): CrossMultiplier? {
         return pastCrossMultipliersDataSource.retrievePastCrossMultiplierAt(index = index)
     }
 
@@ -34,7 +32,7 @@ class HistoryRepository(
     suspend fun loadPastCrossMultipliers() {
         val pastCrossMultipliers = pastCrossMultipliersDataSource.retrievePastCrossMultipliers()
         onPastCrossMultipliersChangedTo(newPastCrossMultipliers = pastCrossMultipliers)
-        areTherePastCrossMultipliersListener?.onAreTherePastCrossMultipliersChangedTo(
+        areTherePastCrossMultipliersListener?.areTherePastCrossMultipliersChangedTo(
             newAreTherePastCrossMultipliers = pastCrossMultipliers.isNotEmpty()
         )
     }
@@ -85,7 +83,7 @@ class HistoryRepository(
         pastCrossMultipliersDataSource.deletePastCrossMultiplierAt(index = index)
         val pastCrossMultipliers = retrievePastCrossMultipliersFromDataSource()
         pastCrossMultipliersCallback?.let { it(pastCrossMultipliers) }
-        areTherePastCrossMultipliersListener?.onAreTherePastCrossMultipliersChangedTo(
+        areTherePastCrossMultipliersListener?.areTherePastCrossMultipliersChangedTo(
             newAreTherePastCrossMultipliers = pastCrossMultipliers.isNotEmpty()
         )
     }
@@ -94,7 +92,7 @@ class HistoryRepository(
         pastCrossMultipliersDataSource.deletePastCrossMultipliers()
         val pastCurrentMultipliers = emptyList<CrossMultiplier>()
         pastCrossMultipliersCallback?.let { it(pastCurrentMultipliers) }
-        areTherePastCrossMultipliersListener?.onAreTherePastCrossMultipliersChangedTo(
+        areTherePastCrossMultipliersListener?.areTherePastCrossMultipliersChangedTo(
             newAreTherePastCrossMultipliers = false
         )
     }

@@ -10,10 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
-import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierRoomService
+import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierRoomDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.library.room.PastCrossMultipliersRoomService
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
 import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
@@ -28,10 +28,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val ruleOfThreeDatabase = RuleOfThreeRoomDatabase.getDatabase(context = applicationContext)
-        val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplierDAO = CurrentCrossMultiplierRoomService(
-                currentCrossMultiplierRoomDAO = ruleOfThreeDatabase.currentCrossMultiplierDAO()
-            )
+        val currentCrossMultiplierDataSource = CurrentCrossMultiplierRoomDataSource(
+            currentCrossMultiplierRoomDAO = ruleOfThreeDatabase.currentCrossMultiplierDAO()
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
             pastCrossMultipliersService = PastCrossMultipliersRoomService(
@@ -73,12 +71,11 @@ class MainActivity : ComponentActivity() {
     @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
     @Composable
     fun MainActivityPreview() {
-        val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplier = CrossMultiplier(
+        val currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(
+            currentCrossMultiplierToInsert = CrossMultiplier(
                 valueAt00 = 10, valueAt01 = 345,
                 valueAt10 = 15.3
-            ).resultCalculated(),
-            coroutineDispatcher = Dispatchers.Main
+            ).resultCalculated()
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
             crossMultipliers = listOf(
@@ -106,7 +103,8 @@ class MainActivity : ComponentActivity() {
             coroutineDispatcher = Dispatchers.Main
         )
         val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
+            coroutineDispatcher = Dispatchers.Main
         )
         val historyRepository = HistoryRepository(
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
@@ -116,7 +114,8 @@ class MainActivity : ComponentActivity() {
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
             currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
             pastCrossMultipliersListener = historyRepository,
-            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
+            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository,
+            coroutineDispatcher = Dispatchers.Main
         )
         val appViewModel = AppViewModel(appRepository = appRepository)
         val createNewCrossMultiplierViewModel = CrossMultipliersCreatorViewModel(

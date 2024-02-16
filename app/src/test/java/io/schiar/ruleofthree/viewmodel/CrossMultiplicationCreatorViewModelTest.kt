@@ -1,7 +1,7 @@
 package io.schiar.ruleofthree.viewmodel
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.CoroutineScope
@@ -35,12 +35,11 @@ class CrossMultiplicationCreatorViewModelTest {
     @Before
     fun setUp() = runTest {
         dispatcher = UnconfinedTestDispatcher(testScheduler)
-        val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplier = currentCrossMultiplier,
-            coroutineDispatcher = dispatcher
+        val currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(
+            currentCrossMultiplierToInsert = currentCrossMultiplier,
         )
         val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
         )
         crossMultipliersCreatorViewModel = CrossMultipliersCreatorViewModel(
             crossMultipliersCreatorRepository = crossMultipliersCreatorRepository

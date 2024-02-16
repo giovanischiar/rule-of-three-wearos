@@ -9,11 +9,11 @@ import androidx.room.Update
 @Dao
 interface CurrentCrossMultiplierRoomDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(currentCrossMultiplierEntity: CurrentCrossMultiplierEntity): Long
+    suspend fun insert(currentCrossMultiplierEntity: CurrentCrossMultiplierEntity): Long
 
     @Update
-    fun update(currentCrossMultiplierEntity: CurrentCrossMultiplierEntity)
+    suspend fun update(currentCrossMultiplierEntity: CurrentCrossMultiplierEntity)
 
     @Query("SELECT * from CurrentCrossMultiplier LIMIT 1")
-    fun select(): CurrentCrossMultiplierEntity?
+    suspend fun select(): CurrentCrossMultiplierEntity?
 }
