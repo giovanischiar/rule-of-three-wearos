@@ -1,21 +1,22 @@
-package io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier
+package io.schiar.ruleofthree.model.datasource.service.local
 
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.service.CurrentCrossMultiplierService
 
-class CurrentCrossMultiplierMemoryDAO(
+class CurrentCrossMultiplierLocalService(
     currentCrossMultiplierToInsert: CrossMultiplier? = null
-): CurrentCrossMultiplierDAO {
+): CurrentCrossMultiplierService {
     private var currentCrossMultiplier = currentCrossMultiplierToInsert?.withIDChangedTo(newID = 1L)
 
     override fun create(crossMultiplier: CrossMultiplier) {
         currentCrossMultiplier = crossMultiplier
     }
 
-    override fun requestCurrentCrossMultiplier(): CrossMultiplier? {
+    override fun retrieve(): CrossMultiplier? {
         return currentCrossMultiplier
     }
 
-    override fun updateCurrentCrossMultiplierTo(crossMultiplierUpdated: CrossMultiplier) {
-        currentCrossMultiplier = crossMultiplierUpdated
+    override fun update(crossMultiplier: CrossMultiplier) {
+        currentCrossMultiplier = crossMultiplier
     }
 }

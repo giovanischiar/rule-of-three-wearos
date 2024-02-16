@@ -1,10 +1,11 @@
-package io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers
+package io.schiar.ruleofthree.model.datasource.service.local
 
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.service.PastCrossMultipliersService
 
-class PastCrossMultipliersMemoryDAO(
+class PastCrossMultipliersLocalService(
     crossMultipliersToInsert: List<CrossMultiplier> = emptyList()
-) : PastCrossMultipliersDAO {
+) : PastCrossMultipliersService {
     private var currentID: Long = 1L
     private val _pastCrossMultipliers: MutableList<CrossMultiplier> =
         crossMultipliersToInsert.map { crossMultiplierToInsert ->
@@ -17,17 +18,17 @@ class PastCrossMultipliersMemoryDAO(
         return elementToInsert
     }
 
-    override fun requestPastCrossMultipliers(): List<CrossMultiplier> {
+    override fun retrieve(): List<CrossMultiplier> {
         return _pastCrossMultipliers
     }
 
-    override fun updateCrossMultiplierTo(crossMultiplierUpdated: CrossMultiplier) {
+    override fun update(crossMultiplier: CrossMultiplier) {
         val entityToUpdate = _pastCrossMultipliers.filter {
-            it.id == crossMultiplierUpdated.id
+            it.id == crossMultiplier.id
         }.getOrNull(index = 0) ?: return
         val entityToUpdateIndex = _pastCrossMultipliers.indexOf(element = entityToUpdate)
         if (entityToUpdateIndex == -1) return
-        _pastCrossMultipliers[entityToUpdateIndex] = crossMultiplierUpdated
+        _pastCrossMultipliers[entityToUpdateIndex] = crossMultiplier
     }
 
     override fun delete(crossMultiplier: CrossMultiplier) {

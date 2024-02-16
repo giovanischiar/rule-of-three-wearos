@@ -1,8 +1,8 @@
 package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier.CurrentCrossMultiplierDAO
-import io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier.CurrentCrossMultiplierMemoryDAO
+import io.schiar.ruleofthree.model.datasource.service.CurrentCrossMultiplierService
+import io.schiar.ruleofthree.model.datasource.service.local.CurrentCrossMultiplierLocalService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CurrentCrossMultiplierDataSource(
-    private val currentCrossMultiplierDAO: CurrentCrossMultiplierDAO
-        = CurrentCrossMultiplierMemoryDAO(),
+    private val currentCrossMultiplierDAO: CurrentCrossMultiplierService
+        = CurrentCrossMultiplierLocalService(),
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private var currentCrossMultiplier: CrossMultiplier? = null
@@ -20,7 +20,7 @@ class CurrentCrossMultiplierDataSource(
         currentCrossMultiplier: CrossMultiplier,
         coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : this(
-        currentCrossMultiplierDAO = CurrentCrossMultiplierMemoryDAO(
+        currentCrossMultiplierDAO = CurrentCrossMultiplierLocalService(
             currentCrossMultiplierToInsert = currentCrossMultiplier
         ),
         coroutineDispatcher = coroutineDispatcher
@@ -29,7 +29,7 @@ class CurrentCrossMultiplierDataSource(
     suspend fun retrieveCurrentCrossMultiplier(): CrossMultiplier {
         if (currentCrossMultiplier == null) {
             currentCrossMultiplier = withContext(coroutineDispatcher) {
-                currentCrossMultiplierDAO.requestCurrentCrossMultiplier()
+                currentCrossMultiplierDAO.retrieve()
             }
 
             if (currentCrossMultiplier == null) {
@@ -51,8 +51,8 @@ class CurrentCrossMultiplierDataSource(
         currentCrossMultiplier = crossMultiplierUpdated
         coroutineScope {
             launch(coroutineDispatcher) {
-                currentCrossMultiplierDAO.updateCurrentCrossMultiplierTo(
-                    crossMultiplierUpdated = crossMultiplierUpdated
+                currentCrossMultiplierDAO.update(
+                    crossMultiplier = crossMultiplierUpdated
                 )
             }
         }

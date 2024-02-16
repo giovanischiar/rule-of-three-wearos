@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
 import androidx.wear.tooling.preview.devices.WearDevices
-import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
+import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
-import io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier.CurrentCrossMultiplierPersistentDAO
+import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierRoomService
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
-import io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers.PastCrossMultipliersPersistentDAO
+import io.schiar.ruleofthree.library.room.PastCrossMultipliersRoomService
 import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
@@ -27,14 +27,14 @@ import kotlinx.coroutines.Dispatchers
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val ruleOfThreeDatabase = RuleOfThreeDatabase.getDatabase(context = applicationContext)
+        val ruleOfThreeDatabase = RuleOfThreeRoomDatabase.getDatabase(context = applicationContext)
         val currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplierDAO = CurrentCrossMultiplierPersistentDAO(
+            currentCrossMultiplierDAO = CurrentCrossMultiplierRoomService(
                 currentCrossMultiplierRoomDAO = ruleOfThreeDatabase.currentCrossMultiplierDAO()
             )
         )
         val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
-            pastCrossMultipliersDAO = PastCrossMultipliersPersistentDAO(
+            pastCrossMultipliersService = PastCrossMultipliersRoomService(
                 pastCrossMultipliersRoomDAO = ruleOfThreeDatabase.pastCrossMultipliersDAO()
             )
         )

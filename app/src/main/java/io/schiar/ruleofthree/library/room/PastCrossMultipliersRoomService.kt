@@ -1,11 +1,11 @@
-package io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers
+package io.schiar.ruleofthree.library.room
 
-import io.schiar.ruleofthree.library.room.PastCrossMultipliersRoomDAO
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.service.PastCrossMultipliersService
 
-class PastCrossMultipliersPersistentDAO(
+class PastCrossMultipliersRoomService(
     private val pastCrossMultipliersRoomDAO: PastCrossMultipliersRoomDAO
-): PastCrossMultipliersDAO {
+): PastCrossMultipliersService {
     override fun create(crossMultiplier: CrossMultiplier): CrossMultiplier {
         val crossMultiplierEntity = crossMultiplier.toCrossMultiplierEntity()
         val crossMultiplierEntityToInsert = crossMultiplierEntity.timestamped(
@@ -18,14 +18,14 @@ class PastCrossMultipliersPersistentDAO(
         return crossMultiplier.withIDChangedTo(newID = crossMultiplierEntityToInsertID)
     }
 
-    override fun requestPastCrossMultipliers(): List<CrossMultiplier> {
+    override fun retrieve(): List<CrossMultiplier> {
         return pastCrossMultipliersRoomDAO
             .selectFromPastCrossMultiplierOrderByCreatedAtDesc()
             .toCrossMultipliers()
     }
 
-    override fun updateCrossMultiplierTo(crossMultiplierUpdated: CrossMultiplier) {
-        val crossMultiplierEntityUpdated = crossMultiplierUpdated.toCrossMultiplierEntity()
+    override fun update(crossMultiplier: CrossMultiplier) {
+        val crossMultiplierEntityUpdated = crossMultiplier.toCrossMultiplierEntity()
         pastCrossMultipliersRoomDAO.update(
             crossMultiplierEntity = crossMultiplierEntityUpdated.timestamped(
                 modifiedAt = System.currentTimeMillis()

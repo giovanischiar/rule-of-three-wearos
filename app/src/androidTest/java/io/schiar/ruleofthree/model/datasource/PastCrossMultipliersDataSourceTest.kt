@@ -3,9 +3,9 @@ package io.schiar.ruleofthree.model.datasource
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
+import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers.PastCrossMultipliersPersistentDAO
+import io.schiar.ruleofthree.library.room.PastCrossMultipliersRoomService
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -14,7 +14,7 @@ import org.junit.Test
 import java.io.IOException
 
 class PastCrossMultipliersDataSourceTest {
-    private lateinit var database: RuleOfThreeDatabase
+    private lateinit var database: RuleOfThreeRoomDatabase
     private lateinit var pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
     private val crossMultipliers = listOf(
         CrossMultiplier(valueAt00 = 1, valueAt01 = 2.3, valueAt10 = 45.3),
@@ -28,10 +28,10 @@ class PastCrossMultipliersDataSourceTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(
             context = context,
-            klass = RuleOfThreeDatabase::class.java
+            klass = RuleOfThreeRoomDatabase::class.java
         ).build()
         pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
-            pastCrossMultipliersDAO = PastCrossMultipliersPersistentDAO(
+            pastCrossMultipliersService = PastCrossMultipliersRoomService(
                 pastCrossMultipliersRoomDAO = database.pastCrossMultipliersDAO()
             ).apply {
                 for (crossMultiplier in crossMultipliers) {

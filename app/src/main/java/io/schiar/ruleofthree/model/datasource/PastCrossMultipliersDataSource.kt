@@ -1,8 +1,8 @@
 package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers.PastCrossMultipliersDAO
-import io.schiar.ruleofthree.model.datasource.requester.pastcrossmultipliers.PastCrossMultipliersMemoryDAO
+import io.schiar.ruleofthree.model.datasource.service.PastCrossMultipliersService
+import io.schiar.ruleofthree.model.datasource.service.local.PastCrossMultipliersLocalService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -10,7 +10,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class PastCrossMultipliersDataSource(
-    private val pastCrossMultipliersDAO: PastCrossMultipliersDAO = PastCrossMultipliersMemoryDAO(),
+    private val pastCrossMultipliersService: PastCrossMultipliersService
+        = PastCrossMultipliersLocalService(),
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private var pastCrossMultipliers: List<CrossMultiplier>? = null
@@ -19,7 +20,7 @@ class PastCrossMultipliersDataSource(
         crossMultipliers: List<CrossMultiplier>,
         coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : this(
-        pastCrossMultipliersDAO = PastCrossMultipliersMemoryDAO(
+        pastCrossMultipliersService = PastCrossMultipliersLocalService(
             crossMultipliersToInsert = crossMultipliers
         ),
         coroutineDispatcher = coroutineDispatcher
@@ -28,7 +29,7 @@ class PastCrossMultipliersDataSource(
     suspend fun createPastCrossMultiplier(crossMultiplierToBeCreated: CrossMultiplier) {
         val mutablePastCrossMultipliers = retrievePastCrossMultipliers().toMutableList()
         val crossMultiplierInserted = withContext(coroutineDispatcher) {
-            pastCrossMultipliersDAO.create(crossMultiplier = crossMultiplierToBeCreated)
+            pastCrossMultipliersService.create(crossMultiplier = crossMultiplierToBeCreated)
         }
         mutablePastCrossMultipliers.add(index = 0, crossMultiplierInserted)
         pastCrossMultipliers = mutablePastCrossMultipliers
@@ -41,7 +42,7 @@ class PastCrossMultipliersDataSource(
     suspend fun retrievePastCrossMultipliers(): List<CrossMultiplier> {
         if (pastCrossMultipliers == null) {
             val pastCrossMultipliersFromDataBase = withContext(coroutineDispatcher) {
-                pastCrossMultipliersDAO.requestPastCrossMultipliers()
+                pastCrossMultipliersService.retrieve()
             }
 
             if (pastCrossMultipliersFromDataBase.isNotEmpty()) {
@@ -62,8 +63,8 @@ class PastCrossMultipliersDataSource(
         pastCrossMultipliers = mutablePastCrossMultipliers
         coroutineScope {
             launch(coroutineDispatcher) {
-                pastCrossMultipliersDAO.updateCrossMultiplierTo(
-                    crossMultiplierUpdated = crossMultiplierUpdated
+                pastCrossMultipliersService.update(
+                    crossMultiplier = crossMultiplierUpdated
                 )
             }
         }
@@ -75,7 +76,7 @@ class PastCrossMultipliersDataSource(
         pastCrossMultipliers = mutablePastCrossMultipliers
         coroutineScope {
             launch(coroutineDispatcher) {
-                pastCrossMultipliersDAO.delete(crossMultiplier = crossMultiplierToBeDeleted)
+                pastCrossMultipliersService.delete(crossMultiplier = crossMultiplierToBeDeleted)
             }
         }
     }
@@ -83,7 +84,7 @@ class PastCrossMultipliersDataSource(
     suspend fun deletePastCrossMultipliers() {
         pastCrossMultipliers = emptyList()
         coroutineScope {
-            launch(coroutineDispatcher) { pastCrossMultipliersDAO.deleteAll() }
+            launch(coroutineDispatcher) { pastCrossMultipliersService.deleteAll() }
         }
     }
 }

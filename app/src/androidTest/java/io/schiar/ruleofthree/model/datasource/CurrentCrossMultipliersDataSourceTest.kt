@@ -3,9 +3,9 @@ package io.schiar.ruleofthree.model.datasource
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import io.schiar.ruleofthree.library.room.RuleOfThreeDatabase
+import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.requester.currentcrossmultiplier.CurrentCrossMultiplierPersistentDAO
+import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierRoomService
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -14,7 +14,7 @@ import org.junit.Test
 import java.io.IOException
 
 class CurrentCrossMultipliersDataSourceTest {
-    private lateinit var database: RuleOfThreeDatabase
+    private lateinit var database: RuleOfThreeRoomDatabase
     private lateinit var currentCrossMultiplierDataSource: CurrentCrossMultiplierDataSource
     private val crossMultiplier = CrossMultiplier(valueAt00 = 3, valueAt01 = 4.3)
 
@@ -23,10 +23,10 @@ class CurrentCrossMultipliersDataSourceTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(
             context = context,
-            klass = RuleOfThreeDatabase::class.java
+            klass = RuleOfThreeRoomDatabase::class.java
         ).build()
         currentCrossMultiplierDataSource = CurrentCrossMultiplierDataSource(
-            currentCrossMultiplierDAO = CurrentCrossMultiplierPersistentDAO(
+            currentCrossMultiplierDAO = CurrentCrossMultiplierRoomService(
                 currentCrossMultiplierRoomDAO = database.currentCrossMultiplierDAO()
             ).apply {
                 create(crossMultiplier)
