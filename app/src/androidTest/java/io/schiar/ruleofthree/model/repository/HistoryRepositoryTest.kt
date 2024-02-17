@@ -1,24 +1,39 @@
 package io.schiar.ruleofthree.model.repository
 
+import android.content.Context
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import io.schiar.ruleofthree.library.room.PastCrossMultipliersRoomDataSource
+import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert
 import org.junit.Test
+import java.io.IOException
 
 class HistoryRepositoryTest {
+    private lateinit var database: RuleOfThreeRoomDatabase
     private lateinit var historyRepository: HistoryRepository
 
-    private fun createHistoryRepository(
+    private suspend fun createHistoryRepository(
         pastCrossMultipliers: List<CrossMultiplier> = emptyList(),
         onNewAreTherePastCrossMultipliers: (Boolean) -> Unit = {}
     ) {
-        val pastCrossMultipliersDataSource = PastCrossMultipliersLocalDataSource(
-            crossMultipliersToInsert = pastCrossMultipliers
-        )
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        database = Room.inMemoryDatabaseBuilder(
+            context = context,
+            klass = RuleOfThreeRoomDatabase::class.java
+        ).build()
         historyRepository = HistoryRepository(
-            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
+            pastCrossMultipliersDataSource = PastCrossMultipliersRoomDataSource(
+                pastCrossMultipliersRoomDAO = database.pastCrossMultipliersDAO()
+            ).apply {
+                for (crossMultiplier in pastCrossMultipliers.reversed()) {
+                    create(crossMultiplier)
+                }
+            },
             areTherePastCrossMultipliersListener = object : AreTherePastCrossMultipliersListener {
                 override fun areTherePastCrossMultipliersChangedTo(
                     newAreTherePastCrossMultipliers: Boolean
@@ -27,6 +42,12 @@ class HistoryRepositoryTest {
                 }
             }
         )
+    }
+
+    @After
+    @Throws(IOException::class)
+    fun closeDatabase() {
+        database.close()
     }
 
     @Test
@@ -46,7 +67,7 @@ class HistoryRepositoryTest {
     }
 
     @Test
-    fun `Load a Empty List of Past Cross Multipliers and Check if There aren't Past Cross Multipliers`() = runBlocking {
+    fun `Load a Empty List of Past Cross Multipliers and Check if There are not Past Cross Multipliers`() = runBlocking {
         // Given
         val expectedAreTherePastCrossMultipliers = false
         var actualAreTherePastCrossMultipliers: Boolean? = null
@@ -124,7 +145,7 @@ class HistoryRepositoryTest {
     }
 
     @Test
-    fun `Push Character 5 to Input on Position (1, 0) of the Cross Multiplier at index 2`() = runBlocking {
+    fun `Push Character 5 to Input on Position 1 0 of the Cross Multiplier at index 2`() = runBlocking {
         // Given
         val expectedPastCrossMultipliers = listOf(
             CrossMultiplier(
@@ -172,7 +193,7 @@ class HistoryRepositoryTest {
     }
 
     @Test
-    fun `Pop Character From Input on Position (0, 1) of The Cross Multiplier at index 2`() = runBlocking {
+    fun `Pop Character From Input on Position 0 1 of The Cross Multiplier at index 2`() = runBlocking {
         // Given
         val expectedPastCrossMultipliers = listOf(
             CrossMultiplier(
@@ -220,7 +241,7 @@ class HistoryRepositoryTest {
     }
 
     @Test
-    fun `Change the Unknown Position to (0, 1) of the Cross Multiplier at Index 1`() = runBlocking {
+    fun `Change the Unknown Position to 0 1 of the Cross Multiplier at Index 1`() = runBlocking {
         // Given
         val expectedPastCrossMultipliers = listOf(
             CrossMultiplier(
@@ -270,7 +291,7 @@ class HistoryRepositoryTest {
     }
 
     @Test
-    fun `Clear Input on Position (0, 1) of the Cross Multiplier at Index 0`() = runBlocking {
+    fun `Clear Input on Position 0 1 of the Cross Multiplier at Index 0`() = runBlocking {
         // Given
         val expectedPastCrossMultipliers = listOf(
             CrossMultiplier(
@@ -342,7 +363,7 @@ class HistoryRepositoryTest {
     }
 
     @Test
-    fun `Delete the Only Cross Multiplier and Check if There aren't Past Cross Multipliers`() = runBlocking {
+    fun `Delete the Only Cross Multiplier and Check if There are not Past Cross Multipliers`() = runBlocking {
         // Given
         val expectedAreTherePastCrossMultipliers = false
         var actualAreTherePastCrossMultipliers: Boolean? = null
@@ -393,7 +414,7 @@ class HistoryRepositoryTest {
     }
 
     @Test
-    fun `Delete History and Check if There Aren't Past Cross Multipliers`() = runBlocking {
+    fun `Delete History and Check if There are not Past Cross Multipliers`() = runBlocking {
         // Given
         val expectedAreTherePastCrossMultipliers = false
         var actualAreTherePastCrossMultipliers: Boolean? = null

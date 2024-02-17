@@ -2,7 +2,7 @@ package io.schiar.ruleofthree.viewmodel
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
-import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.viewmodel.util.toViewData
@@ -37,17 +37,13 @@ class AppViewModelTest {
         val currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(
             currentCrossMultiplierToInsert = currentCurrentCrossMultiplier,
         )
-        val pastCrossMultipliersDataSource = PastCrossMultipliersDataSource(
-            coroutineDispatcher = dispatcher
-        )
-        val historyRepository = HistoryRepository(
-            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource
-        )
+        val pastCrossMultipliersDataSource = PastCrossMultipliersLocalDataSource()
+        val historyRepository = HistoryRepository()
+
         val appRepository = AppRepository(
             currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            pastCrossMultipliersListener = historyRepository,
-            coroutineDispatcher = dispatcher
+            crossMultiplierCreatedListener = historyRepository,
         )
         val appViewModel = AppViewModel(appRepository = appRepository)
         val historyViewModel = HistoryViewModel(historyRepository = historyRepository)

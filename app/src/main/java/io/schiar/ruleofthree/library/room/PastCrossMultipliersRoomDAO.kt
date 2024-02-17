@@ -9,17 +9,20 @@ import androidx.room.Update
 @Dao
 interface PastCrossMultipliersRoomDAO {
     @Insert
-    fun insert(crossMultiplierEntity: CrossMultiplierEntity): Long
+    suspend fun insert(crossMultiplierEntity: CrossMultiplierEntity): Long
 
     @Query("SELECT * FROM PastCrossMultipliers ORDER BY createdAt DESC")
-    fun selectFromPastCrossMultiplierOrderByCreatedAtDesc(): List<CrossMultiplierEntity>
+    suspend fun selectFromPastCrossMultiplierOrderByCreatedAtDesc(): List<CrossMultiplierEntity>
+
+    @Query("SELECT * FROM PastCrossMultipliers WHERE id == :id LIMIT 1")
+    suspend fun select(id: Long): CrossMultiplierEntity?
 
     @Update
-    fun update(crossMultiplierEntity: CrossMultiplierEntity)
+    suspend fun update(crossMultiplierEntity: CrossMultiplierEntity)
 
     @Delete
-    fun delete(crossMultiplierEntity: CrossMultiplierEntity)
+    suspend fun delete(crossMultiplierEntity: CrossMultiplierEntity)
 
     @Query("DELETE FROM PastCrossMultipliers")
-    fun deleteFromPastCrossMultipliers()
+    suspend fun deleteFromPastCrossMultipliers()
 }

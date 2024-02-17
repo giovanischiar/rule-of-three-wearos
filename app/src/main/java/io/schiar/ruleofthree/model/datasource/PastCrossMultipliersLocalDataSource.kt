@@ -1,28 +1,27 @@
-package io.schiar.ruleofthree.model.datasource.service.local
+package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.service.PastCrossMultipliersService
 
-class PastCrossMultipliersLocalService(
+class PastCrossMultipliersLocalDataSource(
     crossMultipliersToInsert: List<CrossMultiplier> = emptyList()
-) : PastCrossMultipliersService {
+) : PastCrossMultipliersDataSource {
     private var currentID: Long = 1L
     private val _pastCrossMultipliers: MutableList<CrossMultiplier> =
         crossMultipliersToInsert.map { crossMultiplierToInsert ->
             crossMultiplierToInsert.withIDChangedTo(newID = currentID++)
     }.toMutableList()
 
-    override fun create(crossMultiplier: CrossMultiplier): CrossMultiplier {
+    override suspend fun create(crossMultiplier: CrossMultiplier): CrossMultiplier {
         val elementToInsert = crossMultiplier.withIDChangedTo(newID = currentID++)
         _pastCrossMultipliers.add(index = 0, element = elementToInsert)
         return elementToInsert
     }
 
-    override fun retrieve(): List<CrossMultiplier> {
+    override suspend fun retrieve(): List<CrossMultiplier> {
         return _pastCrossMultipliers
     }
 
-    override fun update(crossMultiplier: CrossMultiplier) {
+    override suspend fun update(crossMultiplier: CrossMultiplier) {
         val entityToUpdate = _pastCrossMultipliers.filter {
             it.id == crossMultiplier.id
         }.getOrNull(index = 0) ?: return
@@ -31,7 +30,7 @@ class PastCrossMultipliersLocalService(
         _pastCrossMultipliers[entityToUpdateIndex] = crossMultiplier
     }
 
-    override fun delete(crossMultiplier: CrossMultiplier) {
+    override suspend fun delete(crossMultiplier: CrossMultiplier) {
         val elementToDelete = _pastCrossMultipliers.filter { pastCrossMultiplier ->
             pastCrossMultiplier.id == crossMultiplier.id
         }.getOrNull(index = 0) ?: return
@@ -40,7 +39,7 @@ class PastCrossMultipliersLocalService(
         _pastCrossMultipliers.removeAt(index = elementToDeleteIndex)
     }
 
-    override fun deleteAll() {
+    override suspend fun deleteAll() {
         _pastCrossMultipliers.clear()
     }
 }

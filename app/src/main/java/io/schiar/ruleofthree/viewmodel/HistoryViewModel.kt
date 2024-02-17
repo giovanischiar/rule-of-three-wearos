@@ -63,7 +63,7 @@ class HistoryViewModel(
     }
 
     fun deleteCrossMultiplierAt(index: Int) = viewModelScope.launch {
-        historyRepository.deleteCrossMultiplier(index = index)
+        historyRepository.deleteCrossMultiplierAt(index = index)
     }
 
     fun deleteHistory() = viewModelScope.launch {

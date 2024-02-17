@@ -1,12 +1,12 @@
 package io.schiar.ruleofthree.library.room
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.service.PastCrossMultipliersService
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 
-class PastCrossMultipliersRoomService(
+class PastCrossMultipliersRoomDataSource(
     private val pastCrossMultipliersRoomDAO: PastCrossMultipliersRoomDAO
-): PastCrossMultipliersService {
-    override fun create(crossMultiplier: CrossMultiplier): CrossMultiplier {
+): PastCrossMultipliersDataSource {
+    override suspend fun create(crossMultiplier: CrossMultiplier): CrossMultiplier {
         val crossMultiplierEntity = crossMultiplier.toCrossMultiplierEntity()
         val crossMultiplierEntityToInsert = crossMultiplierEntity.timestamped(
             createdAt = System.currentTimeMillis(),
@@ -18,27 +18,31 @@ class PastCrossMultipliersRoomService(
         return crossMultiplier.withIDChangedTo(newID = crossMultiplierEntityToInsertID)
     }
 
-    override fun retrieve(): List<CrossMultiplier> {
+    override suspend fun retrieve(): List<CrossMultiplier> {
         return pastCrossMultipliersRoomDAO
             .selectFromPastCrossMultiplierOrderByCreatedAtDesc()
             .toCrossMultipliers()
     }
 
-    override fun update(crossMultiplier: CrossMultiplier) {
-        val crossMultiplierEntityUpdated = crossMultiplier.toCrossMultiplierEntity()
+    override suspend fun update(crossMultiplier: CrossMultiplier) {
+        val crossMultiplierFromDatabase = pastCrossMultipliersRoomDAO.select(
+            id = crossMultiplier.id
+        ) ?: return
+        val crossMultiplierEntityUpdated = crossMultiplier.toCrossMultiplierEntity().timestamped(
+            createdAt = crossMultiplierFromDatabase.createdAt,
+            modifiedAt = System.currentTimeMillis()
+        )
         pastCrossMultipliersRoomDAO.update(
-            crossMultiplierEntity = crossMultiplierEntityUpdated.timestamped(
-                modifiedAt = System.currentTimeMillis()
-            )
+            crossMultiplierEntity = crossMultiplierEntityUpdated
         )
     }
 
-    override fun delete(crossMultiplier: CrossMultiplier) {
+    override suspend fun delete(crossMultiplier: CrossMultiplier) {
         val crossMultiplierEntityToDelete = crossMultiplier.toCrossMultiplierEntity()
         pastCrossMultipliersRoomDAO.delete(crossMultiplierEntity = crossMultiplierEntityToDelete)
     }
 
-    override fun deleteAll() {
+    override suspend fun deleteAll() {
         pastCrossMultipliersRoomDAO.deleteFromPastCrossMultipliers()
     }
 }
