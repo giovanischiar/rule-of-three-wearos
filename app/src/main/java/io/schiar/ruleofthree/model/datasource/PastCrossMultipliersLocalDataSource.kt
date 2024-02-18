@@ -1,45 +1,54 @@
 package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 class PastCrossMultipliersLocalDataSource(
     crossMultipliersToInsert: List<CrossMultiplier> = emptyList()
 ) : PastCrossMultipliersDataSource {
     private var currentID: Long = 1L
-    private val _pastCrossMultipliers: MutableList<CrossMultiplier> =
-        crossMultipliersToInsert.map { crossMultiplierToInsert ->
-            crossMultiplierToInsert.withIDChangedTo(newID = currentID++)
-    }.toMutableList()
+    private val _pastCrossMultipliers = MutableStateFlow(
+        value = crossMultipliersToInsert.map {
+            crossMultiplierToInsert -> crossMultiplierToInsert.withIDChangedTo(newID = currentID++)
+        }
+    )
+    private val pastCrossMultipliers: StateFlow<List<CrossMultiplier>> = _pastCrossMultipliers
 
     override suspend fun create(crossMultiplier: CrossMultiplier): CrossMultiplier {
         val elementToInsert = crossMultiplier.withIDChangedTo(newID = currentID++)
-        _pastCrossMultipliers.add(index = 0, element = elementToInsert)
+        _pastCrossMultipliers.update {
+            it.toMutableList().apply { add(index = 0, element = elementToInsert) }
+        }
         return elementToInsert
     }
 
-    override suspend fun retrieve(): List<CrossMultiplier> {
-        return _pastCrossMultipliers
+    override fun retrieve(): Flow<List<CrossMultiplier>> {
+        return pastCrossMultipliers
     }
 
     override suspend fun update(crossMultiplier: CrossMultiplier) {
-        val entityToUpdate = _pastCrossMultipliers.filter {
-            it.id == crossMultiplier.id
-        }.getOrNull(index = 0) ?: return
-        val entityToUpdateIndex = _pastCrossMultipliers.indexOf(element = entityToUpdate)
-        if (entityToUpdateIndex == -1) return
-        _pastCrossMultipliers[entityToUpdateIndex] = crossMultiplier
+        _pastCrossMultipliers.update { crossMultipliers ->
+            crossMultipliers.map {
+                if (it.id == crossMultiplier.id) {
+                    crossMultiplier
+                } else {
+                    it
+                }
+            }
+        }
+
     }
 
     override suspend fun delete(crossMultiplier: CrossMultiplier) {
-        val elementToDelete = _pastCrossMultipliers.filter { pastCrossMultiplier ->
-            pastCrossMultiplier.id == crossMultiplier.id
-        }.getOrNull(index = 0) ?: return
-        val elementToDeleteIndex = _pastCrossMultipliers.indexOf(element = elementToDelete)
-        if (elementToDeleteIndex == -1) return
-        _pastCrossMultipliers.removeAt(index = elementToDeleteIndex)
+        _pastCrossMultipliers.update {
+            it.toMutableList().apply { remove(crossMultiplier) }
+        }
     }
 
     override suspend fun deleteAll() {
-        _pastCrossMultipliers.clear()
+        _pastCrossMultipliers.update { emptyList() }
     }
 }

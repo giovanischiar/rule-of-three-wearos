@@ -2,6 +2,8 @@ package io.schiar.ruleofthree.library.room
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class PastCrossMultipliersRoomDataSource(
     private val pastCrossMultipliersRoomDAO: PastCrossMultipliersRoomDAO
@@ -18,10 +20,10 @@ class PastCrossMultipliersRoomDataSource(
         return crossMultiplier.withIDChangedTo(newID = crossMultiplierEntityToInsertID)
     }
 
-    override suspend fun retrieve(): List<CrossMultiplier> {
+    override fun retrieve(): Flow<List<CrossMultiplier>> {
         return pastCrossMultipliersRoomDAO
             .selectFromPastCrossMultiplierOrderByCreatedAtDesc()
-            .toCrossMultipliers()
+            .map { it.toCrossMultipliers() }
     }
 
     override suspend fun update(crossMultiplier: CrossMultiplier) {
@@ -32,9 +34,7 @@ class PastCrossMultipliersRoomDataSource(
             createdAt = crossMultiplierFromDatabase.createdAt,
             modifiedAt = System.currentTimeMillis()
         )
-        pastCrossMultipliersRoomDAO.update(
-            crossMultiplierEntity = crossMultiplierEntityUpdated
-        )
+        pastCrossMultipliersRoomDAO.update(crossMultiplierEntity = crossMultiplierEntityUpdated)
     }
 
     override suspend fun delete(crossMultiplier: CrossMultiplier) {

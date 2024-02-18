@@ -10,19 +10,13 @@ class AppRepository(
     private val pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
         = PastCrossMultipliersLocalDataSource(),
     private val currentCrossMultiplierDataSource: CurrentCrossMultiplierDataSource
-        = CurrentCrossMultiplierLocalDataSource(),
-    private val crossMultiplierCreatedListener: CrossMultiplierCreatedListener? = null,
+        = CurrentCrossMultiplierLocalDataSource()
 ) {
     suspend fun addCurrentCrossMultiplierToPastCrossMultipliers() {
         val currentCrossMultiplier = currentCrossMultiplierDataSource.retrieve() ?: return
         val crossMultiplierToBeCreated = currentCrossMultiplier.resultCalculated()
         if (crossMultiplierToBeCreated.isTheResultValid()) {
-            val crossMultiplierCreated = pastCrossMultipliersDataSource.create(
-                crossMultiplier = crossMultiplierToBeCreated
-            )
-            crossMultiplierCreatedListener?.crossMultiplierCreated(
-                crossMultiplier = crossMultiplierCreated
-            )
+            pastCrossMultipliersDataSource.create(crossMultiplier = crossMultiplierToBeCreated)
         }
     }
 }

@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -40,49 +41,47 @@ import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalWearFoundationApi::class)
 @Composable
 fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
+    val pastCrossMultipliers by historyViewModel.pastCrossMultipliers.collectAsState()
+    HistoryScreenComponent(
+        pastCrossMultipliers,
+        historyViewModel::deleteHistory,
+        historyViewModel::pushCharacterToInputOnPositionOfTheCrossMultiplierAt,
+        historyViewModel::popCharacterOfInputOnPositionOfTheCrossMultiplierAt,
+        historyViewModel::clearInputOnPositionOfTheCrossMultiplierAt,
+        historyViewModel::changeTheUnknownPositionToPositionOfTheCrossMultiplierAt,
+        historyViewModel::deleteCrossMultiplierAt,
+        onBackPressed
+    )
+}
+
+@OptIn(ExperimentalWearFoundationApi::class)
+@Composable
+fun HistoryScreenComponent(
+    pastCrossMultipliers: List<CrossMultiplierViewData>,
+    deleteHistory: () -> Unit = {},
+    pushCharacterToInputOnPositionOfTheCrossMultiplierAt: (
+        index: Int, position: Pair<Int, Int>, character: String
+    ) -> Unit = {_,_,_->},
+    popCharacterOfInputOnPositionOfTheCrossMultiplierAt: (
+        index: Int, position: Pair<Int, Int>
+    ) -> Unit = {_,_->},
+    clearInputOnPositionOfTheCrossMultiplierAt: (
+        index: Int, position: Pair<Int, Int>
+    ) -> Unit = {_,_->},
+    changeTheUnknownPositionToPositionOfTheCrossMultiplierAt : (
+        index: Int, position: Pair<Int, Int>
+    ) -> Unit = {_,_->},
+    deleteCrossMultiplierAt: (index: Int) -> Unit = {},
+    onBackPressed: () -> Unit = {}
+) {
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
-    val pastCrossMultipliers by historyViewModel.pastCrossMultipliers.collectAsState()
-
     val iconSize = 30.dp
 
     if (pastCrossMultipliers.isEmpty()) { onBackPressed() }
-
-    fun deleteCrossMultiplierAt(index: Int) {
-         historyViewModel.deleteCrossMultiplierAt(index = index)
-    }
-
-    fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-        index: Int, position: Pair<Int, Int>, character: String
-    ) {
-        historyViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-            index = index, position = position, character = character
-        )
-    }
-
-    fun popCharacterOfInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
-        historyViewModel.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
-            index = index, position = position
-        )
-    }
-
-    fun clearInputOnPositionOfTheCrossMultiplierAt(index: Int, position: Pair<Int, Int>) {
-        historyViewModel.clearInputOnPositionOfTheCrossMultiplierAt(
-            index = index, position = position
-        )
-    }
-
-    fun changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
-        index: Int, position: Pair<Int, Int>
-    ) {
-        historyViewModel.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
-            index = index, position = position
-        )
-    }
 
     Row {
         TouchableIcon(
@@ -106,7 +105,7 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
             item {
                 TouchableIcon(
                     modifier = Modifier.fillMaxWidth().padding(end = iconSize).height(iconSize),
-                    onClick = historyViewModel::deleteHistory,
+                    onClick = deleteHistory,
                     iconDrawableID = R.drawable.baseline_delete_sweep_24,
                     contentDescription = "clear all inputs",
                     colorID = R.color.hashColor
@@ -125,22 +124,18 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
                             crossMultiplier = pastCrossMultipliers[index],
                             onCharacterPressedAt = { position: Pair<Int, Int>, character: String ->
                                 pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
-                                    index = index, position = position, character = character
+                                    index, position, character
                                 )
                             },
                             onBackspacePressedAt = { position: Pair<Int, Int> ->
-                                popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
-                                    index = index, position = position
-                                )
+                                popCharacterOfInputOnPositionOfTheCrossMultiplierAt(index, position)
                             },
                             onClearPressedAt = { position: Pair<Int, Int> ->
-                                clearInputOnPositionOfTheCrossMultiplierAt(
-                                    index = index, position = position
-                                )
+                                clearInputOnPositionOfTheCrossMultiplierAt(index, position)
                             },
                             onLongPressedAt = { position: Pair<Int, Int> ->
                                 changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
-                                    index = index, position = position
+                                    index, position
                                 )
                             },
                         )
@@ -149,7 +144,7 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
                             modifier = Modifier.width(iconSize).height(
                                 with(LocalDensity.current) { crossMultiplierHeight.toDp() }
                             ),
-                            onClick = { deleteCrossMultiplierAt(index = index) },
+                            onClick = { deleteCrossMultiplierAt(index) },
                             iconDrawableID = R.drawable.baseline_delete_forever_24,
                             contentDescription = "clear input",
                             colorID = R.color.hashColor
@@ -175,33 +170,29 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun HistoryScreenPreview() {
-    HistoryScreen(
-        historyViewModel = HistoryViewModel(
-            pastCrossMultipliers = listOf(
-                CrossMultiplierViewData(
-                    valueAt00 = "${(230 * 45)/160}", valueAt01 = "230",
-                    valueAt10 = "45",                valueAt11 = "160",
-                    unknownPosition = Pair(0, 0)
-                ),
+    HistoryScreenComponent(pastCrossMultipliers = listOf(
+        CrossMultiplierViewData(
+            valueAt00 = "${(230 * 45)/160}", valueAt01 = "230",
+            valueAt10 = "45",                valueAt11 = "160",
+            unknownPosition = Pair(0, 0)
+        ),
 
-                CrossMultiplierViewData(
-                    valueAt00 = "6.4", valueAt01 = "${(6.4 * 35.4)/3}",
-                    valueAt10 = "3",   valueAt11 = "35.4",
-                    unknownPosition = Pair(0, 1)
-                ),
+        CrossMultiplierViewData(
+            valueAt00 = "6.4", valueAt01 = "${(6.4 * 35.4)/3}",
+            valueAt10 = "3",   valueAt11 = "35.4",
+            unknownPosition = Pair(0, 1)
+        ),
 
-                CrossMultiplierViewData(
-                    valueAt00 = "5", valueAt01 = "4.67",
-                    valueAt10 = "${(5 * 3.46)/4.67}",    valueAt11 = "3.46",
-                    unknownPosition = Pair(1, 0)
-                ),
+        CrossMultiplierViewData(
+            valueAt00 = "5", valueAt01 = "4.67",
+            valueAt10 = "${(5 * 3.46)/4.67}",    valueAt11 = "3.46",
+            unknownPosition = Pair(1, 0)
+        ),
 
-                CrossMultiplierViewData(
-                    valueAt00 = "3", valueAt01 = "4500",
-                    valueAt10 = "7", valueAt11 = "${(7 * 4500)/3}",
-                    unknownPosition = Pair(1, 1)
-                ),
-            )
-        )
-    )
+        CrossMultiplierViewData(
+            valueAt00 = "3", valueAt01 = "4500",
+            valueAt10 = "7", valueAt11 = "${(7 * 4500)/3}",
+            unknownPosition = Pair(1, 1)
+        ),
+    ))
 }

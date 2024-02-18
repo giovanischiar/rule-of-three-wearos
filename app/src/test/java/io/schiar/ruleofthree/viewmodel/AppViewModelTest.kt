@@ -6,13 +6,9 @@ import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSourc
 import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.viewmodel.util.toViewData
-import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -23,7 +19,6 @@ class AppViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `Add Current Cross Multiplier to Past Cross Multipliers`() = runTest {
         // Given
@@ -33,31 +28,29 @@ class AppViewModelTest {
         )
         val currentCurrentCrossMultiplierViewData = currentCurrentCrossMultiplier.toViewData()
         val expectedPastCrossMultipliers = listOf(currentCurrentCrossMultiplierViewData)
-        val dispatcher = UnconfinedTestDispatcher(testScheduler)
         val currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(
             currentCrossMultiplierToInsert = currentCurrentCrossMultiplier,
         )
-        val pastCrossMultipliersDataSource = PastCrossMultipliersLocalDataSource()
-        val historyRepository = HistoryRepository()
+        val pastCrossMultipliersLocalDataSource = PastCrossMultipliersLocalDataSource()
+        val historyRepository = HistoryRepository(
+            pastCrossMultipliersDataSource = pastCrossMultipliersLocalDataSource
+        )
 
         val appRepository = AppRepository(
             currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
-            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            crossMultiplierCreatedListener = historyRepository,
+            pastCrossMultipliersDataSource = pastCrossMultipliersLocalDataSource
         )
         val appViewModel = AppViewModel(appRepository = appRepository)
         val historyViewModel = HistoryViewModel(historyRepository = historyRepository)
-        val pastCrossMultipliersStateFlowEvents = mutableListOf<List<CrossMultiplierViewData>>()
-        historyViewModel.pastCrossMultipliers
-            .onEach { pastCrossMultipliersStateFlowEvents.add(it) }
-            .launchIn(CoroutineScope(dispatcher))
 
         // When
         appViewModel.addCurrentCrossMultiplierToPastCrossMultipliers()
-        advanceUntilIdle()
 
         // Then
-        val actualPastCrossMultipliers = pastCrossMultipliersStateFlowEvents.last()
+        val actualPastCrossMultipliers = historyViewModel
+            .pastCrossMultipliers
+            .drop(count = 1)
+            .first()
         assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 }

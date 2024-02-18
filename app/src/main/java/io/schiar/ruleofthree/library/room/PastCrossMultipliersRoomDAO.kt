@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PastCrossMultipliersRoomDAO {
@@ -12,7 +13,7 @@ interface PastCrossMultipliersRoomDAO {
     suspend fun insert(crossMultiplierEntity: CrossMultiplierEntity): Long
 
     @Query("SELECT * FROM PastCrossMultipliers ORDER BY createdAt DESC")
-    suspend fun selectFromPastCrossMultiplierOrderByCreatedAtDesc(): List<CrossMultiplierEntity>
+    fun selectFromPastCrossMultiplierOrderByCreatedAtDesc(): Flow<List<CrossMultiplierEntity>>
 
     @Query("SELECT * FROM PastCrossMultipliers WHERE id == :id LIMIT 1")
     suspend fun select(id: Long): CrossMultiplierEntity?

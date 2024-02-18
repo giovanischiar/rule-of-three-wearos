@@ -42,8 +42,7 @@ class MainActivity : ComponentActivity() {
         )
         val appRepository = AppRepository(
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
-            crossMultiplierCreatedListener = historyRepository
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
         )
         val viewModelProvider = ViewModelProvider(
             this,
@@ -106,8 +105,7 @@ class MainActivity : ComponentActivity() {
         )
         val appRepository = AppRepository(
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
-            crossMultiplierCreatedListener = historyRepository
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
         )
         val appViewModel = AppViewModel(appRepository = appRepository)
         val createNewCrossMultiplierViewModel = CrossMultipliersCreatorViewModel(

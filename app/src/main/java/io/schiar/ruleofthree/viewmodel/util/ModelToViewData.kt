@@ -12,3 +12,7 @@ fun CrossMultiplier.toViewData(): CrossMultiplierViewData {
         unknownPosition = unknownPosition
     )
 }
+
+fun List<CrossMultiplier>.toViewDataList(): List<CrossMultiplierViewData> {
+    return map { it.toViewData() }
+}

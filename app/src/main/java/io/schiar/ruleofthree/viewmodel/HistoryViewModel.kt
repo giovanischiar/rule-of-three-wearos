@@ -2,33 +2,25 @@ package io.schiar.ruleofthree.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.repository.HistoryRepository
-import io.schiar.ruleofthree.viewmodel.util.toViewData
+import io.schiar.ruleofthree.viewmodel.util.toViewDataList
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class HistoryViewModel(
     private val historyRepository: HistoryRepository = HistoryRepository()
 ): ViewModel() {
-    private val _pastCrossMultipliers = MutableStateFlow(emptyList<CrossMultiplierViewData>())
-    val pastCrossMultipliers: StateFlow<List<CrossMultiplierViewData>> = _pastCrossMultipliers
-
-    constructor(pastCrossMultipliers: List<CrossMultiplierViewData>): this() {
-        _pastCrossMultipliers.update { pastCrossMultipliers }
-    }
-
-    init {
-        historyRepository.subscribeForPastCrossMultipliers(::onPastCrossMultipliersChanged)
-        viewModelScope.launch { historyRepository.loadPastCrossMultipliers() }
-    }
-
-    private fun onPastCrossMultipliersChanged(allPastCrossMultipliers: List<CrossMultiplier>) {
-        _pastCrossMultipliers.update { allPastCrossMultipliers.map { it.toViewData() } }
-    }
+    val pastCrossMultipliers: StateFlow<List<CrossMultiplierViewData>>
+        = historyRepository.pastCrossMultipliers.map { it.toViewDataList() }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = emptyList()
+            )
 
     fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
         index: Int, position: Pair<Int, Int>, character: String
