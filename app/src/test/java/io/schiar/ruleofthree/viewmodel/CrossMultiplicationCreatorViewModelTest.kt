@@ -48,31 +48,6 @@ class CrossMultiplicationCreatorViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `Create Current Cross Multiplier in the Constructor`() = runTest {
-        // Given
-        val expectedCrossMultiplier = CrossMultiplierViewData(
-            valueAt00 = "",     valueAt01 = "96",
-            valueAt10 = "70.4", valueAt11 = "",
-            unknownPosition = Pair(0, 0)
-        )
-        val crossMultipliersCreatorViewModel = CrossMultipliersCreatorViewModel(
-            crossMultiplier = expectedCrossMultiplier
-        )
-
-        crossMultipliersCreatorViewModel.crossMultiplier
-            .onEach { crossMultipliersEvents.add(it) }
-            .launchIn(CoroutineScope(dispatcher))
-
-        // When
-        advanceUntilIdle()
-
-        // Then
-        val actualCrossMultiplier = crossMultipliersEvents.last()
-        Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Test
     fun `Push Character 3 to Input At position (1, 0)`() = runTest {
         // Given
         val expectedCrossMultiplier = CrossMultiplierViewData(

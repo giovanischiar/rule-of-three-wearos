@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -44,7 +43,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
     val pastCrossMultipliers by historyViewModel.pastCrossMultipliers.collectAsState()
-    HistoryScreenComponent(
+    HistoryScreen(
         pastCrossMultipliers,
         historyViewModel::deleteHistory,
         historyViewModel::pushCharacterToInputOnPositionOfTheCrossMultiplierAt,
@@ -58,7 +57,7 @@ fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit 
 
 @OptIn(ExperimentalWearFoundationApi::class)
 @Composable
-fun HistoryScreenComponent(
+internal fun HistoryScreen(
     pastCrossMultipliers: List<CrossMultiplierViewData>,
     deleteHistory: () -> Unit = {},
     pushCharacterToInputOnPositionOfTheCrossMultiplierAt: (
@@ -170,7 +169,7 @@ fun HistoryScreenComponent(
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun HistoryScreenPreview() {
-    HistoryScreenComponent(pastCrossMultipliers = listOf(
+    HistoryScreen(pastCrossMultipliers = listOf(
         CrossMultiplierViewData(
             valueAt00 = "${(230 * 45)/160}", valueAt01 = "230",
             valueAt10 = "45",                valueAt11 = "160",

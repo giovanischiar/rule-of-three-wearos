@@ -6,9 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierRoomDataSource
 import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -20,7 +20,7 @@ class CrossMultipliersCreatorRepositoryTest {
     private val crossMultiplier = CrossMultiplier(valueAt00 = 3, valueAt01 = 4.3)
 
     @Before
-    fun createDatabase() {
+    fun createCrossMultipliersCreatorRepository(): Unit = runBlocking {
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(
             context = context,
@@ -33,6 +33,7 @@ class CrossMultipliersCreatorRepositoryTest {
                 runBlocking { create(crossMultiplier) }
             }
         )
+        crossMultipliersCreatorRepository.currentCrossMultiplier.first()
     }
 
     @After
@@ -45,33 +46,13 @@ class CrossMultipliersCreatorRepositoryTest {
     fun `Load Current Cross Multiplier`() = runBlocking {
         // Given
         val expectedCurrentCrossMultiplier = crossMultiplier
-        var actualCurrentCrossMultiplier: CrossMultiplier? = null
 
         // When
-        crossMultipliersCreatorRepository.subscribeForCurrentCrossMultipliers {
-            actualCurrentCrossMultiplier = it
-        }
-        crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
+        val actualCurrentCrossMultiplier = crossMultipliersCreatorRepository
+            .currentCrossMultiplier
+            .first()
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
-    }
-
-    @Test
-    fun `Subscribe For Current Cross Multipliers`() = runBlocking {
-        // Given
-        val expectedCurrentCrossMultiplier = CrossMultiplier()
-        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
-        var actualCurrentCrossMultiplier: CrossMultiplier? = null
-
-        // When
-        crossMultipliersCreatorRepository
-            .subscribeForCurrentCrossMultipliers { actualCurrentCrossMultiplier = it }
-        crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
-
-        // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
         assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
@@ -84,11 +65,6 @@ class CrossMultipliersCreatorRepositoryTest {
             character = characterToPushToInput,
             position = positionToAppendValueToInput
         ).resultCalculated()
-        var actualCurrentCrossMultiplier: CrossMultiplier? = null
-        crossMultipliersCreatorRepository.subscribeForCurrentCrossMultipliers {
-            actualCurrentCrossMultiplier = it
-        }
-        crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
 
         // When
         crossMultipliersCreatorRepository.pushCharacterToInputAt(
@@ -97,8 +73,10 @@ class CrossMultipliersCreatorRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        val actualCurrentCrossMultiplier = crossMultipliersCreatorRepository
+            .currentCrossMultiplier
+            .first()
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
     @Test
@@ -108,11 +86,6 @@ class CrossMultipliersCreatorRepositoryTest {
         val expectedCurrentCrossMultiplier = crossMultiplier.characterPoppedAt(
             position = positionToPopCharacterFromInput
         ).resultCalculated()
-        var actualCurrentCrossMultiplier: CrossMultiplier? = null
-        crossMultipliersCreatorRepository.subscribeForCurrentCrossMultipliers {
-            actualCurrentCrossMultiplier = it
-        }
-        crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
 
         // When
         crossMultipliersCreatorRepository.popCharacterOfInputAt(
@@ -120,8 +93,10 @@ class CrossMultipliersCreatorRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        val actualCurrentCrossMultiplier = crossMultipliersCreatorRepository
+            .currentCrossMultiplier
+            .first()
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
     @Test
@@ -131,11 +106,6 @@ class CrossMultipliersCreatorRepositoryTest {
         val expectedCurrentCrossMultiplier = crossMultiplier.unknownPositionChangedTo(
             position = newUnknownPosition
         ).resultCalculated()
-        var actualCurrentCrossMultiplier: CrossMultiplier? = null
-        crossMultipliersCreatorRepository.subscribeForCurrentCrossMultipliers {
-            actualCurrentCrossMultiplier = it
-        }
-        crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
 
         // When
         crossMultipliersCreatorRepository.changeTheUnknownPositionTo(
@@ -143,8 +113,10 @@ class CrossMultipliersCreatorRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        val actualCurrentCrossMultiplier = crossMultipliersCreatorRepository
+            .currentCrossMultiplier
+            .first()
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
     @Test
@@ -154,11 +126,6 @@ class CrossMultipliersCreatorRepositoryTest {
         val expectedCurrentCrossMultiplier = crossMultiplier.inputClearedAt(
             position = positionToClearInput
         ).resultCalculated()
-        var actualCurrentCrossMultiplier: CrossMultiplier? = null
-        crossMultipliersCreatorRepository.subscribeForCurrentCrossMultipliers {
-            actualCurrentCrossMultiplier = it
-        }
-        crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
 
         // When
         crossMultipliersCreatorRepository.clearInputOn(
@@ -166,25 +133,24 @@ class CrossMultipliersCreatorRepositoryTest {
         )
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        val actualCurrentCrossMultiplier = crossMultipliersCreatorRepository
+            .currentCrossMultiplier
+            .first()
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
     @Test
     fun `Clear All Inputs`() = runBlocking {
         // Given
         val expectedCurrentCrossMultiplier = crossMultiplier.allInputsCleared().resultCalculated()
-        var actualCurrentCrossMultiplier: CrossMultiplier? = null
-        crossMultipliersCreatorRepository.subscribeForCurrentCrossMultipliers {
-            actualCurrentCrossMultiplier = it
-        }
-        crossMultipliersCreatorRepository.loadCurrentCrossMultiplier()
 
         // When
         crossMultipliersCreatorRepository.clearAllInputs()
 
         // Then
-        Assert.assertNotNull(actualCurrentCrossMultiplier)
-        assertEquals(actualCurrentCrossMultiplier, expectedCurrentCrossMultiplier)
+        val actualCurrentCrossMultiplier = crossMultipliersCreatorRepository
+            .currentCrossMultiplier
+            .first()
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 }

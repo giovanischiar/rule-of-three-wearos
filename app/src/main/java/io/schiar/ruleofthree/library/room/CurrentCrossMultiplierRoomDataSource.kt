@@ -2,6 +2,8 @@ package io.schiar.ruleofthree.library.room
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class CurrentCrossMultiplierRoomDataSource(
     private val currentCrossMultiplierRoomDAO: CurrentCrossMultiplierRoomDAO
@@ -14,12 +16,12 @@ class CurrentCrossMultiplierRoomDataSource(
         })
     }
 
-    override suspend fun retrieve(): CrossMultiplier? {
-        return currentCrossMultiplierRoomDAO.select()?.toCrossMultiplier()
+    override fun retrieve(): Flow<CrossMultiplier?> {
+        return currentCrossMultiplierRoomDAO.select().map { it?.toCrossMultiplier() }
     }
 
     override suspend fun update(crossMultiplier: CrossMultiplier) {
-        currentCrossMultiplierRoomDAO.update(
+        currentCrossMultiplierRoomDAO.insert(
             crossMultiplier.toCurrentCrossMultiplierEntity().apply {
                 modifiedAt = System.currentTimeMillis()
             }

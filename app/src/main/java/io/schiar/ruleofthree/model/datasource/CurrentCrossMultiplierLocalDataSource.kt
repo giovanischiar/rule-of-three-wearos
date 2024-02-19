@@ -1,21 +1,28 @@
 package io.schiar.ruleofthree.model.datasource
 
 import io.schiar.ruleofthree.model.CrossMultiplier
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 class CurrentCrossMultiplierLocalDataSource(
     currentCrossMultiplierToInsert: CrossMultiplier? = null
 ): CurrentCrossMultiplierDataSource {
-    private var currentCrossMultiplier = currentCrossMultiplierToInsert?.withIDChangedTo(newID = 1L)
+    private val _currentCrossMultiplier = MutableStateFlow(
+        value = currentCrossMultiplierToInsert?.withIDChangedTo(newID = 1L)
+    )
+    private val currentCrossMultiplier: StateFlow<CrossMultiplier?> = _currentCrossMultiplier
 
     override suspend fun create(crossMultiplier: CrossMultiplier) {
-        currentCrossMultiplier = crossMultiplier
+        _currentCrossMultiplier.update { crossMultiplier }
     }
 
-    override suspend fun retrieve(): CrossMultiplier? {
+    override fun retrieve(): Flow<CrossMultiplier?> {
         return currentCrossMultiplier
     }
 
     override suspend fun update(crossMultiplier: CrossMultiplier) {
-        currentCrossMultiplier = crossMultiplier
+        _currentCrossMultiplier.update { crossMultiplier }
     }
 }

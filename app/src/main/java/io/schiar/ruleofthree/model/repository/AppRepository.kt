@@ -4,7 +4,7 @@ import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
-import io.schiar.ruleofthree.model.repository.listener.CrossMultiplierCreatedListener
+import kotlinx.coroutines.flow.first
 
 class AppRepository(
     private val pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
@@ -13,7 +13,7 @@ class AppRepository(
         = CurrentCrossMultiplierLocalDataSource()
 ) {
     suspend fun addCurrentCrossMultiplierToPastCrossMultipliers() {
-        val currentCrossMultiplier = currentCrossMultiplierDataSource.retrieve() ?: return
+        val currentCrossMultiplier = currentCrossMultiplierDataSource.retrieve().first() ?: return
         val crossMultiplierToBeCreated = currentCrossMultiplier.resultCalculated()
         if (crossMultiplierToBeCreated.isTheResultValid()) {
             pastCrossMultipliersDataSource.create(crossMultiplier = crossMultiplierToBeCreated)

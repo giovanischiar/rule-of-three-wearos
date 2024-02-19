@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CurrentCrossMultiplierRoomDAO {
@@ -15,5 +16,5 @@ interface CurrentCrossMultiplierRoomDAO {
     suspend fun update(currentCrossMultiplierEntity: CurrentCrossMultiplierEntity)
 
     @Query("SELECT * from CurrentCrossMultiplier LIMIT 1")
-    suspend fun select(): CurrentCrossMultiplierEntity?
+    fun select(): Flow<CurrentCrossMultiplierEntity?>
 }

@@ -35,7 +35,7 @@ fun AppScreen(
         composable("CrossMultipliersCreator") {
             CrossMultipliersCreatorScreen(
                 crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
-                onSubmitClicked = ::addCurrentCrossMultiplierToPastCrossMultipliers,
+                onSubmitPressed = ::addCurrentCrossMultiplierToPastCrossMultipliers,
                 onNavigationToHistory = { navController.navigate(route = "History") }
             )
         }
