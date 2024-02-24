@@ -42,45 +42,80 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.foundation:foundation-layout-android:1.5.4")
-    implementation("androidx.navigation:navigation-runtime-ktx:2.7.6")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    // Activity
+    val activityVersion = "1.8.2"
+    //noinspection KtxExtensionAvailable
+    implementation("androidx.activity:activity:$activityVersion")
+    implementation("androidx.activity:activity-compose:$activityVersion")
 
-    // General compose dependencies
-    val composeVersion = "1.5.4"
-    val wearComposeVersion = "1.2.1"
-    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.annotation:annotation:1.7.1") // Annotation
+
+    // Lifecycle
+    val lifecycleVersion = "2.7.0"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    //noinspection KtxExtensionAvailable
+    implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion")
+
+    // Coroutines
+    val coroutinesVersion = "1.7.3"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+
+    // Compose
+    val composeVersion = "1.6.2"
+    implementation("androidx.compose.foundation:foundation-layout-android:$composeVersion")
     implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.animation:animation-core:$composeVersion")
+    implementation("androidx.compose.animation:animation:$composeVersion")
+    implementation("androidx.compose.foundation:foundation:$composeVersion")
+    implementation("androidx.compose.runtime:runtime:$composeVersion")
+    implementation("androidx.compose.ui:ui-graphics:$composeVersion")
+    implementation("androidx.compose.ui:ui-text:$composeVersion")
+    implementation("androidx.compose.ui:ui-unit:$composeVersion")
+
+    // Wear Compose
+    val wearComposeVersion = "1.3.0"
     implementation("androidx.wear.compose:compose-foundation:$wearComposeVersion")
 
     // Preview
-    debugImplementation("androidx.compose.ui:ui-tooling:1.5.4")
+    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.wear:wear-tooling-preview:1.0.0")
+
+    implementation("androidx.wear:wear-tooling-preview:1.0.0") // Wear Preview
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.6")
-    implementation("androidx.wear.compose:compose-material3:1.0.0-alpha15")
+    val navigationVersion = "2.7.7"
+    implementation("androidx.navigation:navigation-compose:$navigationVersion")
+    implementation("androidx.navigation:navigation-common:$navigationVersion")
+    //noinspection KtxExtensionAvailable
+    implementation("androidx.navigation:navigation-runtime:$navigationVersion")
 
-    // Material
-    implementation("androidx.compose.material3:material3:1.1.2")
-    implementation("androidx.wear.compose:compose-material:$wearComposeVersion")
+    implementation("androidx.compose.material3:material3:1.2.0") // Material
+    implementation("androidx.wear.compose:compose-material:$wearComposeVersion") // Compose Material
+    implementation("androidx.wear.compose:compose-material3:1.0.0-alpha18") // Wear Material 3
+    implementation("com.google.android.gms:play-services-wearable:18.1.0") // Wearable Play Services
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("com.google.android.gms:play-services-wearable:18.1.0")
-    implementation("androidx.percentlayout:percentlayout:1.0.0")
-
-    // Room for database persistence
+    // Room
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-common:$roomVersion")
 
-    //Test
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    //noinspection KtxExtensionAvailable
+    implementation("androidx.sqlite:sqlite:2.4.0") // SQLite
+    testImplementation("junit:junit:4.13.2") // JUnit Test
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion") // Coroutines Test
+    androidTestImplementation("androidx.test:core:1.5.0") // Android Test
+    androidTestImplementation("junit:junit:4.13.2") // JUnit Android Test
+    androidTestImplementation("androidx.test:runner:1.5.2") // Android Test Runner
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.50")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
+    implementation("androidx.hilt:hilt-work:1.2.0")
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 }
 
 task("generateIcons", type = Exec::class) {
