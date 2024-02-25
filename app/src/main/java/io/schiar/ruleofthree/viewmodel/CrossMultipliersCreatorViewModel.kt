@@ -2,6 +2,7 @@ package io.schiar.ruleofthree.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
@@ -13,11 +14,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CrossMultipliersCreatorViewModel(
+@HiltViewModel
+class CrossMultipliersCreatorViewModel @Inject constructor(
     private val crossMultipliersCreatorRepository: CrossMultipliersCreatorRepository
-        = CrossMultipliersCreatorRepository()
 ): ViewModel() {
+    constructor(): this(crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository())
     val crossMultiplier: StateFlow<CrossMultiplierViewData> = crossMultipliersCreatorRepository
         .currentCrossMultiplier
         .filterNotNull()

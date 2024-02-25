@@ -5,8 +5,9 @@ import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
 import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class CrossMultipliersCreatorRepository(
+class CrossMultipliersCreatorRepository @Inject constructor(
     private val currentCrossMultiplierDataSource: CurrentCrossMultiplierDataSource
         = CurrentCrossMultiplierLocalDataSource()
 ): AreTherePastCrossMultipliersListener {

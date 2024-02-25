@@ -31,7 +31,7 @@ fun CrossMultipliersCreatorScreen(
     val areTherePastCrossMultipliers by crossMultipliersCreatorViewModel
         .areTherePastCrossMultipliers
         .collectAsState()
-    CrossMultipliersCreatorScreenComponent(
+    CrossMultipliersCreatorScreen(
         crossMultiplier,
         areTherePastCrossMultipliers,
         crossMultipliersCreatorViewModel::pushCharacterToInputAt,
@@ -45,7 +45,7 @@ fun CrossMultipliersCreatorScreen(
 }
 
 @Composable
-fun CrossMultipliersCreatorScreenComponent(
+internal fun CrossMultipliersCreatorScreen(
     crossMultiplier: CrossMultiplierViewData,
     areTherePastCrossMultipliers: Boolean = false,
     pushCharacterToInputAt: (position: Pair<Int, Int>, character: String) -> Unit = {_,_->},
@@ -94,14 +94,14 @@ fun CrossMultipliersCreatorScreenComponent(
 @Composable
 fun CrossMultiplicationScreenEmptyPreview() {
     CrossMultipliersCreatorScreen(
-        crossMultipliersCreatorViewModel = CrossMultipliersCreatorViewModel()
+        crossMultiplier = CrossMultiplierViewData()
     )
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun CurrentCrossMultiplierScreenWithNumbersPreview() {
-    CrossMultipliersCreatorScreenComponent(
+    CrossMultipliersCreatorScreen(
         crossMultiplier = CrossMultiplierViewData(
             valueAt00 ="10", valueAt01= "345",
             valueAt11 ="15.3",
@@ -113,7 +113,7 @@ fun CurrentCrossMultiplierScreenWithNumbersPreview() {
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun CurrentCrossMultiplierScreenWithNumbersAndHistoryPreview() {
-    CrossMultipliersCreatorScreenComponent(
+    CrossMultipliersCreatorScreen(
         crossMultiplier = CrossMultiplierViewData(
             valueAt00 = "45", valueAt01 = "160",
             valueAt10 = "62", valueAt11 = "${(160 * 62)/45}"

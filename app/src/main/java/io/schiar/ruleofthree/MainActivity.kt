@@ -4,13 +4,11 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModelProvider
 import androidx.wear.tooling.preview.devices.WearDevices
-import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierRoomDataSource
-import io.schiar.ruleofthree.library.room.PastCrossMultipliersRoomDataSource
-import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
+import dagger.hilt.android.AndroidEntryPoint
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
@@ -21,44 +19,20 @@ import io.schiar.ruleofthree.view.screen.AppScreen
 import io.schiar.ruleofthree.viewmodel.AppViewModel
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
-import io.schiar.ruleofthree.viewmodel.util.ViewModelFactory
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val appViewModel: AppViewModel by viewModels()
+    private val crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel by viewModels()
+    private val historyViewModel: HistoryViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val ruleOfThreeDatabase = RuleOfThreeRoomDatabase.getDatabase(context = applicationContext)
-        val currentCrossMultiplierDataSource = CurrentCrossMultiplierRoomDataSource(
-            currentCrossMultiplierRoomDAO = ruleOfThreeDatabase.currentCrossMultiplierDAO()
-        )
-        val pastCrossMultipliersDataSource = PastCrossMultipliersRoomDataSource(
-            pastCrossMultipliersRoomDAO = ruleOfThreeDatabase.pastCrossMultipliersDAO()
-        )
-        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
-        )
-        val historyRepository = HistoryRepository(
-            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
-        )
-        val appRepository = AppRepository(
-            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
-        )
-        val viewModelProvider = ViewModelProvider(
-            this,
-            ViewModelFactory(
-                appRepository = appRepository,
-                crossMultipliersCreatorRepository = crossMultipliersCreatorRepository,
-                historyRepository = historyRepository
-            )
-        )
-
         setContent {
             AppScreen(
-                appViewModel = viewModelProvider[AppViewModel::class.java],
-                crossMultipliersCreatorViewModel =
-                    viewModelProvider[CrossMultipliersCreatorViewModel::class.java],
-                historyViewModel = viewModelProvider[HistoryViewModel::class.java]
+                appViewModel = appViewModel,
+                crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
+                historyViewModel = historyViewModel
             )
         }
     }

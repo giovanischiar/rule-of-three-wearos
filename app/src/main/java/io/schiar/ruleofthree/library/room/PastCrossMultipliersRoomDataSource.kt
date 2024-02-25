@@ -4,8 +4,9 @@ import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class PastCrossMultipliersRoomDataSource(
+class PastCrossMultipliersRoomDataSource @Inject constructor(
     private val pastCrossMultipliersRoomDAO: PastCrossMultipliersRoomDAO
 ): PastCrossMultipliersDataSource {
     override suspend fun create(crossMultiplier: CrossMultiplier): CrossMultiplier {

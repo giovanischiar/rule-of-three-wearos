@@ -2,6 +2,7 @@ package io.schiar.ruleofthree.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.viewmodel.util.toViewDataList
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
@@ -10,10 +11,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HistoryViewModel(
-    private val historyRepository: HistoryRepository = HistoryRepository()
+@HiltViewModel
+class HistoryViewModel @Inject constructor(
+    private val historyRepository: HistoryRepository
 ): ViewModel() {
+    constructor(): this(historyRepository = HistoryRepository())
     val pastCrossMultipliers: StateFlow<List<CrossMultiplierViewData>>
         = historyRepository.pastCrossMultipliers.map { it.toViewDataList() }
             .stateIn(
