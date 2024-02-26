@@ -5,35 +5,69 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.wear.tooling.preview.devices.WearDevices
 import dagger.hilt.android.AndroidEntryPoint
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
-import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
-import io.schiar.ruleofthree.view.screen.AppScreen
-import io.schiar.ruleofthree.viewmodel.AppViewModel
+import io.schiar.ruleofthree.view.screen.CrossMultipliersCreatorScreen
+import io.schiar.ruleofthree.view.screen.HistoryScreen
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val appViewModel: AppViewModel by viewModels()
     private val crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel by viewModels()
     private val historyViewModel: HistoryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            AppScreen(
-                appViewModel = appViewModel,
-                crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
-                historyViewModel = historyViewModel
-            )
+        setContent { Navigation() }
+    }
+
+    @Composable
+    private fun Navigation(
+        crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel
+            = this.crossMultipliersCreatorViewModel,
+        historyViewModel: HistoryViewModel = this.historyViewModel,
+        navController: NavHostController = rememberNavController()
+    ) {
+        NavHost(
+            modifier = Modifier.background(color = colorResource(R.color.backgroundColor)),
+            navController = navController, startDestination = "CrossMultipliersCreator"
+        ) {
+            composable("CrossMultipliersCreator") {
+                CrossMultipliersCreatorScreen(
+                    crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
+                    onNavigationToHistory = { navController.navigate(route = "History") }
+                )
+            }
+            composable(
+                route = "History",
+                enterTransition = { slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start
+                ) },
+                popExitTransition = { slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End
+                ) }
+            ) {
+                HistoryScreen(
+                    historyViewModel = historyViewModel,
+                    onBackPressed = navController::navigateUp
+                )
+            }
         }
     }
 
@@ -77,17 +111,11 @@ class MainActivity : ComponentActivity() {
         val historyRepository = HistoryRepository(
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
         )
-        val appRepository = AppRepository(
-            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource
-        )
-        val appViewModel = AppViewModel(appRepository = appRepository)
         val createNewCrossMultiplierViewModel = CrossMultipliersCreatorViewModel(
             crossMultipliersCreatorRepository = crossMultipliersCreatorRepository
         )
         val historyViewModel = HistoryViewModel(historyRepository = historyRepository)
-        AppScreen(
-            appViewModel = appViewModel,
+        Navigation(
             crossMultipliersCreatorViewModel = createNewCrossMultiplierViewModel,
             historyViewModel = historyViewModel
         )

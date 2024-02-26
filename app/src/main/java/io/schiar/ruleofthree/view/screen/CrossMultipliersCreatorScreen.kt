@@ -24,7 +24,6 @@ import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 @Composable
 fun CrossMultipliersCreatorScreen(
     crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel,
-    onSubmitPressed: () -> Unit = {},
     onNavigationToHistory: () -> Unit = {}
 ) {
     val crossMultiplier by crossMultipliersCreatorViewModel.crossMultiplier.collectAsState()
@@ -38,7 +37,7 @@ fun CrossMultipliersCreatorScreen(
         crossMultipliersCreatorViewModel::popCharacterOfInputAt,
         crossMultipliersCreatorViewModel::clearInputOn,
         crossMultipliersCreatorViewModel::changeTheUnknownPositionTo,
-        onSubmitPressed,
+        crossMultipliersCreatorViewModel::addToPastCrossMultipliers,
         crossMultipliersCreatorViewModel::clearAllInputs,
         onNavigationToHistory
     )

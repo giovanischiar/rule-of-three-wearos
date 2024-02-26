@@ -12,7 +12,7 @@ import javax.inject.Inject
 class CrossMultipliersCreatorRepository @Inject constructor(
     private val currentCrossMultiplierDataSource: CurrentCrossMultiplierDataSource
         = CurrentCrossMultiplierLocalDataSource(),
-    pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
+    private val pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
         = PastCrossMultipliersLocalDataSource()
 ) {
     private var _currentCrossMultiplier: CrossMultiplier = CrossMultiplier()
@@ -73,5 +73,12 @@ class CrossMultipliersCreatorRepository @Inject constructor(
         currentCrossMultiplierDataSource.update(
             crossMultiplier = _currentCrossMultiplier.allInputsCleared().resultCalculated()
         )
+    }
+
+    suspend fun addToPastCrossMultipliers() {
+        val crossMultiplierToBeCreated = _currentCrossMultiplier.resultCalculated()
+        if (crossMultiplierToBeCreated.isTheResultValid()) {
+            pastCrossMultipliersDataSource.create(crossMultiplier = crossMultiplierToBeCreated)
+        }
     }
 }

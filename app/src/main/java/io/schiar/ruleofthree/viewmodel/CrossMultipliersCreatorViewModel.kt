@@ -54,4 +54,8 @@ class CrossMultipliersCreatorViewModel @Inject constructor(
     fun clearAllInputs() = viewModelScope.launch {
         crossMultipliersCreatorRepository.clearAllInputs()
     }
+
+    fun addToPastCrossMultipliers() = viewModelScope.launch {
+        crossMultipliersCreatorRepository.addToPastCrossMultipliers()
+    }
 }

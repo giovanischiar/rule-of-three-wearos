@@ -9,7 +9,6 @@ import dagger.hilt.components.SingletonComponent
 import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierRoomDataSource
 import io.schiar.ruleofthree.library.room.PastCrossMultipliersRoomDataSource
 import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
-import io.schiar.ruleofthree.model.repository.AppRepository
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import javax.inject.Singleton
@@ -34,18 +33,6 @@ object Module {
     ): CurrentCrossMultiplierRoomDataSource {
         return CurrentCrossMultiplierRoomDataSource(
             RuleOfThreeRoomDatabase.getDatabase(context).currentCrossMultiplierDAO()
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideAppRepository(
-        pastCrossMultipliersRoomDataSource: PastCrossMultipliersRoomDataSource,
-        currentCrossMultiplierRoomDataSource: CurrentCrossMultiplierRoomDataSource
-    ): AppRepository {
-        return AppRepository(
-            pastCrossMultipliersDataSource = pastCrossMultipliersRoomDataSource,
-            currentCrossMultiplierDataSource = currentCrossMultiplierRoomDataSource
         )
     }
 

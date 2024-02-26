@@ -2,10 +2,15 @@ package io.schiar.ruleofthree.viewmodel
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
+import io.schiar.ruleofthree.model.repository.HistoryRepository
+import io.schiar.ruleofthree.viewmodel.util.toViewData
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.test.TestDispatcher
@@ -156,5 +161,42 @@ class CrossMultiplicationCreatorViewModelTest {
         // Then
         val actualCrossMultiplier = crossMultipliersEvents.last()
         Assert.assertEquals(expectedCrossMultiplier, actualCrossMultiplier)
+    }
+
+    @Test
+    fun `Add Current Cross Multiplier to Past Cross Multipliers`() = runTest {
+        // Given
+        val currentCurrentCrossMultiplier = CrossMultiplier(
+            valueAt00 = "23.48", valueAt01 = "9",
+            valueAt10 = "4.3",   valueAt11 = "${(4.3*9)/23.48}"
+        )
+        val currentCurrentCrossMultiplierViewData = currentCurrentCrossMultiplier.toViewData()
+        val expectedPastCrossMultipliers = listOf(currentCurrentCrossMultiplierViewData)
+        val currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(
+            currentCrossMultiplierToInsert = currentCurrentCrossMultiplier,
+        )
+        val pastCrossMultipliersLocalDataSource = PastCrossMultipliersLocalDataSource()
+        val historyRepository = HistoryRepository(
+            pastCrossMultipliersDataSource = pastCrossMultipliersLocalDataSource
+        )
+
+        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
+            currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersLocalDataSource
+        )
+        val crossMultipliersCreatorViewModel = CrossMultipliersCreatorViewModel(
+            crossMultipliersCreatorRepository = crossMultipliersCreatorRepository
+        )
+        val historyViewModel = HistoryViewModel(historyRepository = historyRepository)
+
+        // When
+        crossMultipliersCreatorViewModel.addToPastCrossMultipliers()
+
+        // Then
+        val actualPastCrossMultipliers = historyViewModel
+            .pastCrossMultipliers
+            .drop(count = 1)
+            .first()
+        Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 }
