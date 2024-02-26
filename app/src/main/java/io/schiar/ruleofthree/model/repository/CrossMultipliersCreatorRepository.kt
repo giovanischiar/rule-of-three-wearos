@@ -3,15 +3,18 @@ package io.schiar.ruleofthree.model.repository
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
-import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
+import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class CrossMultipliersCreatorRepository @Inject constructor(
     private val currentCrossMultiplierDataSource: CurrentCrossMultiplierDataSource
-        = CurrentCrossMultiplierLocalDataSource()
-): AreTherePastCrossMultipliersListener {
-    private var areTherePastCrossMultipliersCallback: ((Boolean) -> Unit)? = null
+        = CurrentCrossMultiplierLocalDataSource(),
+    pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
+        = PastCrossMultipliersLocalDataSource()
+) {
     private var _currentCrossMultiplier: CrossMultiplier = CrossMultiplier()
     var currentCrossMultiplier = currentCrossMultiplierDataSource.retrieve()
         .onEach {
@@ -21,16 +24,20 @@ class CrossMultipliersCreatorRepository @Inject constructor(
                 _currentCrossMultiplier = it
             }
         }
+    var areTherePastCrossMultipliers = pastCrossMultipliersDataSource.retrieve()
+        .map { it.isNotEmpty() }
 
-    constructor(currentCrossMultiplier: CrossMultiplier) : this(
+    constructor(
+        currentCrossMultiplier: CrossMultiplier,
+        pastCrossMultipliers: List<CrossMultiplier> = emptyList()
+    ) : this(
         currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(
             currentCrossMultiplierToInsert = currentCrossMultiplier
+        ),
+        pastCrossMultipliersDataSource = PastCrossMultipliersLocalDataSource(
+            crossMultipliersToInsert = pastCrossMultipliers
         )
     )
-
-    fun subscribeForAreTherePastCrossMultipliers(callback: (value: Boolean) -> Unit) {
-        areTherePastCrossMultipliersCallback = callback
-    }
 
     suspend fun pushCharacterToInputAt(position: Pair<Int, Int>, character: String) {
         currentCrossMultiplierDataSource.update(
@@ -66,9 +73,5 @@ class CrossMultipliersCreatorRepository @Inject constructor(
         currentCrossMultiplierDataSource.update(
             crossMultiplier = _currentCrossMultiplier.allInputsCleared().resultCalculated()
         )
-    }
-
-    override fun areTherePastCrossMultipliersChangedTo(newAreTherePastCrossMultipliers: Boolean) {
-        areTherePastCrossMultipliersCallback?.let { it(newAreTherePastCrossMultipliers) }
     }
 }

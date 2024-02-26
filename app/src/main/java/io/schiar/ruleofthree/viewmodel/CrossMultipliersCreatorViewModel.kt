@@ -6,13 +6,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,18 +28,8 @@ class CrossMultipliersCreatorViewModel @Inject constructor(
             started = SharingStarted.Eagerly,
             initialValue = CrossMultiplierViewData()
         )
-    private val _areTherePastCrossMultipliers = MutableStateFlow(value = false)
-    val areTherePastCrossMultipliers: StateFlow<Boolean> = _areTherePastCrossMultipliers
-
-    init {
-        crossMultipliersCreatorRepository.subscribeForAreTherePastCrossMultipliers(
-            ::onAreTherePastCrossMultiplier
-        )
-    }
-
-    private fun onAreTherePastCrossMultiplier(value: Boolean) {
-        _areTherePastCrossMultipliers.update { value }
-    }
+    val areTherePastCrossMultipliers = crossMultipliersCreatorRepository
+        .areTherePastCrossMultipliers
 
     fun pushCharacterToInputAt(
         position: Pair<Int, Int>, character: String

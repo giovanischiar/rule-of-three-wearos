@@ -30,7 +30,7 @@ fun CrossMultipliersCreatorScreen(
     val crossMultiplier by crossMultipliersCreatorViewModel.crossMultiplier.collectAsState()
     val areTherePastCrossMultipliers by crossMultipliersCreatorViewModel
         .areTherePastCrossMultipliers
-        .collectAsState()
+        .collectAsState(initial = false)
     CrossMultipliersCreatorScreen(
         crossMultiplier,
         areTherePastCrossMultipliers,

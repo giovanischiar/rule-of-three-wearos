@@ -72,10 +72,10 @@ class MainActivity : ComponentActivity() {
         )
         val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
             currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource
         )
         val historyRepository = HistoryRepository(
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
         )
         val appRepository = AppRepository(
             pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,

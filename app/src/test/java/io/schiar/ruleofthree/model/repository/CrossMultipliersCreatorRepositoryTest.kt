@@ -4,7 +4,6 @@ import io.schiar.ruleofthree.model.CrossMultiplier
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 
 class CrossMultipliersCreatorRepositoryTest {
@@ -17,18 +16,23 @@ class CrossMultipliersCreatorRepositoryTest {
 
     private var crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
 
-    @Before
-    fun createCrossMultipliersCreatorRepository(): Unit = runBlocking {
+    private fun createCrossMultipliersCreatorRepository(
+        crossMultiplier: CrossMultiplier = this.crossMultiplier,
+        pastCrossMultipliers: List<CrossMultiplier> = emptyList()
+    ): Unit = runBlocking {
         crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
             currentCrossMultiplier = crossMultiplier,
+            pastCrossMultipliers = pastCrossMultipliers
         )
         crossMultipliersCreatorRepository.currentCrossMultiplier.first()
+        crossMultipliersCreatorRepository.areTherePastCrossMultipliers.first()
     }
 
     @Test
     fun `Load Current Cross Multiplier`() = runBlocking {
         // Given
         val expectedCurrentCrossMultiplier = crossMultiplier
+        createCrossMultipliersCreatorRepository()
 
         // When
         val actualCurrentCrossMultiplier = crossMultipliersCreatorRepository
@@ -40,6 +44,32 @@ class CrossMultipliersCreatorRepositoryTest {
     }
 
     @Test
+    fun `Load empty List of Past Cross Multipliers and Check if There are not Past Cross Multipliers`() = runBlocking {
+        // Given
+        val expectedAreTherePastCrossMultipliers = false
+        createCrossMultipliersCreatorRepository()
+        val actualAreTherePastCrossMultipliers: Boolean = crossMultipliersCreatorRepository
+            .areTherePastCrossMultipliers
+            .first()
+
+        // Then
+        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
+    }
+
+    @Test
+    fun `Load a List of Past Cross Multipliers and Check if There are Past Cross Multipliers`() = runBlocking {
+        // Given
+        val expectedAreTherePastCrossMultipliers = true
+        createCrossMultipliersCreatorRepository(pastCrossMultipliers = listOf(CrossMultiplier()))
+        val actualAreTherePastCrossMultipliers: Boolean = crossMultipliersCreatorRepository
+            .areTherePastCrossMultipliers
+            .first()
+
+        // Then
+        assertEquals(expectedAreTherePastCrossMultipliers, actualAreTherePastCrossMultipliers)
+    }
+
+    @Test
     fun `Push Character 4 To Input At Position 0 1`() = runBlocking {
         // Given
         val characterToPushToInput = "4"
@@ -48,6 +78,7 @@ class CrossMultipliersCreatorRepositoryTest {
             character = characterToPushToInput,
             position = positionToAppendValueToInput
         ).resultCalculated()
+        createCrossMultipliersCreatorRepository()
 
         // When
         crossMultipliersCreatorRepository.pushCharacterToInputAt(
@@ -69,6 +100,7 @@ class CrossMultipliersCreatorRepositoryTest {
         val expectedCurrentCrossMultiplier = crossMultiplier.characterPoppedAt(
             position = positionToPopCharacterFromInput
         ).resultCalculated()
+        createCrossMultipliersCreatorRepository()
 
         // When
         crossMultipliersCreatorRepository.popCharacterOfInputAt(
@@ -89,6 +121,7 @@ class CrossMultipliersCreatorRepositoryTest {
         val expectedCurrentCrossMultiplier = crossMultiplier.unknownPositionChangedTo(
             position = newUnknownPosition
         ).resultCalculated()
+        createCrossMultipliersCreatorRepository()
 
         // When
         crossMultipliersCreatorRepository.changeTheUnknownPositionTo(
@@ -109,6 +142,7 @@ class CrossMultipliersCreatorRepositoryTest {
         val expectedCurrentCrossMultiplier = crossMultiplier.inputClearedAt(
             position = positionToClearInput
         ).resultCalculated()
+        createCrossMultipliersCreatorRepository()
 
         // When
         crossMultipliersCreatorRepository.clearInputOn(
@@ -126,6 +160,7 @@ class CrossMultipliersCreatorRepositoryTest {
     fun `Clear All Inputs`() = runBlocking {
         // Given
         val expectedCurrentCrossMultiplier = crossMultiplier.allInputsCleared().resultCalculated()
+        createCrossMultipliersCreatorRepository()
 
         // When
         crossMultipliersCreatorRepository.clearAllInputs()

@@ -52,10 +52,12 @@ object Module {
     @Provides
     @Singleton
     fun provideCrossMultipliersCreatorRepository(
-        currentCrossMultiplierRoomDataSource: CurrentCrossMultiplierRoomDataSource
+        currentCrossMultiplierRoomDataSource: CurrentCrossMultiplierRoomDataSource,
+        pastCrossMultipliersRoomDataSource: PastCrossMultipliersRoomDataSource
     ): CrossMultipliersCreatorRepository {
         return CrossMultipliersCreatorRepository(
-            currentCrossMultiplierDataSource = currentCrossMultiplierRoomDataSource
+            currentCrossMultiplierDataSource = currentCrossMultiplierRoomDataSource,
+            pastCrossMultipliersDataSource = pastCrossMultipliersRoomDataSource
         )
     }
 
@@ -63,11 +65,9 @@ object Module {
     @Singleton
     fun provideHistoryRepository(
         pastCrossMultipliersRoomDataSource: PastCrossMultipliersRoomDataSource,
-        crossMultipliersCreatorRepository: CrossMultipliersCreatorRepository
     ): HistoryRepository {
         return HistoryRepository(
-            pastCrossMultipliersDataSource = pastCrossMultipliersRoomDataSource,
-            areTherePastCrossMultipliersListener = crossMultipliersCreatorRepository
+            pastCrossMultipliersDataSource = pastCrossMultipliersRoomDataSource
         )
     }
 }

@@ -3,23 +3,18 @@ package io.schiar.ruleofthree.model.repository
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
-import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class HistoryRepository @Inject constructor(
     private val pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
-    = PastCrossMultipliersLocalDataSource(),
-    private val areTherePastCrossMultipliersListener: AreTherePastCrossMultipliersListener? = null
+    = PastCrossMultipliersLocalDataSource()
 ) {
     private var _pastCrossMultipliers: List<CrossMultiplier>? = null
     val pastCrossMultipliers: Flow<List<CrossMultiplier>> =
         pastCrossMultipliersDataSource.retrieve().onEach {
             _pastCrossMultipliers = it
-            areTherePastCrossMultipliersListener?.areTherePastCrossMultipliersChangedTo(
-                newAreTherePastCrossMultipliers = it.isNotEmpty()
-            )
         }
 
     private suspend fun updatePastCrossMultiplierAtDataSource(

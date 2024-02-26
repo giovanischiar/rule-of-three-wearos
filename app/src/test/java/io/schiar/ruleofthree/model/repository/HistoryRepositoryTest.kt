@@ -2,7 +2,6 @@ package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
-import io.schiar.ruleofthree.model.repository.listener.AreTherePastCrossMultipliersListener
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -19,14 +18,7 @@ class HistoryRepositoryTest {
             crossMultipliersToInsert = pastCrossMultipliers
         )
         historyRepository = HistoryRepository(
-            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource,
-            areTherePastCrossMultipliersListener = object : AreTherePastCrossMultipliersListener {
-                override fun areTherePastCrossMultipliersChangedTo(
-                    newAreTherePastCrossMultipliers: Boolean
-                ) {
-                    onNewAreTherePastCrossMultipliers(newAreTherePastCrossMultipliers)
-                }
-            }
+            pastCrossMultipliersDataSource = pastCrossMultipliersDataSource
         )
         historyRepository.pastCrossMultipliers.first()
     }
@@ -54,29 +46,6 @@ class HistoryRepositoryTest {
 
         val actualPastCrossMultipliers = historyRepository.pastCrossMultipliers.first()
         Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
-    }
-
-    @Test
-    fun `Load a List of Past Cross Multipliers and Check if There are Past Cross Multipliers`() = runBlocking {
-        // Given
-        val expectedAreTherePastCrossMultipliers = true
-        var actualAreTherePastCrossMultipliers: Boolean? = null
-        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
-        createHistoryRepository(
-            pastCrossMultipliers = listOf(
-                CrossMultiplier(
-                    valueAt00 = 3,   valueAt01 = 32.3,
-                    valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
-                )
-            ),
-            onNewAreTherePastCrossMultipliers = callback
-        )
-
-        // Then
-        Assert.assertEquals(
-            expectedAreTherePastCrossMultipliers,
-            actualAreTherePastCrossMultipliers
-        )
     }
 
     @Test
@@ -283,33 +252,6 @@ class HistoryRepositoryTest {
     }
 
     @Test
-    fun `Delete the Only Cross Multiplier and Check if There are not Past Cross Multipliers`() = runBlocking {
-        // Given
-        val expectedAreTherePastCrossMultipliers = false
-        var actualAreTherePastCrossMultipliers: Boolean? = null
-        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
-        createHistoryRepository(
-            pastCrossMultipliers = listOf(
-                CrossMultiplier(
-                    valueAt00 = 3,   valueAt01 = 32.3,
-                    valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
-                )
-            ),
-            onNewAreTherePastCrossMultipliers = callback
-        )
-
-        // When
-        historyRepository.deleteCrossMultiplierAt(index = 0)
-        historyRepository.pastCrossMultipliers.first()
-
-        // Then
-        Assert.assertEquals(
-            expectedAreTherePastCrossMultipliers,
-            actualAreTherePastCrossMultipliers
-        )
-    }
-
-    @Test
     fun `Delete History and Check if the Past Cross Multipliers Are Empty`() = runBlocking {
         // Given
         val expectedPastCrossMultipliers = emptyList<CrossMultiplier>()
@@ -329,32 +271,5 @@ class HistoryRepositoryTest {
         // Then
         actualPastCrossMultipliers = historyRepository.pastCrossMultipliers.first()
         Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
-    }
-
-    @Test
-    fun `Delete History and Check if There are not Past Cross Multipliers`() = runBlocking {
-        // Given
-        val expectedAreTherePastCrossMultipliers = false
-        var actualAreTherePastCrossMultipliers: Boolean? = null
-        val callback: ((Boolean) -> Unit) = { actualAreTherePastCrossMultipliers = it }
-        createHistoryRepository(
-            pastCrossMultipliers = listOf(
-                CrossMultiplier(
-                    valueAt00 = 3,   valueAt01 = 32.3,
-                    valueAt10 = 4.6, valueAt11 = (32.3*4.6)/3
-                )
-            ),
-            onNewAreTherePastCrossMultipliers = callback
-        )
-
-        // When
-        historyRepository.deleteHistory()
-        historyRepository.pastCrossMultipliers.first()
-
-        // Then
-        Assert.assertEquals(
-            expectedAreTherePastCrossMultipliers,
-            actualAreTherePastCrossMultipliers
-        )
     }
 }
