@@ -1,7 +1,7 @@
 package io.schiar.ruleofthree.viewmodel
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
+import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.CoroutineScope

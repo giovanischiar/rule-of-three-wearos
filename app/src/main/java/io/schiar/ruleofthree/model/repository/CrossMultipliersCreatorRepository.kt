@@ -2,9 +2,9 @@ package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
-import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
+import io.schiar.ruleofthree.model.datasource.local.CurrentCrossMultiplierLocalDataSource
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
-import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
+import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject

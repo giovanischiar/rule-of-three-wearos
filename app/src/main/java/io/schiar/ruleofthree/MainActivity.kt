@@ -18,8 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.wear.tooling.preview.devices.WearDevices
 import dagger.hilt.android.AndroidEntryPoint
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierLocalDataSource
-import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
+import io.schiar.ruleofthree.model.datasource.local.CurrentCrossMultiplierLocalDataSource
+import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.view.screen.CrossMultipliersCreatorScreen

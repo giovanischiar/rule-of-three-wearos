@@ -1,6 +1,7 @@
-package io.schiar.ruleofthree.model.datasource
+package io.schiar.ruleofthree.model.datasource.local
 
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.CurrentCrossMultiplierDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

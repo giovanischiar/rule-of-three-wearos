@@ -1,7 +1,7 @@
 package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
-import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
+import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
