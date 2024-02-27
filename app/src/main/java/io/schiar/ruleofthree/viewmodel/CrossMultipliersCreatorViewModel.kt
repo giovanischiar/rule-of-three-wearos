@@ -18,7 +18,6 @@ import javax.inject.Inject
 class CrossMultipliersCreatorViewModel @Inject constructor(
     private val crossMultipliersCreatorRepository: CrossMultipliersCreatorRepository
 ): ViewModel() {
-    constructor(): this(crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository())
     val crossMultiplier: StateFlow<CrossMultiplierViewData> = crossMultipliersCreatorRepository
         .currentCrossMultiplier
         .filterNotNull()

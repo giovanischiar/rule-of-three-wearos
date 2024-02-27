@@ -45,6 +45,7 @@ class CrossMultiplicationCreatorViewModelTest {
         )
         val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
             currentCrossMultiplierDataSource = currentCrossMultiplierDataSource,
+            pastCrossMultipliersDataSource = PastCrossMultipliersLocalDataSource()
         )
         crossMultipliersCreatorViewModel = CrossMultipliersCreatorViewModel(
             crossMultipliersCreatorRepository = crossMultipliersCreatorRepository

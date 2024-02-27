@@ -2,14 +2,12 @@ package io.schiar.ruleofthree.model.repository
 
 import io.schiar.ruleofthree.model.CrossMultiplier
 import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersDataSource
-import io.schiar.ruleofthree.model.datasource.PastCrossMultipliersLocalDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class HistoryRepository @Inject constructor(
     private val pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
-    = PastCrossMultipliersLocalDataSource()
 ) {
     private var _pastCrossMultipliers: List<CrossMultiplier>? = null
     val pastCrossMultipliers: Flow<List<CrossMultiplier>> =

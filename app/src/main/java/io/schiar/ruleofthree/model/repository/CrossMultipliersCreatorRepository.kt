@@ -10,10 +10,8 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class CrossMultipliersCreatorRepository @Inject constructor(
-    private val currentCrossMultiplierDataSource: CurrentCrossMultiplierDataSource
-        = CurrentCrossMultiplierLocalDataSource(),
+    private val currentCrossMultiplierDataSource: CurrentCrossMultiplierDataSource,
     private val pastCrossMultipliersDataSource: PastCrossMultipliersDataSource
-        = PastCrossMultipliersLocalDataSource()
 ) {
     private var _currentCrossMultiplier: CrossMultiplier = CrossMultiplier()
     var currentCrossMultiplier = currentCrossMultiplierDataSource.retrieve()

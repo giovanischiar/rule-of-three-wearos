@@ -16,7 +16,10 @@ class CrossMultipliersCreatorRepositoryTest {
         unknownPosition = Pair(1, 1)
     ).resultCalculated()
 
-    private var crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
+    private var crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
+        currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(),
+        pastCrossMultipliersDataSource = PastCrossMultipliersLocalDataSource()
+    )
 
     private fun createCrossMultipliersCreatorRepository(
         crossMultiplier: CrossMultiplier = this.crossMultiplier,

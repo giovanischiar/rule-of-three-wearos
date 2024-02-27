@@ -9,9 +9,3 @@ fun Array<Array<Input>>.isValid(unknownPosition: Pair<Int, Int>): Boolean {
     this[!i][j].toNumberOrNull() ?: return false
     return denominator != 0.0 && denominator != 0
 }
-
-fun List<CrossMultiplier>.update(crossMultiplierUpdated: CrossMultiplier): List<CrossMultiplier> {
-    return this.map {
-        if (it.id == crossMultiplierUpdated.id) crossMultiplierUpdated else it
-    }
-}

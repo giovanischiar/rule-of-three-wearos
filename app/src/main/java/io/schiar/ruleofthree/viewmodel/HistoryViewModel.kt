@@ -17,7 +17,6 @@ import javax.inject.Inject
 class HistoryViewModel @Inject constructor(
     private val historyRepository: HistoryRepository
 ): ViewModel() {
-    constructor(): this(historyRepository = HistoryRepository())
     val pastCrossMultipliers: StateFlow<List<CrossMultiplierViewData>>
         = historyRepository.pastCrossMultipliers.map { it.toViewDataList() }
             .stateIn(
