@@ -26,7 +26,7 @@ class CrossMultipliersCreatorRepository @Inject constructor(
         .map { it.isNotEmpty() }
 
     constructor(
-        currentCrossMultiplier: CrossMultiplier,
+        currentCrossMultiplier: CrossMultiplier? = null,
         pastCrossMultipliers: List<CrossMultiplier> = emptyList()
     ) : this(
         currentCrossMultiplierDataSource = CurrentCrossMultiplierLocalDataSource(

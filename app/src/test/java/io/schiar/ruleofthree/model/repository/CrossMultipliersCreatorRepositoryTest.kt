@@ -22,7 +22,7 @@ class CrossMultipliersCreatorRepositoryTest {
     )
 
     private fun createCrossMultipliersCreatorRepository(
-        crossMultiplier: CrossMultiplier = this.crossMultiplier,
+        crossMultiplier: CrossMultiplier? = this.crossMultiplier,
         pastCrossMultipliers: List<CrossMultiplier> = emptyList()
     ): Unit = runBlocking {
         crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository(
@@ -31,6 +31,22 @@ class CrossMultipliersCreatorRepositoryTest {
         )
         crossMultipliersCreatorRepository.currentCrossMultiplier.first()
         crossMultipliersCreatorRepository.areTherePastCrossMultipliers.first()
+    }
+
+    @Test
+    fun `Create Current Cross Multiplier Repository and load Current CrossMultiplier`() = runBlocking {
+        // Given
+        val expectedCurrentCrossMultiplier = CrossMultiplier()
+        val crossMultipliersCreatorRepository = CrossMultipliersCreatorRepository()
+        crossMultipliersCreatorRepository.currentCrossMultiplier.first()
+
+        // When
+        val actualCurrentCrossMultiplier = crossMultipliersCreatorRepository
+            .currentCrossMultiplier
+            .first()
+
+        // Then
+        assertEquals(expectedCurrentCrossMultiplier, actualCurrentCrossMultiplier)
     }
 
     @Test
