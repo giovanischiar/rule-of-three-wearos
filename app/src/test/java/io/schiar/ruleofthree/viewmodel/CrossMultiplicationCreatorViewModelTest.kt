@@ -195,9 +195,10 @@ class CrossMultiplicationCreatorViewModelTest {
 
         // Then
         val actualPastCrossMultipliers = historyViewModel
-            .pastCrossMultipliers
+            .pastCrossMultipliersUiStateFlow
             .drop(count = 1)
             .first()
+            .crossMultipliers
         Assert.assertEquals(expectedPastCrossMultipliers, actualPastCrossMultipliers)
     }
 }

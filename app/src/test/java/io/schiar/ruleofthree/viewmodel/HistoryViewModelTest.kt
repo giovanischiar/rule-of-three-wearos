@@ -126,8 +126,8 @@ class HistoryViewModelTest {
         historyViewModel.pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
             index = 3, position = Pair(0, 0), character = "8"
         )
-        historyViewModel.pastCrossMultipliers
-            .onEach { pastCrossMultipliersEvents.add(it) }
+        historyViewModel.pastCrossMultipliersUiStateFlow
+            .onEach { pastCrossMultipliersEvents.add(it.crossMultipliers) }
             .launchIn(CoroutineScope(dispatcher))
         advanceUntilIdle()
 
@@ -167,8 +167,8 @@ class HistoryViewModelTest {
         historyViewModel.popCharacterOfInputOnPositionOfTheCrossMultiplierAt(
             index = 0, position = Pair(1, 1)
         )
-        historyViewModel.pastCrossMultipliers
-            .onEach { pastCrossMultipliersEvents.add(it) }
+        historyViewModel.pastCrossMultipliersUiStateFlow
+            .onEach { pastCrossMultipliersEvents.add(it.crossMultipliers) }
             .launchIn(CoroutineScope(dispatcher))
         advanceUntilIdle()
 
@@ -208,8 +208,8 @@ class HistoryViewModelTest {
         historyViewModel.changeTheUnknownPositionToPositionOfTheCrossMultiplierAt(
             index = 2, position = Pair(0, 0)
         )
-        historyViewModel.pastCrossMultipliers
-            .onEach { pastCrossMultipliersEvents.add(it) }
+        historyViewModel.pastCrossMultipliersUiStateFlow
+            .onEach { pastCrossMultipliersEvents.add(it.crossMultipliers) }
             .launchIn(CoroutineScope(dispatcher))
         advanceUntilIdle()
 
@@ -249,8 +249,8 @@ class HistoryViewModelTest {
         historyViewModel.clearInputOnPositionOfTheCrossMultiplierAt(
             index = 1, position = Pair(1, 0)
         )
-        historyViewModel.pastCrossMultipliers
-            .onEach { pastCrossMultipliersEvents.add(it) }
+        historyViewModel.pastCrossMultipliersUiStateFlow
+            .onEach { pastCrossMultipliersEvents.add(it.crossMultipliers) }
             .launchIn(CoroutineScope(dispatcher))
         advanceUntilIdle()
 
@@ -283,8 +283,8 @@ class HistoryViewModelTest {
 
         // When
         historyViewModel.deleteCrossMultiplierAt(index = 2)
-        historyViewModel.pastCrossMultipliers
-            .onEach { pastCrossMultipliersEvents.add(it) }
+        historyViewModel.pastCrossMultipliersUiStateFlow
+            .onEach { pastCrossMultipliersEvents.add(it.crossMultipliers) }
             .launchIn(CoroutineScope(dispatcher))
         advanceUntilIdle()
 
@@ -301,8 +301,8 @@ class HistoryViewModelTest {
 
         // When
         historyViewModel.deleteHistory()
-        historyViewModel.pastCrossMultipliers
-            .onEach { pastCrossMultipliersEvents.add(it) }
+        historyViewModel.pastCrossMultipliersUiStateFlow
+            .onEach { pastCrossMultipliersEvents.add(it.crossMultipliers) }
             .launchIn(CoroutineScope(dispatcher))
         advanceUntilIdle()
 

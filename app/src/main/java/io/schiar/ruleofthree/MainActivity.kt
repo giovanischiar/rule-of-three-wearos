@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,8 +21,8 @@ import io.schiar.ruleofthree.model.datasource.local.CurrentCrossMultiplierLocalD
 import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
+import io.schiar.ruleofthree.view.historyScreen
 import io.schiar.ruleofthree.view.screen.CrossMultipliersCreatorScreen
-import io.schiar.ruleofthree.view.screen.HistoryScreen
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
@@ -54,20 +53,11 @@ class MainActivity : ComponentActivity() {
                     onNavigationToHistory = { navController.navigate(route = "History") }
                 )
             }
-            composable(
-                route = "History",
-                enterTransition = { slideIntoContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                ) },
-                popExitTransition = { slideOutOfContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                ) }
-            ) {
-                HistoryScreen(
-                    historyViewModel = historyViewModel,
-                    onBackPressed = navController::navigateUp
-                )
-            }
+
+            historyScreen(
+                historyViewModel = historyViewModel,
+                onBackPressed = navController::navigateUp
+            )
         }
     }
 

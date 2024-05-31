@@ -4,12 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.schiar.ruleofthree.model.repository.HistoryRepository
+import io.schiar.ruleofthree.view.uistate.PastCrossMultipliersUiState
 import io.schiar.ruleofthree.viewmodel.util.toViewDataList
-import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,13 +14,11 @@ import javax.inject.Inject
 class HistoryViewModel @Inject constructor(
     private val historyRepository: HistoryRepository
 ): ViewModel() {
-    val pastCrossMultipliers: StateFlow<List<CrossMultiplierViewData>>
-        = historyRepository.pastCrossMultipliers.map { it.toViewDataList() }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.Eagerly,
-                initialValue = emptyList()
-            )
+    val pastCrossMultipliersUiStateFlow by lazy {
+        historyRepository.pastCrossMultipliers.map {
+            PastCrossMultipliersUiState.CrossMultipliersLoaded(it.toViewDataList())
+        }
+    }
 
     fun pushCharacterToInputOnPositionOfTheCrossMultiplierAt(
         index: Int, position: Pair<Int, Int>, character: String

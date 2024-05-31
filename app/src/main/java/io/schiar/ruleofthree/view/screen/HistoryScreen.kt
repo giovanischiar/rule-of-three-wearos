@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -36,29 +35,14 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
 import io.schiar.ruleofthree.view.components.TouchableIcon
-import io.schiar.ruleofthree.viewmodel.HistoryViewModel
+import io.schiar.ruleofthree.view.uistate.PastCrossMultipliersUiState
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.launch
 
-@Composable
-fun HistoryScreen(historyViewModel: HistoryViewModel, onBackPressed: () -> Unit = {}) {
-    val pastCrossMultipliers by historyViewModel.pastCrossMultipliers.collectAsState()
-    HistoryScreen(
-        pastCrossMultipliers,
-        historyViewModel::deleteHistory,
-        historyViewModel::pushCharacterToInputOnPositionOfTheCrossMultiplierAt,
-        historyViewModel::popCharacterOfInputOnPositionOfTheCrossMultiplierAt,
-        historyViewModel::clearInputOnPositionOfTheCrossMultiplierAt,
-        historyViewModel::changeTheUnknownPositionToPositionOfTheCrossMultiplierAt,
-        historyViewModel::deleteCrossMultiplierAt,
-        onBackPressed
-    )
-}
-
 @OptIn(ExperimentalWearFoundationApi::class)
 @Composable
-internal fun HistoryScreen(
-    pastCrossMultipliers: List<CrossMultiplierViewData>,
+fun HistoryScreen(
+    pastCrossMultipliersUiState: PastCrossMultipliersUiState,
     deleteHistory: () -> Unit = {},
     pushCharacterToInputOnPositionOfTheCrossMultiplierAt: (
         index: Int, position: Pair<Int, Int>, character: String
@@ -79,8 +63,17 @@ internal fun HistoryScreen(
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
     val iconSize = 30.dp
+    val pastCrossMultipliers = when (pastCrossMultipliersUiState) {
+        is PastCrossMultipliersUiState.Loading -> emptyList()
+        is PastCrossMultipliersUiState.CrossMultipliersLoaded -> {
+            pastCrossMultipliersUiState.crossMultipliers
+        }
+    }
 
-    if (pastCrossMultipliers.isEmpty()) { onBackPressed() }
+    if (pastCrossMultipliersUiState !is PastCrossMultipliersUiState.Loading &&
+        pastCrossMultipliers.isEmpty()) {
+        onBackPressed()
+    }
 
     Row {
         TouchableIcon(
@@ -169,29 +162,31 @@ internal fun HistoryScreen(
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun HistoryScreenPreview() {
-    HistoryScreen(pastCrossMultipliers = listOf(
-        CrossMultiplierViewData(
-            valueAt00 = "${(230 * 45)/160}", valueAt01 = "230",
-            valueAt10 = "45",                valueAt11 = "160",
-            unknownPosition = Pair(0, 0)
-        ),
+    HistoryScreen(pastCrossMultipliersUiState = PastCrossMultipliersUiState.CrossMultipliersLoaded(
+        listOf(
+            CrossMultiplierViewData(
+                valueAt00 = "${(230 * 45)/160}", valueAt01 = "230",
+                valueAt10 = "45",                valueAt11 = "160",
+                unknownPosition = Pair(0, 0)
+            ),
 
-        CrossMultiplierViewData(
-            valueAt00 = "6.4", valueAt01 = "${(6.4 * 35.4)/3}",
-            valueAt10 = "3",   valueAt11 = "35.4",
-            unknownPosition = Pair(0, 1)
-        ),
+            CrossMultiplierViewData(
+                valueAt00 = "6.4", valueAt01 = "${(6.4 * 35.4)/3}",
+                valueAt10 = "3",   valueAt11 = "35.4",
+                unknownPosition = Pair(0, 1)
+            ),
 
-        CrossMultiplierViewData(
-            valueAt00 = "5", valueAt01 = "4.67",
-            valueAt10 = "${(5 * 3.46)/4.67}",    valueAt11 = "3.46",
-            unknownPosition = Pair(1, 0)
-        ),
+            CrossMultiplierViewData(
+                valueAt00 = "5", valueAt01 = "4.67",
+                valueAt10 = "${(5 * 3.46)/4.67}",    valueAt11 = "3.46",
+                unknownPosition = Pair(1, 0)
+            ),
 
-        CrossMultiplierViewData(
-            valueAt00 = "3", valueAt01 = "4500",
-            valueAt10 = "7", valueAt11 = "${(7 * 4500)/3}",
-            unknownPosition = Pair(1, 1)
-        ),
-    ))
+            CrossMultiplierViewData(
+                valueAt00 = "3", valueAt01 = "4500",
+                valueAt10 = "7", valueAt11 = "${(7 * 4500)/3}",
+                unknownPosition = Pair(1, 1)
+            ),
+        ))
+    )
 }
