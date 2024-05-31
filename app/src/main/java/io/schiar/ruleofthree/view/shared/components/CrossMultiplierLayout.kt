@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.components
+package io.schiar.ruleofthree.view.shared.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
@@ -59,11 +59,11 @@ fun CrossMultiplierLayoutPreview() {
     CrossMultiplierLayout(
         values = arrayOf(
             arrayOf(
-                {CrossMultiplierItemView(displayValue = "2")},
-                { CrossMultiplierItemView(displayValue = "23")}),
+                { CrossMultiplierItemView(displayValue = "2") },
+                { CrossMultiplierItemView(displayValue = "23") }),
             arrayOf(
-                {CrossMultiplierItemView(displayValue = "1.23")},
-                {CrossMultiplierItemView(displayValue = "14.145", isResult = true)}
+                { CrossMultiplierItemView(displayValue = "1.23") },
+                { CrossMultiplierItemView(displayValue = "14.145", isResult = true) }
             )
         )
     )

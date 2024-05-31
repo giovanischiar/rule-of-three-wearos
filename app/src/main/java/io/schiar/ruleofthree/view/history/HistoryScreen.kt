@@ -33,8 +33,8 @@ import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
 import androidx.wear.compose.foundation.rememberActiveFocusRequester
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
-import io.schiar.ruleofthree.view.components.CrossMultiplierView
-import io.schiar.ruleofthree.view.components.TouchableIcon
+import io.schiar.ruleofthree.view.shared.components.CrossMultiplierView
+import io.schiar.ruleofthree.view.shared.components.TouchableIcon
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.launch
 

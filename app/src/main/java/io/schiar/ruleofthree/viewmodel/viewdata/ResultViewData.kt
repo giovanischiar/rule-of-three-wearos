@@ -1,6 +1,6 @@
 package io.schiar.ruleofthree.viewmodel.viewdata
 
-import io.schiar.ruleofthree.view.toFormattedString
+import io.schiar.ruleofthree.view.shared.toFormattedString
 
 data class ResultViewData(
     val result: String,

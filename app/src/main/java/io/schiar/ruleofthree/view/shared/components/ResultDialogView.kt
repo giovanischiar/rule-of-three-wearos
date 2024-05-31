@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.components
+package io.schiar.ruleofthree.view.shared.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -28,7 +28,7 @@ import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
-import io.schiar.ruleofthree.view.calculateTextUnitBasedOn
+import io.schiar.ruleofthree.view.shared.calculateTextUnitBasedOn
 import io.schiar.ruleofthree.viewmodel.viewdata.ResultViewData
 
 @Composable

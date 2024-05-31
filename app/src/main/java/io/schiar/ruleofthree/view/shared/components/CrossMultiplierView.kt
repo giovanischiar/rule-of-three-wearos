@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.components
+package io.schiar.ruleofthree.view.shared.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
