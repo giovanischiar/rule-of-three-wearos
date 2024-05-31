@@ -1,0 +1,34 @@
+package io.schiar.ruleofthree.view.crossmultiplierscreator
+
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
+
+fun NavGraphBuilder.crossMultipliersCreatorScreen(
+    crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel? = null,
+    onNavigateToHistory: () -> Unit
+) {
+    composable("CrossMultipliersCreator") {
+        val viewModel = crossMultipliersCreatorViewModel ?: hiltViewModel()
+        val crossMultiplier by viewModel.currentCrossMultiplierUiStateFlow.collectAsState(
+            CurrentCrossMultiplierUiState.Loading
+        )
+        val areTherePastCrossMultipliers by viewModel
+            .areTherePastCrossMultipliers
+            .collectAsState(initial = false)
+        CrossMultipliersCreatorScreen(
+            crossMultiplier,
+            areTherePastCrossMultipliers,
+            viewModel::pushCharacterToInputAt,
+            viewModel::popCharacterOfInputAt,
+            viewModel::clearInputOn,
+            viewModel::changeTheUnknownPositionTo,
+            viewModel::addToPastCrossMultipliers,
+            viewModel::clearAllInputs,
+            onNavigateToHistory
+        )
+    }
+}

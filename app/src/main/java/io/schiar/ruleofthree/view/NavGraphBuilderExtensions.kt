@@ -6,11 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import io.schiar.ruleofthree.view.screen.CrossMultipliersCreatorScreen
 import io.schiar.ruleofthree.view.screen.HistoryScreen
-import io.schiar.ruleofthree.view.uistate.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.view.uistate.PastCrossMultipliersUiState
-import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 fun NavGraphBuilder.historyScreen(
@@ -40,32 +37,6 @@ fun NavGraphBuilder.historyScreen(
             viewModel::changeTheUnknownPositionToPositionOfTheCrossMultiplierAt,
             viewModel::deleteCrossMultiplierAt,
             onBackPressed
-        )
-    }
-}
-
-fun NavGraphBuilder.crossMultipliersCreatorScreen(
-    crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel? = null,
-    onNavigateToHistory: () -> Unit
-) {
-    composable("CrossMultipliersCreator") {
-        val viewModel = crossMultipliersCreatorViewModel ?: hiltViewModel()
-        val crossMultiplier by viewModel.currentCrossMultiplierUiStateFlow.collectAsState(
-            CurrentCrossMultiplierUiState.Loading
-        )
-        val areTherePastCrossMultipliers by viewModel
-            .areTherePastCrossMultipliers
-            .collectAsState(initial = false)
-        CrossMultipliersCreatorScreen(
-            crossMultiplier,
-            areTherePastCrossMultipliers,
-            viewModel::pushCharacterToInputAt,
-            viewModel::popCharacterOfInputAt,
-            viewModel::clearInputOn,
-            viewModel::changeTheUnknownPositionTo,
-            viewModel::addToPastCrossMultipliers,
-            viewModel::clearAllInputs,
-            onNavigateToHistory
         )
     }
 }

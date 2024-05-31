@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.screen
+package io.schiar.ruleofthree.view.crossmultiplierscreator
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,6 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
 import io.schiar.ruleofthree.view.components.TouchableIcon
-import io.schiar.ruleofthree.view.uistate.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 
 @Composable

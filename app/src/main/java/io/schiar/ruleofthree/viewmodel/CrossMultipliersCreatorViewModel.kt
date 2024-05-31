@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
-import io.schiar.ruleofthree.view.uistate.CurrentCrossMultiplierUiState
+import io.schiar.ruleofthree.view.crossmultiplierscreator.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.flow.map

@@ -20,7 +20,7 @@ import io.schiar.ruleofthree.model.datasource.local.CurrentCrossMultiplierLocalD
 import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
-import io.schiar.ruleofthree.view.crossMultipliersCreatorScreen
+import io.schiar.ruleofthree.view.crossmultiplierscreator.crossMultipliersCreatorScreen
 import io.schiar.ruleofthree.view.historyScreen
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel

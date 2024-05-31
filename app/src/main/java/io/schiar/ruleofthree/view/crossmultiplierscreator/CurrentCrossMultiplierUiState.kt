@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.uistate
+package io.schiar.ruleofthree.view.crossmultiplierscreator
 
 import androidx.compose.runtime.Immutable
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
