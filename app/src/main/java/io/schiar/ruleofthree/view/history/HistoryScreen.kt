@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.screen
+package io.schiar.ruleofthree.view.history
 
 import android.content.res.Configuration
 import androidx.compose.foundation.focusable
@@ -35,7 +35,6 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
 import io.schiar.ruleofthree.view.components.TouchableIcon
-import io.schiar.ruleofthree.view.uistate.PastCrossMultipliersUiState
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.launch
 

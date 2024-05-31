@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view
+package io.schiar.ruleofthree.view.history
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.runtime.collectAsState
@@ -6,8 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import io.schiar.ruleofthree.view.screen.HistoryScreen
-import io.schiar.ruleofthree.view.uistate.PastCrossMultipliersUiState
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 fun NavGraphBuilder.historyScreen(

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.schiar.ruleofthree.model.repository.HistoryRepository
-import io.schiar.ruleofthree.view.uistate.PastCrossMultipliersUiState
+import io.schiar.ruleofthree.view.history.PastCrossMultipliersUiState
 import io.schiar.ruleofthree.viewmodel.util.toViewDataList
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
