@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,34 +16,12 @@ import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.components.CrossMultiplierView
 import io.schiar.ruleofthree.view.components.TouchableIcon
-import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
+import io.schiar.ruleofthree.view.uistate.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 
 @Composable
 fun CrossMultipliersCreatorScreen(
-    crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel,
-    onNavigationToHistory: () -> Unit = {}
-) {
-    val crossMultiplier by crossMultipliersCreatorViewModel.crossMultiplier.collectAsState()
-    val areTherePastCrossMultipliers by crossMultipliersCreatorViewModel
-        .areTherePastCrossMultipliers
-        .collectAsState(initial = false)
-    CrossMultipliersCreatorScreen(
-        crossMultiplier,
-        areTherePastCrossMultipliers,
-        crossMultipliersCreatorViewModel::pushCharacterToInputAt,
-        crossMultipliersCreatorViewModel::popCharacterOfInputAt,
-        crossMultipliersCreatorViewModel::clearInputOn,
-        crossMultipliersCreatorViewModel::changeTheUnknownPositionTo,
-        crossMultipliersCreatorViewModel::addToPastCrossMultipliers,
-        crossMultipliersCreatorViewModel::clearAllInputs,
-        onNavigationToHistory
-    )
-}
-
-@Composable
-internal fun CrossMultipliersCreatorScreen(
-    crossMultiplier: CrossMultiplierViewData,
+    currentCrossMultiplierUiState: CurrentCrossMultiplierUiState,
     areTherePastCrossMultipliers: Boolean = false,
     pushCharacterToInputAt: (position: Pair<Int, Int>, character: String) -> Unit = {_,_->},
     popCharacterOfInputAt: (position: Pair<Int, Int>) -> Unit = {},
@@ -53,9 +29,16 @@ internal fun CrossMultipliersCreatorScreen(
     changeTheUnknownPositionTo: (position: Pair<Int, Int>) -> Unit = {},
     onSubmitPressed: () -> Unit = {},
     clearAllInputs: () -> Unit = {},
-    onNavigationToHistory: () -> Unit = {}
+    onNavigateToHistory: () -> Unit = {}
 ) {
     val iconSize = 30.dp
+    val crossMultiplier = when (currentCrossMultiplierUiState) {
+        is CurrentCrossMultiplierUiState.Loading -> CrossMultiplierViewData()
+        is CurrentCrossMultiplierUiState.CurrentCrossMultiplierLoaded -> {
+            currentCrossMultiplierUiState.crossMultiplier
+        }
+    }
+
     Row {
         Column(modifier = Modifier.weight(1f)) {
             CrossMultiplierView(
@@ -80,7 +63,7 @@ internal fun CrossMultipliersCreatorScreen(
 
         TouchableIcon(
             modifier = Modifier.fillMaxHeight().width(iconSize),
-            onClick = onNavigationToHistory,
+            onClick = onNavigateToHistory,
             iconDrawableID = R.drawable.baseline_history_24,
             contentDescription = "history",
             colorID = R.color.hashColor,
@@ -93,7 +76,9 @@ internal fun CrossMultipliersCreatorScreen(
 @Composable
 fun CrossMultiplicationScreenEmptyPreview() {
     CrossMultipliersCreatorScreen(
-        crossMultiplier = CrossMultiplierViewData()
+        currentCrossMultiplierUiState = CurrentCrossMultiplierUiState.CurrentCrossMultiplierLoaded(
+            CrossMultiplierViewData()
+        )
     )
 }
 
@@ -101,10 +86,12 @@ fun CrossMultiplicationScreenEmptyPreview() {
 @Composable
 fun CurrentCrossMultiplierScreenWithNumbersPreview() {
     CrossMultipliersCreatorScreen(
-        crossMultiplier = CrossMultiplierViewData(
-            valueAt00 ="10", valueAt01= "345",
-            valueAt11 ="15.3",
-            unknownPosition = Pair(0, 1)
+        currentCrossMultiplierUiState = CurrentCrossMultiplierUiState.CurrentCrossMultiplierLoaded(
+            CrossMultiplierViewData(
+                valueAt00 ="10", valueAt01= "345",
+                valueAt11 ="15.3",
+                unknownPosition = Pair(0, 1)
+            )
         )
     )
 }
@@ -113,9 +100,11 @@ fun CurrentCrossMultiplierScreenWithNumbersPreview() {
 @Composable
 fun CurrentCrossMultiplierScreenWithNumbersAndHistoryPreview() {
     CrossMultipliersCreatorScreen(
-        crossMultiplier = CrossMultiplierViewData(
-            valueAt00 = "45", valueAt01 = "160",
-            valueAt10 = "62", valueAt11 = "${(160 * 62)/45}"
+        currentCrossMultiplierUiState = CurrentCrossMultiplierUiState.CurrentCrossMultiplierLoaded(
+            CrossMultiplierViewData(
+                valueAt00 = "45", valueAt01 = "160",
+                valueAt10 = "62", valueAt11 = "${(160 * 62)/45}"
+            ),
         ),
         areTherePastCrossMultipliers = true
     )

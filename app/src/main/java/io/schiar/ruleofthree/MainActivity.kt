@@ -12,7 +12,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.wear.tooling.preview.devices.WearDevices
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,8 +20,8 @@ import io.schiar.ruleofthree.model.datasource.local.CurrentCrossMultiplierLocalD
 import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
+import io.schiar.ruleofthree.view.crossMultipliersCreatorScreen
 import io.schiar.ruleofthree.view.historyScreen
-import io.schiar.ruleofthree.view.screen.CrossMultipliersCreatorScreen
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
@@ -47,12 +46,10 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier.background(color = colorResource(R.color.backgroundColor)),
             navController = navController, startDestination = "CrossMultipliersCreator"
         ) {
-            composable("CrossMultipliersCreator") {
-                CrossMultipliersCreatorScreen(
-                    crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
-                    onNavigationToHistory = { navController.navigate(route = "History") }
-                )
-            }
+            crossMultipliersCreatorScreen(
+                crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
+                onNavigateToHistory = { navController.navigate(route = "History") }
+            )
 
             historyScreen(
                 historyViewModel = historyViewModel,

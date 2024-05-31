@@ -66,8 +66,8 @@ class CrossMultiplicationCreatorViewModelTest {
         crossMultipliersCreatorViewModel.pushCharacterToInputAt(
             position = Pair(1, 0), character = "3"
         )
-        crossMultipliersCreatorViewModel.crossMultiplier
-            .onEach { crossMultipliersEvents.add(it) }
+        crossMultipliersCreatorViewModel.currentCrossMultiplierUiStateFlow
+            .onEach { crossMultipliersEvents.add(it.crossMultiplier) }
             .launchIn(CoroutineScope(dispatcher))
         advanceUntilIdle()
 
@@ -87,8 +87,8 @@ class CrossMultiplicationCreatorViewModelTest {
         )
 
         // When
-        crossMultipliersCreatorViewModel.crossMultiplier
-            .onEach { crossMultipliersEvents.add(it) }
+        crossMultipliersCreatorViewModel.currentCrossMultiplierUiStateFlow
+            .onEach { crossMultipliersEvents.add(it.crossMultiplier) }
             .launchIn(CoroutineScope(dispatcher))
         crossMultipliersCreatorViewModel.popCharacterOfInputAt(position = Pair(1, 1))
         advanceUntilIdle()
@@ -109,8 +109,8 @@ class CrossMultiplicationCreatorViewModelTest {
         )
 
         // When
-        crossMultipliersCreatorViewModel.crossMultiplier
-            .onEach { crossMultipliersEvents.add(it) }
+        crossMultipliersCreatorViewModel.currentCrossMultiplierUiStateFlow
+            .onEach { crossMultipliersEvents.add(it.crossMultiplier) }
             .launchIn(CoroutineScope(dispatcher))
         crossMultipliersCreatorViewModel.changeTheUnknownPositionTo(position = Pair(0, 1))
         advanceUntilIdle()
@@ -131,8 +131,8 @@ class CrossMultiplicationCreatorViewModelTest {
         )
 
         // When
-        crossMultipliersCreatorViewModel.crossMultiplier
-            .onEach { crossMultipliersEvents.add(it) }
+        crossMultipliersCreatorViewModel.currentCrossMultiplierUiStateFlow
+            .onEach { crossMultipliersEvents.add(it.crossMultiplier) }
             .launchIn(CoroutineScope(dispatcher))
         crossMultipliersCreatorViewModel.clearInputOn(position = Pair(1, 0))
         advanceUntilIdle()
@@ -153,8 +153,8 @@ class CrossMultiplicationCreatorViewModelTest {
         )
 
         // When
-        crossMultipliersCreatorViewModel.crossMultiplier
-            .onEach { crossMultipliersEvents.add(it) }
+        crossMultipliersCreatorViewModel.currentCrossMultiplierUiStateFlow
+            .onEach { crossMultipliersEvents.add(it.crossMultiplier) }
             .launchIn(CoroutineScope(dispatcher))
         crossMultipliersCreatorViewModel.clearAllInputs()
         advanceUntilIdle()
