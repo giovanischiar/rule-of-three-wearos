@@ -22,6 +22,7 @@ import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.view.crossmultiplierscreator.crossMultipliersCreatorScreen
 import io.schiar.ruleofthree.view.history.historyScreen
+import io.schiar.ruleofthree.view.shared.util.Route
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
@@ -44,11 +45,11 @@ class MainActivity : ComponentActivity() {
     ) {
         NavHost(
             modifier = Modifier.background(color = colorResource(R.color.backgroundColor)),
-            navController = navController, startDestination = "CrossMultipliersCreator"
+            navController = navController, startDestination = Route.CROSS_MULTIPLIERS_CREATOR.id
         ) {
             crossMultipliersCreatorScreen(
                 crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
-                onNavigateToHistory = { navController.navigate(route = "History") }
+                onNavigateToHistory = { navController.navigate(route = Route.HISTORY.id) }
             )
 
             historyScreen(

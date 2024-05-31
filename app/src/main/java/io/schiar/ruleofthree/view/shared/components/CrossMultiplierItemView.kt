@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
-import io.schiar.ruleofthree.view.shared.calculateTextUnitBasedOn
+import io.schiar.ruleofthree.view.shared.util.calculateTextUnitBasedOn
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

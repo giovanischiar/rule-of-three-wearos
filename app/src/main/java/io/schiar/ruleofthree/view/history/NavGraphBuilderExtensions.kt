@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import io.schiar.ruleofthree.view.shared.util.Route
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 fun NavGraphBuilder.historyScreen(
@@ -13,7 +14,7 @@ fun NavGraphBuilder.historyScreen(
     onBackPressed: () -> Unit
 ) {
     composable(
-        route = "History",
+        route = Route.HISTORY.id,
         enterTransition = { slideIntoContainer(
             towards = AnimatedContentTransitionScope.SlideDirection.Start
         ) },

@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.shared
+package io.schiar.ruleofthree.view.shared.util
 
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp

@@ -2,7 +2,7 @@ package io.schiar.ruleofthree.viewmodel.viewdata
 
 import io.schiar.ruleofthree.get
 import io.schiar.ruleofthree.not
-import io.schiar.ruleofthree.view.shared.toFormattedString
+import io.schiar.ruleofthree.view.shared.util.toFormattedString
 
 data class CrossMultiplierViewData(
     val valueAt00: String = "",
