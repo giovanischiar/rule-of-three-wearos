@@ -1,14 +1,18 @@
 package io.schiar.ruleofthree.view.crossmultiplierscreator
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,36 +42,51 @@ fun CrossMultipliersCreatorScreen(
         }
     }
 
-    Row {
-        Column(modifier = Modifier.weight(1f)) {
-            CrossMultiplierView(
-                modifier = Modifier.weight(1f).padding(start = iconSize, top = iconSize),
-                crossMultiplier = crossMultiplier,
-                onCharacterPressedAt = pushCharacterToInputAt,
-                onBackspacePressedAt = popCharacterOfInputAt,
-                onClearPressedAt = clearInputOn,
-                onLongPressedAt = changeTheUnknownPositionTo,
-                onSubmitPressed = onSubmitPressed
-            )
+    Box {
+        Row {
+            Column(modifier = Modifier.weight(1f)) {
+                CrossMultiplierView(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = iconSize, top = iconSize),
+                    crossMultiplier = crossMultiplier,
+                    onCharacterPressedAt = pushCharacterToInputAt,
+                    onBackspacePressedAt = popCharacterOfInputAt,
+                    onClearPressedAt = clearInputOn,
+                    onLongPressedAt = changeTheUnknownPositionTo,
+                    onSubmitPressed = onSubmitPressed
+                )
+
+                TouchableIcon(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(iconSize)
+                        .padding(start = iconSize),
+                    onClick = clearAllInputs,
+                    iconDrawableID = R.drawable.baseline_delete_forever_24,
+                    contentDescription = "clear all inputs",
+                    colorID = R.color.hashColor,
+                    visible = crossMultiplier.isNotEmpty()
+                )
+            }
 
             TouchableIcon(
-                modifier = Modifier.fillMaxWidth().height(iconSize).padding(start = iconSize),
-                onClick = clearAllInputs,
-                iconDrawableID = R.drawable.baseline_delete_forever_24,
-                contentDescription = "clear all inputs",
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(iconSize),
+                onClick = onNavigateToHistory,
+                iconDrawableID = R.drawable.baseline_history_24,
+                contentDescription = "history",
                 colorID = R.color.hashColor,
-                visible = crossMultiplier.isNotEmpty()
+                visible = areTherePastCrossMultipliers
             )
         }
 
-        TouchableIcon(
-            modifier = Modifier.fillMaxHeight().width(iconSize),
-            onClick = onNavigateToHistory,
-            iconDrawableID = R.drawable.baseline_history_24,
-            contentDescription = "history",
-            colorID = R.color.hashColor,
-            visible = areTherePastCrossMultipliers
-        )
+        if (currentCrossMultiplierUiState is CurrentCrossMultiplierUiState.Loading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
     }
 }
 
