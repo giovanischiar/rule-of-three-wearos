@@ -4,15 +4,8 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import androidx.wear.tooling.preview.devices.WearDevices
 import dagger.hilt.android.AndroidEntryPoint
 import io.schiar.ruleofthree.model.CrossMultiplier
@@ -20,43 +13,15 @@ import io.schiar.ruleofthree.model.datasource.local.CurrentCrossMultiplierLocalD
 import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
-import io.schiar.ruleofthree.view.crossmultiplierscreator.crossMultipliersCreatorScreen
-import io.schiar.ruleofthree.view.history.historyScreen
-import io.schiar.ruleofthree.view.shared.util.Route
+import io.schiar.ruleofthree.view.navigation.Navigation
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel by viewModels()
-    private val historyViewModel: HistoryViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent { Navigation() }
-    }
-
-    @Composable
-    private fun Navigation(
-        crossMultipliersCreatorViewModel: CrossMultipliersCreatorViewModel
-            = this.crossMultipliersCreatorViewModel,
-        historyViewModel: HistoryViewModel = this.historyViewModel,
-        navController: NavHostController = rememberNavController()
-    ) {
-        NavHost(
-            modifier = Modifier.background(color = colorResource(R.color.backgroundColor)),
-            navController = navController, startDestination = Route.CROSS_MULTIPLIERS_CREATOR.id
-        ) {
-            crossMultipliersCreatorScreen(
-                crossMultipliersCreatorViewModel = crossMultipliersCreatorViewModel,
-                onNavigateToHistory = { navController.navigate(route = Route.HISTORY.id) }
-            )
-
-            historyScreen(
-                historyViewModel = historyViewModel,
-                onBackPressed = navController::navigateUp
-            )
-        }
     }
 
     @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
