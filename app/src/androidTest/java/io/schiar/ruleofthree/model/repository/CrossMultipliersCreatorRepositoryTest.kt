@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import io.schiar.ruleofthree.library.room.CurrentCrossMultiplierRoomDataSource
 import io.schiar.ruleofthree.library.room.RuleOfThreeRoomDatabase
 import io.schiar.ruleofthree.model.CrossMultiplier
+import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -31,7 +32,8 @@ class CrossMultipliersCreatorRepositoryTest {
                 currentCrossMultiplierRoomDAO = database.currentCrossMultiplierDAO()
             ).apply {
                 runBlocking { create(crossMultiplier) }
-            }
+            },
+            pastCrossMultipliersDataSource = PastCrossMultipliersLocalDataSource()
         )
         crossMultipliersCreatorRepository.currentCrossMultiplier.first()
     }
