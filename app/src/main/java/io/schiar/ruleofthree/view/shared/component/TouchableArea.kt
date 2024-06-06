@@ -1,4 +1,4 @@
-package io.schiar.ruleofthree.view.shared.components
+package io.schiar.ruleofthree.view.shared.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
