@@ -6,7 +6,7 @@ import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 @Immutable
 sealed interface PastCrossMultipliersUiState {
     data object Loading : PastCrossMultipliersUiState
-    data class CrossMultipliersLoaded(
+    data class PastCrossMultipliersLoaded(
         val crossMultipliers: List<CrossMultiplierViewData>,
     ): PastCrossMultipliersUiState
 }

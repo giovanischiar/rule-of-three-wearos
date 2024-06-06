@@ -64,7 +64,7 @@ fun HistoryScreen(
     val iconSize = 30.dp
     val pastCrossMultipliers = when (pastCrossMultipliersUiState) {
         is PastCrossMultipliersUiState.Loading -> emptyList()
-        is PastCrossMultipliersUiState.CrossMultipliersLoaded -> {
+        is PastCrossMultipliersUiState.PastCrossMultipliersLoaded -> {
             pastCrossMultipliersUiState.crossMultipliers
         }
     }
@@ -161,7 +161,7 @@ fun HistoryScreen(
 @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)
 @Composable
 fun HistoryScreenPreview() {
-    HistoryScreen(pastCrossMultipliersUiState = PastCrossMultipliersUiState.CrossMultipliersLoaded(
+    HistoryScreen(pastCrossMultipliersUiState = PastCrossMultipliersUiState.PastCrossMultipliersLoaded(
         listOf(
             CrossMultiplierViewData(
                 valueAt00 = "${(230 * 45)/160}", valueAt01 = "230",

@@ -16,7 +16,7 @@ class HistoryViewModel @Inject constructor(
 ): ViewModel() {
     val pastCrossMultipliersUiStateFlow by lazy {
         historyRepository.pastCrossMultipliers.map {
-            PastCrossMultipliersUiState.CrossMultipliersLoaded(it.toViewDataList())
+            PastCrossMultipliersUiState.PastCrossMultipliersLoaded(it.toViewDataList())
         }
     }
 
