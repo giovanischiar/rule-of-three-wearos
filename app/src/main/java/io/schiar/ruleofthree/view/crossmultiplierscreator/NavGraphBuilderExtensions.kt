@@ -5,6 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.AreTherePastCrossMultipliersUiState
+import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.view.shared.util.Route
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 
@@ -18,8 +20,8 @@ fun NavGraphBuilder.crossMultipliersCreatorScreen(
             CurrentCrossMultiplierUiState.Loading
         )
         val areTherePastCrossMultipliers by viewModel
-            .areTherePastCrossMultipliers
-            .collectAsState(initial = false)
+            .areTherePastCrossMultipliersUiStateFlow
+            .collectAsState(initial = AreTherePastCrossMultipliersUiState.Loading)
         CrossMultipliersCreatorScreen(
             crossMultiplier,
             areTherePastCrossMultipliers,

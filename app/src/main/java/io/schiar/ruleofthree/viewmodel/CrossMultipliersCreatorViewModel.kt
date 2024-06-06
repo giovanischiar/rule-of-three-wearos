@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
-import io.schiar.ruleofthree.view.crossmultiplierscreator.CurrentCrossMultiplierUiState
+import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.AreTherePastCrossMultipliersUiState
+import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.viewmodel.util.toViewData
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.flow.map
@@ -23,8 +24,11 @@ class CrossMultipliersCreatorViewModel @Inject constructor(
         }
     }
 
-    val areTherePastCrossMultipliers = crossMultipliersCreatorRepository
-        .areTherePastCrossMultipliers
+    val areTherePastCrossMultipliersUiStateFlow by lazy {
+        crossMultipliersCreatorRepository.areTherePastCrossMultipliers.map {
+            AreTherePastCrossMultipliersUiState.AreThereCrossMultipliersLoaded(it)
+        }
+    }
 
     fun pushCharacterToInputAt(
         position: Pair<Int, Int>, character: String

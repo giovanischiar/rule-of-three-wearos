@@ -18,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
+import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.AreTherePastCrossMultipliersUiState
+import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.view.shared.component.CrossMultiplierView
 import io.schiar.ruleofthree.view.shared.component.TouchableIcon
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
@@ -25,7 +27,10 @@ import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 @Composable
 fun CrossMultipliersCreatorScreen(
     currentCrossMultiplierUiState: CurrentCrossMultiplierUiState,
-    areTherePastCrossMultipliers: Boolean = false,
+    areTherePastCrossMultipliersUiState: AreTherePastCrossMultipliersUiState =
+        AreTherePastCrossMultipliersUiState.AreThereCrossMultipliersLoaded(
+            areTherePastCrossMultipliers = false
+        ),
     pushCharacterToInputAt: (position: Pair<Int, Int>, character: String) -> Unit = {_,_->},
     popCharacterOfInputAt: (position: Pair<Int, Int>) -> Unit = {},
     clearInputOn: (position: Pair<Int, Int>) -> Unit = {},
@@ -70,16 +75,21 @@ fun CrossMultipliersCreatorScreen(
                 )
             }
 
-            TouchableIcon(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(iconSize),
-                onClick = onNavigateToHistory,
-                iconDrawableID = R.drawable.baseline_history_24,
-                contentDescription = "history",
-                colorID = R.color.hashColor,
-                visible = areTherePastCrossMultipliers
-            )
+            when (areTherePastCrossMultipliersUiState) {
+                is AreTherePastCrossMultipliersUiState.Loading -> CircularProgressIndicator()
+                is AreTherePastCrossMultipliersUiState.AreThereCrossMultipliersLoaded -> {
+                    TouchableIcon(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(iconSize),
+                        onClick = onNavigateToHistory,
+                        iconDrawableID = R.drawable.baseline_history_24,
+                        contentDescription = "history",
+                        colorID = R.color.hashColor,
+                        visible = areTherePastCrossMultipliersUiState.areTherePastCrossMultipliers
+                    )
+                }
+            }
         }
 
         if (currentCrossMultiplierUiState is CurrentCrossMultiplierUiState.Loading) {
@@ -124,6 +134,7 @@ fun CurrentCrossMultiplierScreenWithNumbersAndHistoryPreview() {
                 valueAt10 = "62", valueAt11 = "${(160 * 62)/45}"
             ),
         ),
-        areTherePastCrossMultipliers = true
+        areTherePastCrossMultipliersUiState = AreTherePastCrossMultipliersUiState
+            .AreThereCrossMultipliersLoaded(areTherePastCrossMultipliers = true)
     )
 }
