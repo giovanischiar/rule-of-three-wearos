@@ -23,7 +23,7 @@
   - [Package `viewmodel` with `viewmodel.viewdata`](#package-viewmodel-with-viewmodelviewdata)
   - [Package `viewmodel` with `model.repository`](#package-viewmodel-with-modelrepository)
   - [Package `model`](#package-model)
-  - [Package `model.repository` with `model.datasource` and `model.database`](#package-modelrepository-with-modeldatasource-and-modeldatabase)
+  - [Package `model.repository`, `model.datasource`, `model.datasource.local`, and `library.room`](#package-modelrepository-modeldatasource-modeldatasourcelocal-and-libraryroom)
 - [Future Tasks](#future-tasks)
 
 ## Tests
@@ -116,12 +116,12 @@
     <img alt="Package model" src="./readme-res/diagrams/model-diagram.light.svg">
   </picture>
 
-### Package `model.repository` with `model.datasource` and `model.database`
-  Repository classes use the Data Source classes to perform the Creation, Retrieval, Update, and Deletion of the model objects. The Data Source classes use the database to persist these alterations. This diagram represents all the associations among the classes in `model.repository`, `model.datasource`, and `model.database`. It also demonstrates their communications between each Repository through interfaces located at `model.repository.listener` package.
+### Package `model.repository`, `model.datasource`, `model.datasource.local`, and `library.room`
+  Repository classes use the Data Source classes to perform the Creation, Retrieval, Update, and Deletion of the model objects. The Data Source classes use the database to persist these alterations. This diagram represents all the associations among the classes in `model.repository`, `model.datasource`, `model.datasource.local`, and `library.room`. The classes in the `model.datasource.local` uses the memory to persist data for preview and test purposes, while the classes in `library.room` are located the database.
 
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-datasource-database-diagram.dark.svg">
-    <img alt="Package repository with data source and database" src="./readme-res/diagrams/repository-datasource-database-diagram.light.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-datasource-library-diagram.dark.svg">
+    <img alt="Package repository with data source and database" src="./readme-res/diagrams/repository-datasource-library-diagram.light.svg">
   </picture>
 
 ## Future Tasks
