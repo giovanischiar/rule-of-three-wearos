@@ -23,6 +23,7 @@
   - [Package `viewmodel` with `viewmodel.viewdata`](#package-viewmodel-with-viewmodelviewdata)
   - [Package `viewmodel` with `model.repository`](#package-viewmodel-with-modelrepository)
   - [Package `model`](#package-model)
+  - [Package `model.repository` and `model`](#package-modelrepository-and-model)
   - [Package `model.repository`, `model.datasource`, `model.datasource.local`, and `library.room`](#package-modelrepository-modeldatasource-modeldatasourcelocal-and-libraryroom)
 - [Future Tasks](#future-tasks)
 
@@ -115,6 +116,14 @@
     <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/model-diagram.dark.svg">
     <img alt="Package model" src="./readme-res/diagrams/model-diagram.light.svg">
   </picture>
+
+### Package `model.repository` and `model`
+  These diagrams represent all the associations among the classes in `model.repository` and `model`.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./readme-res/diagrams/dark/repository-model-diagram.dark.svg">
+  <img alt="Repository Model Diagram" src="./readme-res/diagrams/repository-model-diagram.light.svg">
+</picture>
 
 ### Package `model.repository`, `model.datasource`, `model.datasource.local`, and `library.room`
   Repository classes use the Data Source classes to perform the Creation, Retrieval, Update, and Deletion of the model objects. The Data Source classes use the database to persist these alterations. This diagram represents all the associations among the classes in `model.repository`, `model.datasource`, `model.datasource.local`, and `library.room`. The classes in the `model.datasource.local` uses the memory to persist data for preview and test purposes, while the classes in `library.room` are located the database.
