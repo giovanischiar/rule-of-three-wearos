@@ -18,10 +18,10 @@
 - [Structure](#structure)
 - [Diagrams](#diagrams)
   - [Package `io.schiar.ruleofthree`](#package-ioschiarruleofthree)
-  - [Package `view` with `viewmodel`](#package-view-with-viewmodel)
+  - [Package `view` and `viewmodel`](#package-view-and-viewmodel)
   - [Package `viewmodel.viewdata`](#package-viewmodelviewdata)
-  - [Package `viewmodel` with `viewmodel.viewdata`](#package-viewmodel-with-viewmodelviewdata)
-  - [Package `viewmodel` with `model.repository`](#package-viewmodel-with-modelrepository)
+  - [Package `viewmodel` and `viewmodel.viewdata`](#package-viewmodel-and-viewmodelviewdata)
+  - [Package `viewmodel` and `model.repository`](#package-viewmodel-and-modelrepository)
   - [Package `model`](#package-model)
   - [Package `model.repository` and `model`](#package-modelrepository-and-model)
   - [Package `model.repository`, `model.datasource`, `model.datasource.local`, and `library.room`](#package-modelrepository-modeldatasource-modeldatasourcelocal-and-libraryroom)
@@ -93,7 +93,7 @@
     <img alt="Package viewdata Diagram" src="./readme-res/diagrams/viewdata-diagram.light.svg">
   </picture>
 
-### Package `viewmodel` with `viewmodel.viewdata`
+### Package `viewmodel` and `viewmodel.viewdata`
   View Models serve the `view` with objects made from `viewmodel.viewdata` classes, collections, or primitive objects encapsulated by State Flows. This diagram represents all the associations among the classes in `viewmodel` and `viewmodel.viewdata`.
 
   <picture>
@@ -101,7 +101,7 @@
     <img alt="Package viewmodel with viewdata Diagram" src="./readme-res/diagrams/viewmodel-viewdata-diagram.light.svg">
   </picture>
 
-### Package `viewmodel` with `model.repository`
+### Package `viewmodel` and `model.repository`
   View Models also serve as a [façade](https://en.wikipedia.org/wiki/Facade_pattern), triggering methods in `model.repository` classes. This diagram shows that each View Model has its own Repository Class and illustrates all methods each View Model calls, represented by arrows from View Models to Repositories.
 
   <picture>
