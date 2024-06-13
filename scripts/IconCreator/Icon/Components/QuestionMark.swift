@@ -18,6 +18,6 @@ struct QuestionMark: Tag {
             .stroke(color: -"questionMarkColor")
             .stroke(width: 1)
             .fill(color: -"questionMarkColor")
-            .scaled(factor: size * 0.00203704)
+            .scaled(factor: size * 0.0016)
     }
 }

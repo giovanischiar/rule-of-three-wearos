@@ -13,7 +13,7 @@ struct IconForeground: Foregroundable {
 
     var scaleFactor = 1.0
     
-    var disposition: Double { (iconSize - squareSize - 60) * scaleFactor }
+    var disposition: Double { (iconSize - squareSize - 75) * scaleFactor }
     
     var foreground: Foreground {
         Foreground(size: iconSize) {

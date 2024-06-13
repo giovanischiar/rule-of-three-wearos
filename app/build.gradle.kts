@@ -126,6 +126,6 @@ task("generateIcons", type = Exec::class) {
     outputs.file("src/main/res/drawable/ic_launcher_background.xml")
     outputs.file("src/main/res/drawable-v24/ic_launcher_foreground.xml")
     project.exec {
-        commandLine = listOf("bash", "../scripts/IconCreator/Library/icon-creator.sh", "android", "../..", "../Icon", "scaled")
+        commandLine = listOf("bash", "../scripts/IconCreator/Library/icon-creator.sh", "android", "../..", "../Icon")
     }
 }
