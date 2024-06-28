@@ -8,12 +8,16 @@ data class Input(val value: String = "") {
     fun characterPushed(character: String): Input {
         val valueBuilder = StringBuilder(value)
         val newNumber = value + character
-        if (newNumber != "." && newNumber.toDoubleOrNull() == null) return this
+        if (newNumber != "." &&
+            newNumber != "," &&
+            newNumber.toDoubleLocaleOrNull() == null
+        ) return this
 
         if (valueBuilder.isNotEmpty()
             && value != "."
-            && value.toDouble() == 0.0
-            && !newNumber.contains('.')
+            && value != ","
+            && value.toDoubleLocaleOrNull() == 0.0
+            && !newNumber.hasDecimalSeparator()
         ) {
             valueBuilder.clear()
         }
@@ -38,21 +42,21 @@ data class Input(val value: String = "") {
     override fun toString(): String { return value }
 
     operator fun times(other: Input): Input {
-        val thisDoubleValue = this.value.toDoubleOrNull() ?: return this
-        val otherDoubleValue = other.value.toDoubleOrNull() ?: return this
+        val thisDoubleValue = this.value.toDoubleLocaleOrNull() ?: return this
+        val otherDoubleValue = other.value.toDoubleLocaleOrNull() ?: return this
         return Input(value = (thisDoubleValue * otherDoubleValue))
     }
 
     operator fun div(other: Input): Input {
-        val thisDoubleValue = this.value.toDoubleOrNull() ?: return this
-        val otherDoubleValue = other.value.toDoubleOrNull() ?: return this
+        val thisDoubleValue = this.value.toDoubleLocaleOrNull() ?: return this
+        val otherDoubleValue = other.value.toDoubleLocaleOrNull() ?: return this
         if (otherDoubleValue == 0.0) return this
         return Input(value = (thisDoubleValue / otherDoubleValue))
     }
 
     fun toNumberOrNull(): Number? {
-        return if (value.contains(char = '.')) {
-             value.toDoubleOrNull()
+        return if (value.hasDecimalSeparator()) {
+            value.toDoubleLocaleOrNull()
         } else {
             value.toIntOrNull()
         }

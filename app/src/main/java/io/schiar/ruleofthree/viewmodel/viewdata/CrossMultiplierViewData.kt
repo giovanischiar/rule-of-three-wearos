@@ -18,7 +18,7 @@ data class CrossMultiplierViewData(
 
     val result: ResultViewData = ResultViewData(
         result = if (values[unknownPosition].isNotEmpty()) {
-            values[unknownPosition].toDouble().toFormattedString()
+            values[unknownPosition].toDoubleOrNull().toFormattedString()
         } else {
             "?"
         },

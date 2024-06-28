@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
+import java.text.DecimalFormatSymbols
 
 @Composable
 fun CharacterPad(
@@ -67,7 +68,7 @@ fun CharacterPad(
 
         Row {
             CharacterButton(name = "0") { onCharacterPressed(it) }
-            CharacterButton(name = ".") { onCharacterPressed(it) }
+            CharacterButton(name = "${DecimalFormatSymbols.getInstance().decimalSeparator}") { onCharacterPressed(it) }
             CharacterButton(name = "backspace") { onBackspacePressed() }
         }
     }
