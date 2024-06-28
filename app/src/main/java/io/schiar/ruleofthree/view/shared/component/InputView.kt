@@ -20,6 +20,7 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
+import java.text.DecimalFormatSymbols
 
 @Composable
 fun InputView(
@@ -34,7 +35,9 @@ fun InputView(
     var numericKeyboardShow by remember { mutableStateOf(value = false) }
 
     fun handleEnterPressed() {
-        if (displayValue == ".") { onClearPressed() }
+        val decimalSeparator = DecimalFormatSymbols.getInstance().decimalSeparator
+        if (displayValue == "$decimalSeparator") { onClearPressed() }
+        if (displayValue.last() == decimalSeparator) { onBackspacePressed() }
         numericKeyboardShow = false
         onEnterPressed()
     }
