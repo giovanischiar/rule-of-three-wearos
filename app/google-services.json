@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "405708378228",
+    "project_id": "rule-of-3-wearos",
+    "storage_bucket": "rule-of-3-wearos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405708378228:android:8a24a2ce53a1154d5c4121",
+        "android_client_info": {
+          "package_name": "io.schiar.ruleofthree"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFc08QjmGKEZTS9zbAdSNJZJ35yGkrzwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

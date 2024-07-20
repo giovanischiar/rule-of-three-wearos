@@ -12,4 +12,6 @@ plugins {
     id("com.autonomousapps.dependency-analysis") version "+"
     id("com.google.devtools.ksp") version "1.9.21-1.0.15" apply false
     id("com.google.dagger.hilt.android") version "2.50" apply false
+    id("com.google.gms.google-services") version "4.4.2" apply false
+    id("com.google.firebase.crashlytics") version "2.9.9" apply false
 }
