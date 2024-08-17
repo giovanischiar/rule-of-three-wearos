@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <strong>Calculate the famous rule of three in your wrist!</strong><br>
+  <strong>Calculate the famous rule of three on your wrist!</strong><br>
   This tiny WearOS app allows you to use the <a href="https://en.wikipedia.org/wiki/Cross-multiplication#Rule_of_three">rule of three</a> to calculate the fourth number by inputting the prior three numbers.
 </p>
 
