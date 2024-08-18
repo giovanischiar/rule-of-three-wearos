@@ -37,7 +37,9 @@ fun InputView(
     fun handleEnterPressed() {
         val decimalSeparator = DecimalFormatSymbols.getInstance().decimalSeparator
         if (displayValue == "$decimalSeparator") { onClearPressed() }
-        if (displayValue.last() == decimalSeparator) { onBackspacePressed() }
+        if (displayValue.isNotEmpty() && displayValue.last() == decimalSeparator) {
+            onBackspacePressed()
+        }
         numericKeyboardShow = false
         onEnterPressed()
     }
