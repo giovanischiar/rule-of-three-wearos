@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Regra de 3</string>
+  <string name="cross_multipliers_creator_screen">Início</string>
+  <string name="history_screen">Histórico</string>
+  <string name="clear_all_inputs">Limpa todos os campos</string>
+  <string name="back">Voltar</string>
 </resources>

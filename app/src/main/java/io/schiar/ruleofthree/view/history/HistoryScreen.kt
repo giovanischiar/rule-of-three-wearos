@@ -27,6 +27,7 @@ import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.ExperimentalWearFoundationApi
@@ -34,7 +35,9 @@ import androidx.wear.compose.foundation.rememberActiveFocusRequester
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.shared.component.CrossMultiplierView
+import io.schiar.ruleofthree.view.shared.component.TopAppBarActionButton
 import io.schiar.ruleofthree.view.shared.component.TouchableIcon
+import io.schiar.ruleofthree.view.shared.util.ScreenInfo
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 import kotlinx.coroutines.launch
 
@@ -56,8 +59,23 @@ fun HistoryScreen(
         index: Int, position: Pair<Int, Int>
     ) -> Unit = {_,_->},
     deleteCrossMultiplierAt: (index: Int) -> Unit = {},
-    onBackPressed: () -> Unit = {}
+    onBackPressed: () -> Unit = {},
+    onChangeToolbarInfo: ((screenInfo: ScreenInfo) -> Unit) = {}
 ) {
+    onChangeToolbarInfo(
+        ScreenInfo(
+            title = stringResource(id = R.string.history_screen),
+            actions = {
+                TopAppBarActionButton(
+                    iconResId = R.drawable.baseline_delete_sweep_24,
+                    description = stringResource(id = R.string.clear_all_inputs),
+                ) {
+                    deleteHistory()
+                }
+            }
+        )
+    )
+
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
     val focusRequester = rememberActiveFocusRequester()
@@ -76,10 +94,12 @@ fun HistoryScreen(
 
     Row {
         TouchableIcon(
-            modifier = Modifier.fillMaxHeight().width(iconSize),
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(iconSize),
             onClick = onBackPressed,
             iconDrawableID = R.drawable.baseline_arrow_back_24,
-            contentDescription = "back",
+            contentDescription = stringResource(id = R.string.back),
             colorID = R.color.hashColor
         )
 
@@ -95,10 +115,13 @@ fun HistoryScreen(
         ) {
             item {
                 TouchableIcon(
-                    modifier = Modifier.fillMaxWidth().padding(end = iconSize).height(iconSize),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = iconSize)
+                        .height(iconSize),
                     onClick = deleteHistory,
                     iconDrawableID = R.drawable.baseline_delete_sweep_24,
-                    contentDescription = "clear all inputs",
+                    contentDescription = stringResource(id = R.string.clear_all_inputs),
                     colorID = R.color.hashColor
                 )
             }
@@ -132,9 +155,11 @@ fun HistoryScreen(
                         )
 
                         TouchableIcon(
-                            modifier = Modifier.width(iconSize).height(
-                                with(LocalDensity.current) { crossMultiplierHeight.toDp() }
-                            ),
+                            modifier = Modifier
+                                .width(iconSize)
+                                .height(
+                                    with(LocalDensity.current) { crossMultiplierHeight.toDp() }
+                                ),
                             onClick = { deleteCrossMultiplierAt(index) },
                             iconDrawableID = R.drawable.baseline_delete_forever_24,
                             contentDescription = "clear input",
@@ -153,7 +178,9 @@ fun HistoryScreen(
                     }
                 }
             }
-            item { Spacer(modifier = Modifier.fillMaxWidth().height(30.dp)) }
+            item { Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)) }
         }
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -22,6 +23,7 @@ import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.AreTherePastCr
 import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.view.shared.component.CrossMultiplierView
 import io.schiar.ruleofthree.view.shared.component.TouchableIcon
+import io.schiar.ruleofthree.view.shared.util.ScreenInfo
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
 
 @Composable
@@ -37,8 +39,13 @@ fun CrossMultipliersCreatorScreen(
     changeTheUnknownPositionTo: (position: Pair<Int, Int>) -> Unit = {},
     onSubmitPressed: () -> Unit = {},
     clearAllInputs: () -> Unit = {},
-    onNavigateToHistory: () -> Unit = {}
+    onNavigateToHistory: () -> Unit = {},
+    onChangeToolbarInfo: ((screenInfo: ScreenInfo) -> Unit) = {}
 ) {
+    onChangeToolbarInfo(
+        ScreenInfo(title = stringResource(id = R.string.cross_multipliers_creator_screen))
+    )
+
     val iconSize = 30.dp
     val crossMultiplier = when (currentCrossMultiplierUiState) {
         is CurrentCrossMultiplierUiState.Loading -> CrossMultiplierViewData()

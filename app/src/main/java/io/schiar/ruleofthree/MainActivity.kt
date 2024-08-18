@@ -1,5 +1,6 @@
 package io.schiar.ruleofthree
 
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +15,7 @@ import io.schiar.ruleofthree.model.datasource.local.PastCrossMultipliersLocalDat
 import io.schiar.ruleofthree.model.repository.CrossMultipliersCreatorRepository
 import io.schiar.ruleofthree.model.repository.HistoryRepository
 import io.schiar.ruleofthree.view.navigation.Navigation
+import io.schiar.ruleofthree.view.phone.home.HomeScreen
 import io.schiar.ruleofthree.viewmodel.CrossMultipliersCreatorViewModel
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
@@ -21,7 +23,8 @@ import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { Navigation() }
+        val isWatch = packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH)
+        setContent {  if (isWatch) Navigation() else HomeScreen() }
     }
 
     @Preview(device = WearDevices.SMALL_ROUND, uiMode = Configuration.UI_MODE_TYPE_WATCH)

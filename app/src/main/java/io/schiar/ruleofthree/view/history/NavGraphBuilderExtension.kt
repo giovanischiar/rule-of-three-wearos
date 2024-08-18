@@ -7,11 +7,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import io.schiar.ruleofthree.view.shared.util.Route
+import io.schiar.ruleofthree.view.shared.util.ScreenInfo
 import io.schiar.ruleofthree.viewmodel.HistoryViewModel
 
 fun NavGraphBuilder.historyScreen(
     historyViewModel: HistoryViewModel? = null,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    onChangeToolbarInfo: (screenInfo: ScreenInfo) -> Unit
 ) {
     composable(
         route = Route.HISTORY.id,
@@ -35,7 +37,8 @@ fun NavGraphBuilder.historyScreen(
             viewModel::clearInputOnPositionOfTheCrossMultiplierAt,
             viewModel::changeTheUnknownPositionToPositionOfTheCrossMultiplierAt,
             viewModel::deleteCrossMultiplierAt,
-            onBackPressed
+            onBackPressed,
+            onChangeToolbarInfo
         )
     }
 }

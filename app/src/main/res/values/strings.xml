@@ -1,3 +1,7 @@
 <resources>
   <string name="app_name">Rule of Three</string>
+  <string name="cross_multipliers_creator_screen">Home</string>
+  <string name="history_screen">History</string>
+  <string name="clear_all_inputs">Clear all inputs</string>
+  <string name="back">Back</string>
 </resources>
