@@ -44,11 +44,10 @@ fun InputView(
         onEnterPressed()
     }
 
-    Dialog(
-        showDialog = numericKeyboardShow,
-        onDismissRequest = { numericKeyboardShow = false }
-    ) {
-        Box {
+        ClosingDialog(
+            showDialog = numericKeyboardShow,
+            onDismissRequest = { numericKeyboardShow = false }
+        ) {
             CharacterPad(
                 displayValue = displayValue,
                 onCharacterPressed = onCharacterPressed,

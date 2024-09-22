@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.wear.compose.material.dialog.Dialog
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.viewmodel.viewdata.ResultViewData
 
@@ -15,8 +14,8 @@ import io.schiar.ruleofthree.viewmodel.viewdata.ResultViewData
 fun ResultView(displayValue: ResultViewData = ResultViewData(result = "", _result = 0.0)) {
     var dialogShow by remember { mutableStateOf(false) }
 
-    Dialog(showDialog = dialogShow, onDismissRequest = { dialogShow = false }) {
-        ResultDialogView(result = displayValue, onClosePressed = { dialogShow = false })
+    ClosingDialog(showDialog = dialogShow, onDismissRequest = { dialogShow = false }) {
+        ResultDialogView(result = displayValue)
     }
 
     CrossMultiplierItemView(
