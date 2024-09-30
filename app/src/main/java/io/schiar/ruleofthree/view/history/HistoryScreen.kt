@@ -1,5 +1,6 @@
 package io.schiar.ruleofthree.view.history
 
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -62,6 +64,8 @@ fun HistoryScreen(
     onBackPressed: () -> Unit = {},
     onChangeToolbarInfo: ((screenInfo: ScreenInfo) -> Unit) = {}
 ) {
+    val isWatch = LocalContext.current.packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH)
+
     onChangeToolbarInfo(
         ScreenInfo(
             title = stringResource(id = R.string.history_screen),
@@ -100,7 +104,8 @@ fun HistoryScreen(
             onClick = onBackPressed,
             iconDrawableID = R.drawable.baseline_arrow_back_24,
             contentDescription = stringResource(id = R.string.back),
-            colorID = R.color.hashColor
+            colorID = R.color.hashColor,
+            visible = isWatch
         )
 
         LazyColumn(
@@ -113,17 +118,19 @@ fun HistoryScreen(
                 .focusable(),
             state = listState
         ) {
-            item {
-                TouchableIcon(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = iconSize)
-                        .height(iconSize),
-                    onClick = deleteHistory,
-                    iconDrawableID = R.drawable.baseline_delete_sweep_24,
-                    contentDescription = stringResource(id = R.string.clear_all_inputs),
-                    colorID = R.color.hashColor
-                )
+            if (isWatch) {
+                item {
+                    TouchableIcon(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = iconSize)
+                            .height(iconSize),
+                        onClick = deleteHistory,
+                        iconDrawableID = R.drawable.baseline_delete_sweep_24,
+                        contentDescription = stringResource(id = R.string.clear_all_inputs),
+                        colorID = R.color.hashColor
+                    )
+                }
             }
 
             items(count = pastCrossMultipliers.size) { index ->
