@@ -15,8 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.wear.tooling.preview.devices.WearDevices
 import io.schiar.ruleofthree.R
@@ -28,8 +31,10 @@ fun CharacterPad(
     onCharacterPressed: (value: String) -> Unit = {},
     onBackspacePressed: () -> Unit = {},
     onClearPressed: () -> Unit = {},
-    onEnterPressed: () -> Unit = {}
+    onEnterPressed: () -> Unit = {},
+    displayHidden: Boolean = false
 ) {
+    var size by remember { mutableStateOf(IntSize.Zero) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,14 +42,15 @@ fun CharacterPad(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            InputDisplay(modifier = Modifier.weight(1f, fill = true), text = displayValue)
+        if (!displayHidden) {
+            Row(modifier = Modifier.width(size.width.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                InputDisplay(modifier = Modifier.weight(1f, fill = true), text = displayValue)
+            }
         }
 
-        Row {
+        Row(modifier = Modifier.onSizeChanged { size = it }) {
             CharacterButton(name = "7") { onCharacterPressed(it) }
             CharacterButton(name = "8") { onCharacterPressed(it) }
             CharacterButton(name = "9") { onCharacterPressed(it) }
@@ -97,3 +103,6 @@ fun NumberPadFullPreview() {
         onBackspacePressed = { displayValue = displayValue.dropLast(n = 1) }
     )
 }
+
+@Composable
+fun Int.pxToDp() = with(LocalDensity.current) { this@pxToDp.toDp() }

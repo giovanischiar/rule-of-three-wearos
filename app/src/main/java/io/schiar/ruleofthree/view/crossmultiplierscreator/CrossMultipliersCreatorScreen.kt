@@ -1,5 +1,6 @@
 package io.schiar.ruleofthree.view.crossmultiplierscreator
 
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,6 +24,7 @@ import io.schiar.ruleofthree.R
 import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.AreTherePastCrossMultipliersUiState
 import io.schiar.ruleofthree.view.crossmultiplierscreator.uistate.CurrentCrossMultiplierUiState
 import io.schiar.ruleofthree.view.shared.component.CrossMultiplierView
+import io.schiar.ruleofthree.view.shared.component.TopAppBarActionButton
 import io.schiar.ruleofthree.view.shared.component.TouchableIcon
 import io.schiar.ruleofthree.view.shared.util.ScreenInfo
 import io.schiar.ruleofthree.viewmodel.viewdata.CrossMultiplierViewData
@@ -42,17 +45,32 @@ fun CrossMultipliersCreatorScreen(
     onNavigateToHistory: () -> Unit = {},
     onChangeToolbarInfo: ((screenInfo: ScreenInfo) -> Unit) = {}
 ) {
-    onChangeToolbarInfo(
-        ScreenInfo(title = stringResource(id = R.string.cross_multipliers_creator_screen))
-    )
-
-    val iconSize = 30.dp
+    val isWatch = LocalContext.current.packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH)
+    
     val crossMultiplier = when (currentCrossMultiplierUiState) {
         is CurrentCrossMultiplierUiState.Loading -> CrossMultiplierViewData()
         is CurrentCrossMultiplierUiState.CurrentCrossMultiplierLoaded -> {
             currentCrossMultiplierUiState.crossMultiplier
         }
     }
+    
+    onChangeToolbarInfo(
+        ScreenInfo(
+            title = stringResource(id = R.string.cross_multipliers_creator_screen),
+            actions = {
+                if (crossMultiplier.isNotEmpty()) {
+                    TopAppBarActionButton(
+                        iconResId = R.drawable.baseline_delete_forever_24,
+                        description = stringResource(id = R.string.clear_all_inputs),
+                    ) {
+                        clearAllInputs()
+                    }
+                }
+            }
+        )
+    )
+
+    val iconSize = 30.dp
 
     Box {
         Row {
@@ -76,9 +94,9 @@ fun CrossMultipliersCreatorScreen(
                         .padding(start = iconSize),
                     onClick = clearAllInputs,
                     iconDrawableID = R.drawable.baseline_delete_forever_24,
-                    contentDescription = "clear all inputs",
+                    contentDescription = stringResource(id = R.string.clear_all_inputs),
                     colorID = R.color.hashColor,
-                    visible = crossMultiplier.isNotEmpty()
+                    visible = isWatch && crossMultiplier.isNotEmpty()
                 )
             }
 
@@ -93,7 +111,7 @@ fun CrossMultipliersCreatorScreen(
                         iconDrawableID = R.drawable.baseline_history_24,
                         contentDescription = "history",
                         colorID = R.color.hashColor,
-                        visible = areTherePastCrossMultipliersUiState.areTherePastCrossMultipliers
+                        visible = isWatch && areTherePastCrossMultipliersUiState.areTherePastCrossMultipliers
                     )
                 }
             }

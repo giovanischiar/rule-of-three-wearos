@@ -1,5 +1,6 @@
 package io.schiar.ruleofthree.view.shared.component
 
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.padding
@@ -7,10 +8,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material.CompactButton
 import androidx.wear.compose.material.Icon
@@ -24,19 +28,8 @@ fun CharacterButton(
     name: String = "",
     onClick: (value: String) -> Unit = {}
 ) {
-    CompactButton(
-        modifier = modifier,
-        backgroundPadding = 0.dp,
-        onClick = { onClick(name) },
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.Transparent
-        ),
-        border = ButtonDefaults.outlinedButtonBorder(
-            borderColor = colorResource(R.color.squareStrokeColor),
-            borderWidth = 2.dp
-        ),
-
-        ) {
+    val isWatch = LocalContext.current.packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH)
+    val buttonContent = @Composable {
         when(name) {
             "clear" -> {
                 Icon(
@@ -69,10 +62,39 @@ fun CharacterButton(
             else -> {
                 Text(
                     modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    fontSize = 24.sp,
                     text = name,
                     color = colorResource(id = R.color.hashColor)
                 )
             }
+        }
+    }
+
+    if (isWatch) {
+        CompactButton(
+            modifier = modifier,
+            backgroundPadding = 0.dp,
+            onClick = { onClick(name) },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Transparent
+            ),
+            border = ButtonDefaults.outlinedButtonBorder(
+                borderColor = colorResource(R.color.squareStrokeColor),
+                borderWidth = 2.dp
+            ),
+        ) { buttonContent() }
+    } else {
+        Button(
+            onClick = { onClick(name) },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Transparent
+            ),
+            border = ButtonDefaults.outlinedButtonBorder(
+                borderColor = colorResource(R.color.squareStrokeColor),
+                borderWidth = 2.dp
+            )
+        ) {
+            buttonContent()
         }
     }
 }
